@@ -59,7 +59,7 @@ public class Login {
                     Scene scene = new Scene(root);
 
                     Stage stage = new Stage();
-                    stage.setTitle("Viragecom");
+                    stage.setTitle("Sahtik");
                     stage.setScene(scene);
                     stage.show();
 
@@ -67,11 +67,18 @@ public class Login {
                     Stage currentStage = (Stage) emailtextfield2.getScene().getWindow();
                     currentStage.close();
                 } else {
-                    showAlert("Bienvenue", "Welcome " + UserConnected.getPrenom());
+
 
                     loggedInUserId = UserConnected.getId();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Homepage.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
 
-
+                    Stage stage = new Stage();
+                    stage.setTitle("Sahtik");
+                    stage.setScene(scene);
+                    stage.show();
+                    showAlert("Bienvenue", "Welcome " + UserConnected.getPrenom());
 
                     // Affichage de la page d'accueil
 
