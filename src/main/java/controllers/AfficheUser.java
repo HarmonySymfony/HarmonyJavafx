@@ -48,22 +48,21 @@ public class AfficheUser {
                 Label nomLabel = new Label(utilisateur.getNom());
                 Label prenomLabel = new Label(utilisateur.getPrenom());
                 Label emailLabel = new Label(utilisateur.getEmail());
+                Label ageLabel = new Label(String.valueOf(utilisateur.getAge())); // Convert age to String
 
                 Button supprimerButton = new Button("Supprimer");
                 supprimerButton.setOnAction(event -> supprimerUtilisateur(utilisateur));
                 Button editButton = new Button("Edit");
                 editButton.setOnAction(event -> editUtilisateur(utilisateur));
 
-
-
-
-
                 // Ajouter les composants à la GridPane
                 grid.add(nomLabel, 0, row);
                 grid.add(prenomLabel, 1, row);
                 grid.add(emailLabel, 2, row);
-                grid.add(supprimerButton, 3, row);
-                grid.add(editButton, 4, row);
+                grid.add(ageLabel, 3, row); // Add age label to the grid
+                grid.add(supprimerButton, 4, row);
+                grid.add(editButton, 5, row); // Adjust column index for edit button
+
                 // Incrémenter le numéro de ligne
                 row++;
             }
@@ -72,6 +71,7 @@ public class AfficheUser {
             e.printStackTrace();
         }
     }
+
 
 
     private void supprimerUtilisateur(Personne utilisateur) {
@@ -135,11 +135,6 @@ public class AfficheUser {
             // Gérer les erreurs de recherche
         }
     }
-
-
-
-
-
 
 
     @FXML
