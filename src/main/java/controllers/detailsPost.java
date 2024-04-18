@@ -146,5 +146,6 @@ public class detailsPost {
             stage.setScene(new Scene(root));
         } catch (IOException e) {
             e.printStackTrace();
-        }    }
+        }
+    }
 }

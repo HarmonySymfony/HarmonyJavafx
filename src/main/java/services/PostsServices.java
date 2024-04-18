@@ -29,7 +29,7 @@ public class PostsServices {
     }
 
 
-    public void updatePost(Posts post) {
+    public boolean updatePost(Posts post) {
         String query = "UPDATE posts SET contenu = ?, last_modification = ?, posted_as = ? WHERE id = ?";
         try {
             Connection connection = MyConnection.getInstance().getConnection();
@@ -38,12 +38,15 @@ public class PostsServices {
             preparedStatement.setTimestamp(2, new java.sql.Timestamp(System.currentTimeMillis()));
             preparedStatement.setString(3, post.getPostedAs());
             preparedStatement.setInt(4, post.getId());
-            preparedStatement.executeUpdate();
+            int rowsUpdated = preparedStatement.executeUpdate();
             System.out.println("Post updated successfully.");
+            return rowsUpdated > 0; // Return true if rows were updated
         } catch (SQLException e) {
             System.out.println("Error updating post: " + e.getMessage());
+            return false; // Return false if an exception occurred
         }
     }
+
 
     public void deletePost(Posts post) {
         String query = "DELETE FROM posts WHERE id = ?";

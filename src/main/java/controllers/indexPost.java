@@ -156,13 +156,34 @@ public class indexPost {
 
 
     private void handleEdit(Posts post) {
-        // Handle edit action for the given post
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePost.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller from the FXMLLoader
+            updatePost updateController = loader.getController();
+
+            // Pass the selected post to the update controller
+            updateController.setPost(post);
+
+            // Close the index window
+            Stage indexStage = (Stage) postTableView.getScene().getWindow();
+            indexStage.close();
+
+            Stage updateStage = new Stage();
+            updateStage.setScene(new Scene(root));
+            updateStage.setTitle("Modifier la publication");
+            updateStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void handleDelete(Posts post) {
         // Instantiate Alert
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        
+
         // Instantiate PostsServices to interact with the database
         PostsServices postsServices = new PostsServices();
 
@@ -179,5 +200,4 @@ public class indexPost {
         ObservableList<Posts> items = postTableView.getItems();
         items.remove(post);
     }
-
 }
