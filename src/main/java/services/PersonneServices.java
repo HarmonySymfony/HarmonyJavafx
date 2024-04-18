@@ -73,7 +73,7 @@ public class PersonneServices implements IServices<Personne> {
     public void updateEntity(Personne personne) {
         try {
             // Préparer la requête SQL pour la mise à jour
-            String sql = "UPDATE utilisateur SET Nom=?, Prenom=?, Email=?, Password=?, Datedenaissance=? WHERE id=?";
+            String sql = "UPDATE utilisateur SET Nom=?, Prenom=?, Email=?, Password=?, Age=? WHERE id=?";
             PreparedStatement statement = cnx.prepareStatement(sql);
 
             // Définir les valeurs des paramètres de la requête
@@ -182,7 +182,7 @@ public class PersonneServices implements IServices<Personne> {
     }
 
     public void modifier(Personne t) throws SQLException {
-        String req = "Update utilisateur set Nom=?, Prenom=?, Email=?, Password=? where id=?";
+        String req = "Update utilisateur set Nom=?, Prenom=?, Email=?, Password=?,Age=? where id=?";
         PreparedStatement stmt = cnx.prepareStatement(req);
         stmt.setString(1, t.getNom());
         stmt.setString(2, t.getPrenom());

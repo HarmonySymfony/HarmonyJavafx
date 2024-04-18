@@ -4,6 +4,7 @@ import entities.Personne;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -50,6 +51,10 @@ public class AfficheUser {
 
                 Button supprimerButton = new Button("Supprimer");
                 supprimerButton.setOnAction(event -> supprimerUtilisateur(utilisateur));
+                Button editButton = new Button("Edit");
+                editButton.setOnAction(event -> editUtilisateur(utilisateur));
+
+
 
 
 
@@ -58,7 +63,7 @@ public class AfficheUser {
                 grid.add(prenomLabel, 1, row);
                 grid.add(emailLabel, 2, row);
                 grid.add(supprimerButton, 3, row);
-
+                grid.add(editButton, 4, row);
                 // Incrémenter le numéro de ligne
                 row++;
             }
@@ -67,6 +72,7 @@ public class AfficheUser {
             e.printStackTrace();
         }
     }
+
 
     private void supprimerUtilisateur(Personne utilisateur) {
         try {
@@ -83,6 +89,7 @@ public class AfficheUser {
     void Supprimer(ActionEvent event) {
 
     }
+
 
     @FXML
     void chercherkey(ActionEvent event) {
@@ -136,22 +143,46 @@ public class AfficheUser {
 
 
     @FXML
-    void retour(ActionEvent event) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/seconnecter.fxml"));
+    void retourHome(ActionEvent event) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
         Parent root = null;
         try {
             root = loader.load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        Scene scene = new Scene(root);
 
-        Stage stage = new Stage();
-        stage.setTitle("Viragecom");
+        // Get the current stage (window)
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        // Set the new scene content
+        Scene scene = new Scene(root);
+        stage.setTitle("Harmony");
         stage.setScene(scene);
         stage.show();
-        // Handle deconnection event here
     }
+    private void editUtilisateur(Personne utilisateur) {
+        try {
+            // Load the FXML file for editing user details
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditUser.fxml"));
+            Parent root = loader.load();
+
+            // Pass the user information to the controller of the editing window
+            EditUserController editUserController = loader.getController();
+            editUserController.initData(utilisateur);
+
+            // Show the editing window
+            Stage stage = new Stage();
+            stage.setTitle("Edit User");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            // Refresh the user list after editing (if needed)
+            grid.getChildren().clear();
+            afficherUtilisateurs();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }}
 }
 
 

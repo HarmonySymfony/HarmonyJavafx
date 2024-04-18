@@ -37,7 +37,7 @@
                 <Font name="System Bold" size="15.0" />
             </font>
         </Button>
-        <Button layoutX="587.0" layoutY="174.0" mnemonicParsing="false" onAction="#retour" text="Retour">
+        <Button layoutX="587.0" layoutY="174.0" mnemonicParsing="false" onAction="#retourHome" text="Retour">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>

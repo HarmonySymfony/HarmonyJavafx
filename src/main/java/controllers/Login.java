@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import services.PersonneServices;
 
@@ -100,16 +101,24 @@ public class Login {
 
     @FXML
     void signup(ActionEvent event) throws IOException {
+        // Load the FXML file
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Personne.fxml"));
         Parent root = loader.load();
-        Scene scene = new Scene(root);
 
-        Stage stage = new Stage();
-        stage.setTitle("Viragecom");
-        stage.setScene(scene);
-        stage.show();
+        // Access the current scene and root element
+        Scene currentScene = emailtextfield2.getScene();
+        Pane rootPane = (Pane) currentScene.getRoot();
 
+        // Replace the content of the root with the content of the new FXML file
+        rootPane.getChildren().clear(); // Remove existing content
+        rootPane.getChildren().add(root); // Add new content
+
+        // Optionally, you can also set the scene back to the stage if needed
+        Stage stage = (Stage) currentScene.getWindow();
+        stage.setScene(currentScene);
     }
+
+
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);
