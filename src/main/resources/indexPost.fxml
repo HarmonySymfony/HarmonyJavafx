@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<AnchorPane prefHeight="600.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.indexPost">
+    <children>
+        <VBox layoutX="30.0" layoutY="30.0" spacing="10.0">
+            <children>
+                <HBox alignment="CENTER_RIGHT">
+                    <!-- Button to create new publication -->
+                    <Button text="Créer nouvelle publication" fx:id="addPostButton" onAction="#handleAddPost" />
+                </HBox>
+                <Label text="Liste des publications" />
+                <ScrollPane fitToWidth="true" prefHeight="400.0" prefWidth="1200.0">
+                    <content>
+                        <TableView fx:id="postTableView">
+                            <columns>
+                                <TableColumn text="ID publication" prefWidth="100" fx:id="idCol" />
+                                <TableColumn text="Publié par" prefWidth="100" fx:id="postedAsCol" />
+                                <TableColumn text="Publication" prefWidth="400" fx:id="contenuCol" />
+                                <TableColumn text="Date de Publication" prefWidth="150" fx:id="dateCreationCol" />
+                                <TableColumn text="Date de dernière modification" prefWidth="150" fx:id="lastModificationCol" />
+                                <!-- New column for actions -->
+                                <TableColumn text="Actions" prefWidth="200" fx:id="actionsCol" />
+                            </columns>
+                        </TableView>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
