@@ -163,11 +163,17 @@ public class indexPost {
             // Get the controller from the FXMLLoader
             updatePost updateController = loader.getController();
 
+            // Set the TableView reference for the details controller
+            updateController.setPostTableView(postTableView);
+
+            // Set the stage for the details controller
+            Stage indexStage = (Stage) postTableView.getScene().getWindow();
+            updateController.setIndexStage(indexStage);
+
             // Pass the selected post to the update controller
             updateController.setPost(post);
 
             // Close the index window
-            Stage indexStage = (Stage) postTableView.getScene().getWindow();
             indexStage.close();
 
             Stage updateStage = new Stage();
@@ -201,3 +207,4 @@ public class indexPost {
         items.remove(post);
     }
 }
+

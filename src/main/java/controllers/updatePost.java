@@ -88,7 +88,6 @@ public class updatePost {
 
     @FXML
     private void confirmer(ActionEvent event) {
-        try {
             String contenu = post_contenu.getText();
             String postedAsValue = ((RadioButton) postedAs.getSelectedToggle()).getText();
 
@@ -120,9 +119,6 @@ public class updatePost {
             if (indexStage != null) {
                 indexStage.show();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML
