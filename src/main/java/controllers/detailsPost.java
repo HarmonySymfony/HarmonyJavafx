@@ -94,8 +94,34 @@ public class detailsPost {
 
     @FXML
     private void modifierAction(ActionEvent event) {
-        // Add logic to handle the "Modifier" button action
-    }
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePost.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller from the FXMLLoader
+            updatePost updateController = loader.getController();
+
+            // Set the TableView reference for the details controller
+            updateController.setPostTableView(postTableView);
+
+            // Set the stage for the details controller
+            Stage indexStage = (Stage) postTableView.getScene().getWindow();
+            updateController.setIndexStage(indexStage);
+
+            // Pass the selected post to the update controller
+            updateController.setPost(post);
+
+            // Close the details window
+            Stage stage = (Stage) postIdLabel.getScene().getWindow();
+            stage.close();
+
+            Stage updateStage = new Stage();
+            updateStage.setScene(new Scene(root));
+            updateStage.setTitle("Modifier la publication");
+            updateStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }    }
 
     @FXML
     private void supprimerAction(ActionEvent event) {
