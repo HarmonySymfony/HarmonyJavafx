@@ -29,42 +29,69 @@ public class Personne {
 
     @FXML
     private TextField prenomTextField;
-    @FXML
-    private TextField roleTextField;
 
     private PersonneServices personneServices = new PersonneServices();
 
+    // Constructor not needed if using FXML
+    // You can remove the constructor
+
     @FXML
-    void ajouterPersonne(ActionEvent event) {
+    void ajouterPersonne(ActionEvent event) throws IOException {
+
+
+        // Create a new Personne object with the entered data
+        entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), passwordTextField.getText(), Integer.parseInt(ageTextField.getText()));
+        PersonneServices personneServices = new PersonneServices();
         try {
-            String nom = nomTextField.getText();
-            String prenom = prenomTextField.getText();
-            String email = emailTextField.getText();
-            String password = passwordTextField.getText();
-            int age = Integer.parseInt(ageTextField.getText());
-            String role = roleTextField.getText(); // Default role
 
-            // Create a new Personne object with the entered data
-            entities.Personne p = new entities.Personne(nom, prenom, email, password, age, role);
 
+            if (emailTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
+
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("champ vide");
+                alert.setHeaderText(null);
+                alert.setContentText("remplir les champs vides!");
+                alert.show();
+            } else if (!emailTextField.getText().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Email non valide");
+                alert.setHeaderText(null);
+                alert.setContentText("format email non valide!");
+                alert.show();
+            } else if (!ageTextField.getText().matches("[1-99]")) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Age non valide");
+                alert.setHeaderText(null);
+                alert.setContentText("format AGE non valide!");
+                alert.show();
+            }
             // Call the Ajouter method of PersonneServices to add the Personne to the database
-            personneServices.Ajouter(p);
+            else {
+                personneServices.Ajouter(p);
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setContentText("l'utilisateur a été ajouté avec succès");
+                alert.show();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+                Parent root = null;
+                try {
+                    root = loader.load();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                Scene scene = new Scene(root);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setContentText("L'utilisateur a été ajouté avec succès");
-            alert.show();
+                Stage stage = new Stage();
+                stage.setTitle("Harmony");
+                stage.setScene(scene);
+                stage.show();
+            }
 
-            // Clear the text fields after adding the Personne
+            // Optionally, you can clear the text fields after adding the Personne
             nomTextField.clear();
             prenomTextField.clear();
             emailTextField.clear();
             passwordTextField.clear();
             ageTextField.clear();
-            roleTextField.clear();
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Format d'âge invalide");
-            alert.show();
         } catch (Exception e) { // Catch more general exception or handle specific exceptions thrown by Ajouter method
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
@@ -73,9 +100,14 @@ public class Personne {
     }
 
     @FXML
-    void retourHome(ActionEvent event) throws IOException {
+    void retourHome(ActionEvent event) {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
-        Parent root = loader.load();
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // Get the current stage (window)
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

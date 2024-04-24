@@ -9,36 +9,27 @@ public class Personne {
     private String Email;
     private String Password;
     private int age;
-    private String role;
 
 
 
 
-    public Personne(int id, String Nom, String Prenom,String Email,String Password,int age,String role) {
+    public Personne(int id, String Nom, String Prenom,String Email,String Password,int age) {
         this.id = id;
         this.Nom = Nom;
         this.Prenom = Prenom;
         this.Email = Email;
         this.Password= Password;
         this.age= age;
-        this.role= role;
     }
 
-    public Personne( String Nom, String Prenom,String Email,String Password,int age,String role) {
+    public Personne( String Nom, String Prenom,String Email,String Password,int age) {
         this.Nom = Nom;
         this.Prenom = Prenom;
         this.Email=Email;
         this.Password=Password;
         this.age=age;
-        this.role=role;
     }
     public Personne() {}
-    public String getRole() {
-        return role;
-    }
-    public void setRole(String role) {
-        this.role = role;
-    }
 
     public Personne(String rebai, String saber, String email, String aloulou123, String s) {
     }
@@ -98,7 +89,8 @@ public class Personne {
                 ", prenom='" + Prenom + '\'' +
                 ", Email='" + Email + '\'' +
                 ", age='" + age + '\'' +
-                ", role='" + role + '\'' + // Include role in toString()
+
+
                 '}';
     }
     @Override
