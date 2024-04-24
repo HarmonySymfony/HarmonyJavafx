@@ -3,22 +3,19 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Circle?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="711.0" prefWidth="1023.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficheUser">
+<Pane prefHeight="834.0" prefWidth="1207.0" style="-fx-background-image: url('background.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficheUser">
     <children>
-        <!-- Background Shape -->
-        <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#2350d9" height="700.0" layoutX="-377.0" layoutY="-325.0" rotate="140.0" stroke="BLACK" strokeType="INSIDE" width="1300.0" />
 
         <!-- GridPane for Users -->
-        <GridPane fx:id="grid" gridLinesVisible="true" layoutX="80.0" layoutY="234.0" prefHeight="214.0" prefWidth="831.0" style="-fx-background-color: white;">
+        <GridPane fx:id="grid" gridLinesVisible="true" layoutX="80.0" layoutY="234.0" prefHeight="455.0" prefWidth="999.0" style="-fx-background-color: white;">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -31,16 +28,15 @@
             </rowConstraints>
         </GridPane>
 
-
         <!-- Title Label -->
-        <Label layoutX="167.0" layoutY="159.0" text="Users">
+        <Label layoutX="20.0" layoutY="160.0" text="Liste des Utilisateurs">
             <font>
                 <Font name="System Bold" size="41.0" />
             </font>
         </Label>
 
         <!-- Delete All Button -->
-        <Button layoutX="419.0" layoutY="172.0" mnemonicParsing="false" onAction="#Supprimer" text="Supprimer tout">
+        <Button layoutX="460.0" layoutY="173.0" mnemonicParsing="false" onAction="#Supprimer" text="Effacer tout">
             <font>
                 <Font name="System Bold" size="15.0" />
             </font>
@@ -57,20 +53,27 @@
         <TextField fx:id="cher" layoutX="770.0" layoutY="176.0" />
 
         <!-- Search Button -->
-        <Button layoutX="678.0" layoutY="173.0" mnemonicParsing="false" onAction="#chercherkey" text="Chercher">
+        <Button layoutX="678.0" layoutY="173.0" mnemonicParsing="false" onAction="#chercherkey" text="Rechercher">
             <font>
                 <Font name="System Bold" size="15.0" />
             </font>
         </Button>
 
         <!-- Logo Circle -->
-        <Circle fill="#0a0b0b" layoutX="62.0" layoutY="59.0" radius="34.0" stroke="BLACK" strokeType="INSIDE" />
+        <Circle fill="#0edddd" layoutX="1112.0" layoutY="61.0" radius="34.0" stroke="WHITE" strokeType="INSIDE" />
 
         <!-- Logo Text -->
-        <Text fill="WHITE" layoutX="46.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sahtik">
+        <Text fill="WHITE" layoutX="1079.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="صحتك">
             <font>
                 <Font name="System Bold Italic" size="24.0" />
             </font>
         </Text>
+
+        <!-- Partner Buttons -->
+        <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" text="Forums" />
+        <Button layoutX="90.0" layoutY="20.0" mnemonicParsing="false" text="Laboratoires" />
+        <Button layoutX="200.0" layoutY="20.0" mnemonicParsing="false" text="Cabinets" />
+        <Button layoutX="300.0" layoutY="20.0" mnemonicParsing="false" text="Événements" />
+        <Button layoutX="400.0" layoutY="20.0" mnemonicParsing="false" onAction="#ListePharmacie" text="Pharmacies" />
     </children>
-</AnchorPane>
+</Pane>

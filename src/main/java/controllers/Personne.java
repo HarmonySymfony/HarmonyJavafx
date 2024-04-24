@@ -58,9 +58,7 @@ public class Personne {
                 alert.setHeaderText(null);
                 alert.setContentText("format email non valide!");
                 alert.show();
-            }
-
-            else if (!ageTextField.getText().matches("[1-99]")) {
+            } else if (!ageTextField.getText().matches("[1-99]")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Age non valide");
                 alert.setHeaderText(null);

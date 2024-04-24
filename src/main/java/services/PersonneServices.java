@@ -1,14 +1,14 @@
 package services;
 
 import entities.Personne;
-import interfaces.IServices;
+import interfaces.IServicesUser;
 import utils.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonneServices implements IServices<Personne> {
+public class PersonneServices implements IServicesUser<Personne> {
     Connection cnx;
 
     public PersonneServices() {
@@ -318,5 +318,4 @@ public class PersonneServices implements IServices<Personne> {
         }
         return data;
     }
-
 }
