@@ -45,12 +45,14 @@ public class Login {
             List<entities.Personne> users = us.recuperer();
 
             for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getEmail().equals(emailtextfield2.getText()) && users.get(i).getPassword().equals(passwordtextfield2.getText())) {
-                    UserConnected = users.get(i);
+                entities.Personne user = users.get(i);
+                if (user.getEmail().equals(emailtextfield2.getText()) && passwordtextfield2.getText().equals(user.getPassword())) {
+                    UserConnected = user;
                     verif = true;
                     break;
                 }
             }
+
 
             if (verif) {
                 if (emailtextfield2.getText().equals("admin@admin.fr") && passwordtextfield2.getText().equals("admin123")) {
