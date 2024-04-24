@@ -5,7 +5,6 @@ public class pharmacie {
     private String nom;
     private String adress;
     private String type;
-
     public pharmacie() {
     }
 
