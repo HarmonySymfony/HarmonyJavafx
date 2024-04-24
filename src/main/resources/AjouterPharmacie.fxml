@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterPharmacie">
+   <children>
+      <Text layoutX="50.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Pharmacie" wrappingWidth="392.224609375">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+      <Label layoutX="46.0" layoutY="213.0" prefHeight="44.0" prefWidth="216.0" text="Type :" />
+      <Label layoutX="46.0" layoutY="79.0" prefHeight="44.0" prefWidth="240.0" text="Nom :" />
+      <TextField fx:id="NomTextField" layoutX="214.0" layoutY="79.0" prefHeight="44.0" prefWidth="258.0" />
+      <Button layoutX="50.0" layoutY="284.0" mnemonicParsing="false" onAction="#BackToListButton" prefHeight="44.0" prefWidth="116.0" text="Back to List" />
+      <Button layoutX="227.0" layoutY="283.0" mnemonicParsing="false" onAction="#SubmitButton" prefHeight="44.0" prefWidth="116.0" text="Submit" />
+      <TextField fx:id="TypeTextField" layoutX="214.0" layoutY="213.0" prefHeight="44.0" prefWidth="258.0" />
+      <TextField fx:id="AdressTextField" layoutX="214.0" layoutY="144.0" prefHeight="44.0" prefWidth="258.0" />
+      <Label layoutX="46.0" layoutY="144.0" prefHeight="44.0" prefWidth="240.0" text="Adress :" />
+   </children>
+</AnchorPane>
