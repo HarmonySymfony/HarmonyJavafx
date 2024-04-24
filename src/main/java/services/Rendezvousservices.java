@@ -20,11 +20,11 @@ public  class Rendezvousservices implements IservicesRendezvous<Rendezvous> {
 
 
 
-    public boolean isValidEmail(String email) {
+    public static boolean isValidEmail(String email) {
         String regex = "^(.+)@(.+)$";
         return email.matches(regex);
     }
-    public boolean isValidDateTime(String dateTime) {
+    public static boolean isValidDateTime(String dateTime) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         sdf.setLenient(false);
         try {
@@ -60,7 +60,7 @@ public  class Rendezvousservices implements IservicesRendezvous<Rendezvous> {
     }
 
 
-    public void addEntity2(Rendezvous rendezvous) {
+    public  void addEntity2(Rendezvous rendezvous) {
         try {
             // Vérifier si le rendez-vous existe déjà dans la base de données
             if (entityExists(rendezvous)) {
@@ -147,7 +147,7 @@ public  class Rendezvousservices implements IservicesRendezvous<Rendezvous> {
 
 
 
-    public List<Rendezvous> getAllData() {
+    public static List<Rendezvous> getAllData() {
         List<Rendezvous> data = new ArrayList<>();
         String requete = "SELECT * FROM rendez_vous";
         try {

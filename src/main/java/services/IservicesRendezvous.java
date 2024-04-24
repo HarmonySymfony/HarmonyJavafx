@@ -14,15 +14,15 @@ public interface IservicesRendezvous <T> {
 
     void addEntity2(T t);
 
-    void updateEntity(T t);
+    void updateEntity(T t) ;
 
 
     void deleteEntity(T t);
 
 
-    List<T> getAllData();
-
-
+    private List<T> getAllData() {
+        return null;
+    }
 
 
 }

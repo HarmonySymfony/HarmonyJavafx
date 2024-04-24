@@ -16,7 +16,7 @@ public class mainFX extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/SAHTEK.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/frontcabinet.fxml"));
         try {
             Parent root = loader.load();
 

@@ -1,5 +1,7 @@
 package entites;
 
+import java.util.List;
+
 public class Rendezvous {
    private int id;
    private String nom;
@@ -7,8 +9,7 @@ public class Rendezvous {
     private String date;
     private String email;
 
-    public Rendezvous() {
-    }
+
 
     public Rendezvous(int id, String nom, String prenom, String date, String email) {
         this.id = id;
@@ -25,8 +26,17 @@ public class Rendezvous {
         this.email = email;
     }
 
+
+    public Rendezvous() {
+
+    }
+
+    public static void savePDF(List<Rendezvous> rendezvousList, String fileName) {
+    }
+
     public int getId() {
         return id;
+
     }
 
     public void setId(int id) {
