@@ -70,7 +70,7 @@
         </Text>
 
         <!-- Partner Buttons -->
-        <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" text="Forums" />
+        <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#Forum" text="Forum" />
         <Button layoutX="90.0" layoutY="20.0" mnemonicParsing="false" text="Laboratoires" />
         <Button layoutX="200.0" layoutY="20.0" mnemonicParsing="false" text="Cabinets" />
         <Button layoutX="300.0" layoutY="20.0" mnemonicParsing="false" text="Événements" />
