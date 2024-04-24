@@ -5,13 +5,14 @@ import java.util.List;
 
 import entities.Evenement;
 import entities.Personne;
+import entities.Reservation;
 import interfaces.IServices;
 import interfaces.IServicesEvenement;
 import utils.MyConnection;
 
 public class ServiceEvenement implements IServicesEvenement<Evenement> {
 
-     Connection connection;
+    Connection connection;
 
     public ServiceEvenement() { connection= MyConnection.getInstance().getCnx();}
 
@@ -56,8 +57,8 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
         System.out.println("Event deleted");
     }
 
-   @Override
-   public List<Evenement> afficher() throws SQLException {
+    @Override
+    public List<Evenement> afficher() throws SQLException {
         List<Evenement> evenements= new ArrayList<>();
         String query = "SELECT id, nom, description, prix,  placeDispo, adresse FROM evenement";
         try (Statement stmt = connection.createStatement();
@@ -76,5 +77,99 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
         }
         return evenements;
     }
+
+
+//    public void addReservation(Reservation reservation) throws SQLException {
+//        // Start a transaction
+//        connection.setAutoCommit(false);
+//        Savepoint savepoint = connection.setSavepoint("BeforeAddingReservation");
+//
+//        if (reservation.getEvenement() == null) {
+//            throw new SQLException("The event associated with this reservation is null.");
+//        }
+//
+//        try {
+//            Evenement evenement = reservation.getEvenement();
+//            if (reservation.getNbrPlace() > evenement.getPlaceDispo()) {
+//                throw new SQLException("Not enough places available for reservation.");
+//            }
+//
+//            // Update the Evenement with the new number of available places
+//            evenement.setPlaceDispo(evenement.getPlaceDispo() - reservation.getNbrPlace());
+//            String updateEventSQL = "UPDATE evenement SET placeDispo = ? WHERE id = ?";
+//            try (PreparedStatement updateEventStmt = connection.prepareStatement(updateEventSQL)) {
+//                updateEventStmt.setInt(1, evenement.getPlaceDispo());
+//                updateEventStmt.setInt(2, evenement.getId());
+//                int affectedRows = updateEventStmt.executeUpdate();
+//                if (affectedRows == 0) {
+//                    throw new SQLException("Updating event failed, no rows affected.");
+//                }
+//            }
+//
+//            // Insert the new Reservation into the database
+//            String insertReservationSQL = "INSERT INTO reservation (nbrPlace, event_id) VALUES (?, ?)";
+//            try (PreparedStatement insertReservationStmt = connection.prepareStatement(insertReservationSQL)) {
+//                insertReservationStmt.setInt(1, reservation.getNbrPlace());
+//                insertReservationStmt.setInt(2, evenement.getId());
+//                int affectedRows = insertReservationStmt.executeUpdate();
+//                if (affectedRows == 0) {
+//                    throw new SQLException("Creating reservation failed, no rows affected.");
+//                }
+//            }
+//
+//            // Commit the transaction
+//            connection.commit();
+//        } catch (Exception ex) {
+//            // Rollback the transaction if anything goes wrong
+//            connection.rollback(savepoint);
+//            throw ex;
+//        } finally {
+//            // Reset default commit behavior
+//            connection.setAutoCommit(true);
+//        }
+//    }
+
+
+
+    public void addReservation(Reservation reservation) throws SQLException {
+        System.out.println("Attempting to add reservation...");
+        connection.setAutoCommit(false);
+        Savepoint savepoint = connection.setSavepoint("BeforeAddingReservation");
+
+        try {
+            if (reservation.getNbrPlace() > reservation.getEvenement().getPlaceDispo()) {
+                throw new SQLException("Not enough places available.");
+            }
+
+            System.out.println("Places available before reservation: " + reservation.getEvenement().getPlaceDispo());
+
+            // Update the Evenement with the new number of available places
+            Evenement evenement = reservation.getEvenement();
+            evenement.setPlaceDispo(evenement.getPlaceDispo() - reservation.getNbrPlace());
+            String updateEventSQL = "UPDATE evenement SET placeDispo = ? WHERE id = ?";
+            try (PreparedStatement updateEventStmt = connection.prepareStatement(updateEventSQL)) {
+                updateEventStmt.setInt(1, evenement.getPlaceDispo());
+                updateEventStmt.setInt(2, evenement.getId());
+                updateEventStmt.executeUpdate();
+            }
+
+            String insertReservationSQL = "INSERT INTO reservation (nbrPlace, event_id) VALUES (?, ?)";
+            try (PreparedStatement insertReservationStmt = connection.prepareStatement(insertReservationSQL)) {
+                insertReservationStmt.setInt(1, reservation.getNbrPlace());
+                insertReservationStmt.setInt(2, evenement.getId());
+                insertReservationStmt.executeUpdate();
+            }
+
+            connection.commit();
+            System.out.println("Reservation added successfully: " + reservation.getNbrPlace() + " places.");
+        } catch (Exception ex) {
+            connection.rollback(savepoint);
+            System.out.println("Failed to add reservation, transaction rolled back.");
+            throw ex;
+        } finally {
+            connection.setAutoCommit(true);
+        }
+    }
+
 
 }

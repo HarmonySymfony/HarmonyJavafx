@@ -31,7 +31,7 @@ public class EventFrontController {
             for (Evenement event : serviceEvenement.afficher()) {
                 VBox card = new VBox(10);
                 card.setPadding(new Insets(15));
-                card.setStyle("-fx-border-color:  navy; -fx-border-width: 2;");
+                card.setStyle("-fx-border-color: navy; -fx-border-width: 2;");
 
                 Label nameLabel = new Label("Name : " + event.getNom());
                 Label descLabel = new Label("Description : " + event.getDescription());
@@ -46,20 +46,20 @@ public class EventFrontController {
         }
     }
 
-    private void showEventDetails(Evenement event) {
+    private void showEventDetails(Evenement evenement) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/EventDetail.fxml"));
             Parent root = loader.load();
 
             EventDetailController controller = loader.getController();
-            controller.setEvent(event);
+            controller.setEvent(evenement);
 
             Stage stage = new Stage();
             stage.setTitle("Event Details");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace(); // Handle exceptions appropriately
+            e.printStackTrace();
         }
     }
 }
