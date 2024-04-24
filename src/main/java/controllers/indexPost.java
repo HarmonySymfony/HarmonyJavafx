@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import services.PostsServices;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class indexPost {
@@ -62,10 +63,10 @@ public class indexPost {
     }
 
     @FXML
-    public void initialize() {
+    public void initialize() throws SQLException {
         // Retrieve posts from the database
         PostsServices postsServices = new PostsServices();
-        postsList.addAll(postsServices.getAllPosts());
+        postsList.addAll(postsServices.getAll());
 
         // Populate the TableView with posts
         postTableView.setItems(postsList);
@@ -89,7 +90,13 @@ public class indexPost {
         // Set action handlers for each button
         detailsButton.setOnAction(event -> handleDetails(post));
         editButton.setOnAction(event -> handleEdit(post));
-        deleteButton.setOnAction(event -> handleDelete(post));
+        deleteButton.setOnAction(event -> {
+            try {
+                handleDelete(post);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         return new HBox(detailsButton, editButton, deleteButton);
     }
@@ -186,15 +193,17 @@ public class indexPost {
     }
 
 
-    private void handleDelete(Posts post) {
+    private void handleDelete(Posts post) throws SQLException {
         // Instantiate Alert
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         // Instantiate PostsServices to interact with the database
         PostsServices postsServices = new PostsServices();
 
+
+        int id=post.getId();
         // Delete the post using the deletePost method from PostsServices
-        postsServices.deletePost(post);
+        postsServices.delete(id);
 
         // Show alert
         alert.setTitle("Post Deleted");

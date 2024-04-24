@@ -23,7 +23,7 @@
                         <TableView fx:id="postTableView">
                             <columns>
                                 <TableColumn text="ID publication" prefWidth="100" fx:id="idCol" />
-                                <TableColumn text="Publié par" prefWidth="100" fx:id="postedAsCol" />
+                                <TableColumn text="Publié en tant que" prefWidth="100" fx:id="postedAsCol" />
                                 <TableColumn text="Publication" prefWidth="400" fx:id="contenuCol" />
                                 <TableColumn text="Date de Publication" prefWidth="150" fx:id="dateCreationCol" />
                                 <TableColumn text="Date de dernière modification" prefWidth="150" fx:id="lastModificationCol" />

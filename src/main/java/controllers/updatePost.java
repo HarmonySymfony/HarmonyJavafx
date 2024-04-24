@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import services.PostsServices;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 public class updatePost {
@@ -64,13 +65,13 @@ public class updatePost {
     }
 
     // Add a method to clear and repopulate the TableView with posts
-    private void refreshTableView() {
+    private void refreshTableView() throws SQLException {
         // Clear the existing items in the TableView
         postTableView.getItems().clear();
 
         // Retrieve posts from the database
         PostsServices postsServices = new PostsServices();
-        postsList.addAll(postsServices.getAllPosts());
+        postsList.addAll(postsServices.getAll());
 
         // Populate the TableView with posts
         postTableView.setItems(postsList);
@@ -87,9 +88,11 @@ public class updatePost {
     }
 
     @FXML
-    private void confirmer(ActionEvent event) {
-            String contenu = post_contenu.getText();
+    private void confirmer(ActionEvent event) throws SQLException {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        String contenu = post_contenu.getText();
             String postedAsValue = ((RadioButton) postedAs.getSelectedToggle()).getText();
+        if (!contenu.isBlank()) {
 
             Posts updatedPost = new Posts();
             updatedPost.setId(postId);
@@ -97,10 +100,8 @@ public class updatePost {
             updatedPost.setPostedAs(postedAsValue);
 
             PostsServices postsServices = new PostsServices();
-            boolean isUpdated = postsServices.updatePost(updatedPost);
+            postsServices.update(updatedPost);
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            if (isUpdated) {
                 alert.setContentText("The post has been successfully updated.");
             } else {
                 alert.setContentText("Failed to update the post.");

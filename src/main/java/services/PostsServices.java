@@ -11,12 +11,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsServices {
+public class PostsServices implements IService<Posts>{
 
-    public void addPost(Posts post) {
+    private Connection connection;
+
+    public PostsServices() {
+        connection = MyConnection.getInstance().getConnection();
+    }
+
+    @Override
+    public void add(Posts post) throws SQLException{
         String query = "INSERT INTO posts (contenu, date_creation, posted_as) VALUES (?, ?, ?)";
         try {
-            Connection connection = MyConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, post.getContenu());
             preparedStatement.setTimestamp(2, new java.sql.Timestamp(post.getDateCreation().getTime()));
@@ -28,32 +34,29 @@ public class PostsServices {
         }
     }
 
+    @Override
 
-    public boolean updatePost(Posts post) {
+    public void update(Posts post) throws SQLException{
         String query = "UPDATE posts SET contenu = ?, last_modification = ?, posted_as = ? WHERE id = ?";
         try {
-            Connection connection = MyConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, post.getContenu());
             preparedStatement.setTimestamp(2, new java.sql.Timestamp(System.currentTimeMillis()));
             preparedStatement.setString(3, post.getPostedAs());
             preparedStatement.setInt(4, post.getId());
-            int rowsUpdated = preparedStatement.executeUpdate();
+            preparedStatement.executeUpdate();
             System.out.println("Post updated successfully.");
-            return rowsUpdated > 0; // Return true if rows were updated
         } catch (SQLException e) {
             System.out.println("Error updating post: " + e.getMessage());
-            return false; // Return false if an exception occurred
         }
     }
 
-
-    public void deletePost(Posts post) {
+    @Override
+    public void delete(int id) throws SQLException{
         String query = "DELETE FROM posts WHERE id = ?";
         try {
-            Connection connection = MyConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setInt(1, post.getId());
+            preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             System.out.println("Post deleted successfully.");
         } catch (SQLException e) {
@@ -61,11 +64,12 @@ public class PostsServices {
         }
     }
 
-    public List<Posts> getAllPosts() {
+    @Override
+
+    public List<Posts> getAll() throws SQLException{
         List<Posts> postsList = new ArrayList<>();
         String query = "SELECT * FROM posts";
         try {
-            Connection connection = MyConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
             while (resultSet.next()) {
@@ -81,5 +85,9 @@ public class PostsServices {
             System.out.println("Error retrieving posts: " + e.getMessage());
         }
         return postsList;
+    }
+    @Override
+    public Posts getById(int id) throws SQLException {
+        return null;
     }
 }

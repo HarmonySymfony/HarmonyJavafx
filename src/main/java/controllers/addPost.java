@@ -13,10 +13,13 @@ import entities.Posts;
 import services.PostsServices;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
 
 public class addPost {
 
+    private final PostsServices ps = new PostsServices();
 
     public Button annulerButton;
     @FXML
@@ -63,13 +66,12 @@ public class addPost {
     }
 
     // Add a method to clear and repopulate the TableView with posts
-    private void refreshTableView() {
+    private void refreshTableView() throws SQLException {
         // Clear the existing items in the TableView
         postTableView.getItems().clear();
 
         // Retrieve posts from the database
-        PostsServices postsServices = new PostsServices();
-        postsList.addAll(postsServices.getAllPosts());
+        postsList.addAll(ps.getAll());
 
         // Populate the TableView with posts
         postTableView.setItems(postsList);
@@ -77,7 +79,7 @@ public class addPost {
     
 
     @FXML
-    void publier(ActionEvent event) {
+    void publier(ActionEvent event) throws SQLException {
         // Get the content of the post from the TextArea
         String contenu = post_contenu.getText().trim(); // Trim to remove leading and trailing whitespace
 
@@ -100,11 +102,8 @@ public class addPost {
         java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
         entities.Posts posts = new entities.Posts(contenu, now, now, postedAs, new ArrayList<>(), new ArrayList<>());
 
-        // Instantiate PostsServices to interact with the database
-        PostsServices postsServices = new PostsServices();
-
         // Add the new post
-        postsServices.addPost(posts);
+        ps.add(posts);
 
         showAlert(Alert.AlertType.INFORMATION, "Succès", "Post ajouté avec succès.");
 

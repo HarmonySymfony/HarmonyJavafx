@@ -8,8 +8,8 @@
 <?import javafx.scene.control.Button?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.detailsPost">
     <children>
-        <Label layoutX="30.0" layoutY="90.0" text="Post ID:" />
-        <Label layoutX="150.0" layoutY="90.0" fx:id="postIdLabel" />
+        <Label layoutX="30.0" layoutY="70.0" text="Post ID:" />
+        <Label layoutX="150.0" layoutY="70.0" fx:id="postIdLabel" />
         <Label layoutX="30.0" layoutY="110.0" text="Contenu:" />
         <Label layoutX="150.0" layoutY="110.0" fx:id="contenuLabel" />
         <Label layoutX="30.0" layoutY="150.0" text="Date de création:" />

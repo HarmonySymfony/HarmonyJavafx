@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import services.PostsServices;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class detailsPost {
 
@@ -68,14 +69,14 @@ public class detailsPost {
 
     private Posts post;
 
-    public void refreshTableView() {
+    public void refreshTableView() throws SQLException {
         if (postsList != null) { // Ensure postsList is not null before using it
             // Clear the current items in the TableView
             postTableView.getItems().clear();
 
             // Retrieve posts from the database
             PostsServices postsServices = new PostsServices();
-            postsList.addAll(postsServices.getAllPosts());
+            postsList.addAll(postsServices.getAll());
 
             // Populate the TableView with posts
             postTableView.setItems(postsList);
@@ -124,15 +125,17 @@ public class detailsPost {
         }    }
 
     @FXML
-    private void supprimerAction(ActionEvent event) {
+    private void supprimerAction(ActionEvent event) throws SQLException {
         // Instantiate Alert
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
         // Instantiate PostsServices to interact with the database
         PostsServices postsServices = new PostsServices();
 
+        int id=post.getId();
+
         // Delete the post using the deletePost method from PostsServices
-        postsServices.deletePost(post);
+        postsServices.delete(id);
 
         // Show alert
         alert.setTitle("Post Deleted");
