@@ -13,8 +13,10 @@ public class MainClass {
         pharmacie p =new pharmacie("azerty","azerty","nuit");
         PharmacieServices ps = new PharmacieServices();
       //  Personne p =new Personne("Rebai","Saber",22,"saber@gaml.com");
-        PersonneServices ps = new PersonneServices();
+        PersonneServices p_s = new PersonneServices();
       //  ps.addEntity2(p);
         System.out.println(ps.getAllData());
+        System.out.println(p_s.getAllData());
+
     }
 }
