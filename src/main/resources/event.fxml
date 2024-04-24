@@ -22,22 +22,22 @@
         </TableView>
         <VBox layoutX="14.0" layoutY="240.0" prefHeight="346.0" prefWidth="217.0" spacing="10.0">
             <children>
-                <Label text="Nom:" />
-                <TextField fx:id="NomField" />
-                <Label text="Description:" />
-                <TextField fx:id="DescriptionField" />
-                <Label text="Prix:" />
-                <TextField fx:id="PrixField" />
-                <Label text="Place Dispo :" />
-                <TextField fx:id="PlaceDispoField" />
-                <Label text="Adresse:" />
-                <TextField fx:id="AdresseField" />
+                <Label text="Nom:" style="-fx-font-weight: bold;" />
+                <TextField fx:id="NomField" promptText="Enter full name" />
+                <Label text="Description:" style="-fx-font-weight: bold;" />
+                <TextField fx:id="DescriptionField" promptText="Enter Description" />
+                <Label text="Prix:" style="-fx-font-weight: bold;" />
+                <TextField fx:id="PrixField" promptText="Enter price in TND" />
+                <Label text="Place Dispo :" style="-fx-font-weight: bold;" />
+                <TextField fx:id="PlaceDispoField" promptText="Enter available seats"/>
+                <Label text="Adresse:" style="-fx-font-weight: bold;" />
+                <TextField fx:id="AdresseField" promptText="Street, City, Postal Code" />
                 <HBox alignment="BASELINE_LEFT" prefHeight="33.0" prefWidth="217.0" spacing="10.0">
                     <children>
-                        <Button fx:id="addButton" onAction="#addEvenement" text="Add" />
-                        <Button fx:id="updateButton" onAction="#updateEvent" text="Update" />
-                        <Button fx:id="deleteButton" onAction="#deleteEvenement" text="Delete" />
-                        <Button fx:id="clearButton" onAction="#clearForm" text="Clear" />
+                        <Button fx:id="addButton" onAction="#addEvenement" text="Add" style="-fx-background-color: #1a73e8; -fx-text-fill: white;"/>
+                        <Button fx:id="updateButton" onAction="#updateEvent" text="Update" style="-fx-background-color: #34a853; -fx-text-fill: white;" />
+                        <Button fx:id="deleteButton" onAction="#deleteEvenement" text="Delete" style="-fx-background-color: #ea4335; -fx-text-fill: white;"/>
+                        <Button fx:id="clearButton" onAction="#clearForm" text="Clear" style="-fx-background-color: #fbbc05; -fx-text-fill: white;" />
 
                     </children>
                 </HBox>

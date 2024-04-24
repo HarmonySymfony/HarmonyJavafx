@@ -9,10 +9,12 @@ public class EventDetailController {
     private Label nameLabel, descriptionLabel, priceLabel, placesLabel, addressLabel;
 
     public void setEvent(Evenement event) {
-        nameLabel.setText("Name: " + event.getNom());
-        descriptionLabel.setText("Description: " + event.getDescription());
-        priceLabel.setText("Price: " + event.getPrix() + " $");
-        placesLabel.setText("Available Places: " + event.getPlaceDispo());
-        addressLabel.setText("Address: " + event.getAdresse());
+        nameLabel.setText("Name :   " + event.getNom());
+        descriptionLabel.setText("Description :   " + event.getDescription());
+        priceLabel.setText("Price :   " + event.getPrix() + " DT");
+        placesLabel.setText("Available Places :   " + event.getPlaceDispo());
+        addressLabel.setText("Address :   " + event.getAdresse());
+
+
     }
 }
