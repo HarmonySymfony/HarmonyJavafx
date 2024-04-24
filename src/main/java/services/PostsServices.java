@@ -16,7 +16,7 @@ public class PostsServices implements IService<Posts>{
     private Connection connection;
 
     public PostsServices() {
-        connection = MyConnection.getInstance().getConnection();
+        connection = MyConnection.getInstance().getCnx();
     }
 
     @Override
