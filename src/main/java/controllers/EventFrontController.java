@@ -30,12 +30,12 @@ public class EventFrontController {
         try {
             for (Evenement event : serviceEvenement.afficher()) {
                 VBox card = new VBox(10);
-                card.setPadding(new Insets(10));
-                card.setStyle("-fx-border-color: black; -fx-border-width: 2;");
+                card.setPadding(new Insets(15));
+                card.setStyle("-fx-border-color:  navy; -fx-border-width: 2;");
 
-                Label nameLabel = new Label("Name: " + event.getNom());
-                Label descLabel = new Label("Description: " + event.getDescription());
-                Button detailsButton = new Button("View Details");
+                Label nameLabel = new Label("Name : " + event.getNom());
+                Label descLabel = new Label("Description : " + event.getDescription());
+                Button detailsButton = new Button("Show more Details");
                 detailsButton.setOnAction(e -> showEventDetails(event));
 
                 card.getChildren().addAll(nameLabel, descLabel, detailsButton);
