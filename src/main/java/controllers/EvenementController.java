@@ -6,7 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-
+import java.time.LocalDate;
+import java.sql.Date;
 import java.sql.SQLException;
 
 public class EvenementController {
@@ -16,6 +17,9 @@ public class EvenementController {
     @FXML private TextField PrixField;
     @FXML private TextField PlaceDispoField;
     @FXML private TextField AdresseField;
+    @FXML private TextField DateField;
+    @FXML private DatePicker dateproPicker;
+
 
     @FXML private Button addButton;
     @FXML private Button updateButton;
@@ -31,6 +35,7 @@ public class EvenementController {
     @FXML private TableColumn<Evenement, Integer> columnPrix;
     @FXML private TableColumn<Evenement, Integer> columnPlaceDispo;
     @FXML private TableColumn<Evenement, String> columnAdresse;
+    @FXML private TableColumn<Evenement, Date> columnDate;
 
 
 
@@ -50,6 +55,7 @@ public class EvenementController {
         columnPrix.setCellValueFactory(new PropertyValueFactory<>("Prix"));
         columnPlaceDispo.setCellValueFactory(new PropertyValueFactory<>("PlaceDispo"));
         columnAdresse.setCellValueFactory(new PropertyValueFactory<>("Adresse"));
+        columnDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
         loadEvenementData();
     }
 
@@ -73,9 +79,12 @@ public class EvenementController {
         PrixField.clear();
         PlaceDispoField.clear();
         AdresseField.clear();
-
+        dateproPicker.setValue(null);
         evenementTableView.getSelectionModel().clearSelection();
-    }
+
+        }
+
+
 
 
     @FXML
@@ -88,6 +97,7 @@ public class EvenementController {
             PrixField.setText(String.valueOf(selectedEvenement.getPrix()));
             PlaceDispoField.setText((String.valueOf(selectedEvenement.getPlaceDispo())));
             AdresseField.setText(selectedEvenement.getAdresse());
+            dateproPicker.setValue(selectedEvenement.getDate().toLocalDate());
 
         }
     }
@@ -96,7 +106,7 @@ public class EvenementController {
 
     @FXML
     public void addEvenement() {
-        if (!validateNom() || !validateDescription() || !validatePrix()|| !validatePlaceDispo()||!validateAdresse() ) {
+        if (!validateNom() || !validateDescription() || !validatePrix()|| !validatePlaceDispo()||!validateAdresse() ||!validateDate() ) {
             return;
         }
         try {
@@ -105,8 +115,12 @@ public class EvenementController {
                     NomField.getText(),
                     DescriptionField.getText(),
                     Float.parseFloat(PrixField.getText()),
+
                     Integer.parseInt(PlaceDispoField.getText()),
-                    AdresseField.getText()
+
+                    AdresseField.getText(),
+                    Date.valueOf(dateproPicker.getValue())
+
 
                     );
             serviceEvenement.Add(evenement);
@@ -121,7 +135,7 @@ public class EvenementController {
 
     @FXML
     public void updateEvent() {
-        if (!validateNom() || !validateDescription() || !validatePrix()|| !validatePlaceDispo()||!validateAdresse() ) {
+        if (!validateNom() || !validateDescription() || !validatePrix()|| !validatePlaceDispo()||!validateAdresse() ||!validateDate() ) {
             return;
         }
         try {
@@ -131,11 +145,13 @@ public class EvenementController {
                                 DescriptionField.getText(),
                     Float.parseFloat(PrixField.getText()),
                                 Integer.parseInt(PlaceDispoField.getText()),
-                    AdresseField.getText()
+                    AdresseField.getText(),
+                    java.sql.Date.valueOf(dateproPicker.getValue())
 
 
 
-                                );
+
+            );
             serviceEvenement.modifyEvent(evenement);
             loadEvenementData();
             clearForm();
@@ -235,6 +251,19 @@ public class EvenementController {
             return false;
         }
         return true;
+    }
+
+    private boolean validateDate(){
+        if(dateproPicker.getValue()== null){
+            showAlert(Alert.AlertType.ERROR, "validation error", "please select a date !");
+            return false;
+        }
+        if(dateproPicker.getValue().isBefore(LocalDate.now())){
+            showAlert(Alert.AlertType.ERROR, "validation error" , "the date cannopt be in the past !");
+            return false;
+        }
+        return true;
+
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {
