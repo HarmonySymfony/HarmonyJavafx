@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
@@ -25,5 +26,10 @@
             </opaqueInsets>
             <!-- Cards will be dynamically added here -->
         </TilePane>
+        <TextField fx:id="searchField" alignment="TOP_CENTER" layoutX="732.0" layoutY="63.0"  prefHeight="37.0" prefWidth="174.0" promptText="Search Event" style="-fx-font-weight: bold; -fx-text-fill: navy;">
+            <font>
+                <Font name="System Bold" size="18.0" />
+            </font>
+        </TextField>
     </AnchorPane>
 </AnchorPane>

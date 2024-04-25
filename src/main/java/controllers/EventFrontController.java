@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
@@ -22,15 +23,29 @@ import javafx.stage.Stage;
 public class EventFrontController {
     @FXML
     private TilePane cardContainer;
+    @FXML
+    private TextField searchField;
+
 
     private ServiceEvenement serviceEvenement = new ServiceEvenement();
 
     @FXML
     public void initialize() {
         loadEventCards();
+
+        // Add a listener to searchField to handle real-time search updates
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.isEmpty()) {
+                loadEventCards(); // Reload all events if search field is cleared
+            } else {
+                loadEventCards(newValue); // Load filtered events based on the current input
+            }
+        });
     }
 
-    private void loadEventCards() {
+
+
+    /*private void loadEventCards() {
         try {
             for (Evenement event : serviceEvenement.afficher()) {
                 VBox card = new VBox(10);
@@ -48,7 +63,7 @@ public class EventFrontController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void showEventDetails(Evenement evenement) {
         try {
@@ -65,6 +80,68 @@ public class EventFrontController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    /*@FXML
+    private void handleSearch(ActionEvent event) {
+        String keyword = searchField.getText().trim();
+        loadEventCards(keyword); // Mettre à jour pour prendre en compte la recherche
+    }*/
+
+    /*private void loadEventCards(String keyword) {
+        cardContainer.getChildren().clear(); // Nettoyer les cartes précédentes
+        try {
+            for (Evenement event : serviceEvenement.afficher()) {
+                if (eventMatches(event, keyword)) {
+                    VBox card = createEventCard(event);
+                    cardContainer.getChildren().add(card);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }*/
+    private void loadEventCards() {
+        cardContainer.getChildren().clear(); // Clear previous cards
+        try {
+            for (Evenement event : serviceEvenement.afficher()) {
+                VBox card = createEventCard(event);
+                cardContainer.getChildren().add(card);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    private void loadEventCards(String keyword) {
+        cardContainer.getChildren().clear(); // Clear previous cards
+        try {
+            for (Evenement event : serviceEvenement.afficher()) {
+                if (eventMatches(event, keyword)) {
+                    VBox card = createEventCard(event);
+                    cardContainer.getChildren().add(card);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private boolean eventMatches(Evenement event, String keyword) {
+        return event.getNom().toLowerCase().contains(keyword.toLowerCase())
+                || event.getDescription().toLowerCase().contains(keyword.toLowerCase());
+    }
+
+    private VBox createEventCard(Evenement event) {
+        VBox card = new VBox(10);
+        card.setPadding(new Insets(15));
+        card.setStyle("-fx-border-color: navy; -fx-border-width: 2;");
+        Label nameLabel = new Label("Name : " + event.getNom());
+        Label descLabel = new Label("Description : " + event.getDescription());
+        Button detailsButton = new Button("Show more Details");
+        detailsButton.setOnAction(e -> showEventDetails(event));
+        card.getChildren().addAll(nameLabel, descLabel, detailsButton);
+        return card;
     }
 
 
