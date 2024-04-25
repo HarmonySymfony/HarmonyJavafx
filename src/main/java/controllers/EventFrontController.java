@@ -1,7 +1,9 @@
 package controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Label;
@@ -9,6 +11,8 @@ import javafx.scene.control.Button;
 import services.ServiceEvenement;
 import entities.Evenement;
 import javafx.scene.layout.TilePane;
+
+import java.io.IOException;
 import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -62,4 +66,18 @@ public class EventFrontController {
             e.printStackTrace();
         }
     }
+    @FXML
+    void Back(ActionEvent event) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/AfficheUser.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }
