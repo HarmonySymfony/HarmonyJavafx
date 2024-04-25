@@ -49,5 +49,6 @@
                 </HBox>
             </children>
         </VBox>
+      <Button fx:id="clearButton1" layoutX="832.0" layoutY="615.0" onAction="#Back" prefHeight="26.0" prefWidth="91.0" style="-fx-background-color: #000000; -fx-text-fill: white;" text="Back" />
     </children>
 </AnchorPane>

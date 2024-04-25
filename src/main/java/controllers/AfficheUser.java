@@ -198,7 +198,7 @@ public class AfficheUser {
     void ListeEvents(ActionEvent event) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/EventFront.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/event.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
