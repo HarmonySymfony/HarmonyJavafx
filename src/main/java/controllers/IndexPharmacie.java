@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.pharmacie;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +20,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.List;
 import services.PharmacieServices;
-
-public class ShowPharmacie {
+public class IndexPharmacie {
 
     @FXML
     private ListView<pharmacie> listepharmacie; // ListView de type pharmacie
@@ -143,4 +143,5 @@ public class ShowPharmacie {
         stage.setScene(scene);
         stage.show();
     }
+
 }
