@@ -37,6 +37,7 @@ public class detailsPost {
     @FXML
     private Label postedAsLabel;
 
+
     // Add a private field to store the stage
     private Stage stage;
 
@@ -60,6 +61,7 @@ public class detailsPost {
     public void setPostTableView(TableView<Posts> postTableView) {
         this.postTableView = postTableView;
     }
+
 
     private ObservableList<Posts> postsList;
 
@@ -122,7 +124,8 @@ public class detailsPost {
             updateStage.show();
         } catch (IOException e) {
             e.printStackTrace();
-        }    }
+        }
+    }
 
     @FXML
     private void supprimerAction(ActionEvent event) throws SQLException {
@@ -132,7 +135,7 @@ public class detailsPost {
         // Instantiate PostsServices to interact with the database
         PostsServices postsServices = new PostsServices();
 
-        int id=post.getId();
+        int id = post.getId();
 
         // Delete the post using the deletePost method from PostsServices
         postsServices.delete(id);
@@ -163,8 +166,36 @@ public class detailsPost {
 
     @FXML
     private void afficherCommentairesAction(ActionEvent event) {
-        // Add logic to handle the "Afficher Commentaires" button action
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexComment.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller from the FXMLLoader
+            indexComment commentsController = loader.getController();
+
+            // Set the selected post and refresh the TableView in the comments controller
+            commentsController.setSelectedPostAndRefreshTableView(post);
+
+            // Set the details controller reference
+            commentsController.setDetailsController(this);
+
+            // Set the stage for the comments controller
+            Stage indexStage = (Stage) postIdLabel.getScene().getWindow();
+            commentsController.setIndexStage(indexStage);
+
+            // Show the comments window
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Commentaires");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
+
+
 
     @FXML
     private void retourAction(ActionEvent event) {
@@ -177,4 +208,6 @@ public class detailsPost {
             e.printStackTrace();
         }
     }
+
+
 }

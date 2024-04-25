@@ -1,5 +1,6 @@
 package services;
 
+import entities.Comments;
 import entities.Posts;
 import utils.MyConnection;
 
@@ -90,4 +91,27 @@ public class PostsServices implements IService<Posts>{
     public Posts getById(int id) throws SQLException {
         return null;
     }
+
+    @Override
+    public List<Comments> getCommentsByPost(Posts post) throws SQLException {
+        List<Comments> commentsList = new ArrayList<>();
+        String query = "SELECT * FROM comments WHERE posts_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, post.getId());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Comments comment = new Comments();
+                    comment.setId(resultSet.getInt("id"));
+                    comment.setContenu(resultSet.getString("contenu"));
+                    comment.setDateCreation(resultSet.getTimestamp("date_creation"));
+                    comment.setLastModification(resultSet.getTimestamp("last_modification"));
+                    comment.setCommentedAs(resultSet.getString("commented_as"));
+                    commentsList.add(comment);
+                }
+            }
+        }
+        return commentsList;
+    }
+
+
 }

@@ -29,17 +29,21 @@ public class Posts {
     @ElementCollection
     private List<String> dislikedBy = new ArrayList<>();
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Comments> comments = new ArrayList<>();
+
     // Constructors
     public Posts() {
     }
 
-    public Posts(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, String postedAs, List<String> likedBy, List<String> dislikedBy) {
+    public Posts(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, String postedAs, List<String> likedBy, List<String> dislikedBy, List<Comments> comments) {
         this.contenu = contenu;
         this.dateCreation = dateCreation;
         this.lastModification = lastModification;
         this.postedAs = postedAs;
         this.likedBy = likedBy;
         this.dislikedBy = dislikedBy;
+        this.comments = comments;
     }
 
     // Getters and Setters
@@ -97,5 +101,19 @@ public class Posts {
 
     public void setDislikedBy(List<String> dislikedBy) {
         this.dislikedBy = dislikedBy;
+    }
+
+    public List<Comments> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
+    }
+
+    // Method to add a comment to the post's collection of comments
+    public void addComment(Comments comment) {
+        comment.setPost(this); // Set the post for the comment
+        this.comments.add(comment);
     }
 }

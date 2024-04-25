@@ -161,8 +161,6 @@ public class indexPost {
             e.printStackTrace();
         }
     }
-
-
     private void handleEdit(Posts post) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePost.fxml"));
