@@ -17,7 +17,7 @@ public class PersonneServices implements IServicesUser<Personne> {
 
     @Override
     public void Ajouter(Personne personne) {
-        String sql = "INSERT INTO utilisateur (Nom,Prenom,Email,Password,age,role)" + " VALUES ('" + personne.getNom() + "','" + personne.getPrenom() + "','" + personne.getEmail() + "','" + personne.getPassword() + "','" + personne.getAge() + "','" + personne.getRole() + "')";
+        String sql = "INSERT INTO utilisateur (Nom,Prenom,Email,Password,age)" + " VALUES ('" + personne.getNom() + "','" + personne.getPrenom() + "','" + personne.getEmail() + "','" + personne.getPassword() + "','" + personne.getAge() + "')";
         try {
             Statement st = MyConnection.getInstance().getCnx().createStatement();
             st.executeUpdate(sql);
@@ -45,7 +45,7 @@ public class PersonneServices implements IServicesUser<Personne> {
     }
 
     public void addEntity2(Personne personne) {
-        String requete = "INSERT INTO utilisateur(Nom,Prenom,Email,Password,age,role) VALUES (?,?,?,?,?,?)";
+        String requete = "INSERT INTO utilisateur(Nom,Prenom,Email,Password,age) VALUES (?,?,?,?,?)";
         try {
             PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
             pst.setString(1, personne.getNom());
@@ -53,8 +53,6 @@ public class PersonneServices implements IServicesUser<Personne> {
             pst.setString(3, personne.getEmail());
             pst.setString(4, personne.getPassword());
             pst.setInt(5, personne.getAge());
-            pst.setString(6, personne.getRole());
-
             pst.executeUpdate();
             System.out.println("Personne added");
         } catch (SQLException e) {
@@ -75,7 +73,7 @@ public class PersonneServices implements IServicesUser<Personne> {
     public void updateEntity(Personne personne) {
         try {
             // Préparer la requête SQL pour la mise à jour
-            String sql = "UPDATE utilisateur SET Nom=?, Prenom=?, Email=?, Password=?, Age=?,Role=? WHERE id=?";
+            String sql = "UPDATE utilisateur SET Nom=?, Prenom=?, Email=?, Password=?, Age=? WHERE id=?";
             PreparedStatement statement = cnx.prepareStatement(sql);
 
             // Définir les valeurs des paramètres de la requête
@@ -84,8 +82,7 @@ public class PersonneServices implements IServicesUser<Personne> {
             statement.setString(3, personne.getEmail());
             statement.setString(4, personne.getPassword());
             statement.setInt(5, personne.getAge());
-            statement.setString(6, personne.getRole());
-            statement.setInt(7, personne.getId());
+            statement.setInt(6, personne.getId());
 
             // Exécuter la mise à jour
             int rowsUpdated = statement.executeUpdate();
@@ -119,7 +116,6 @@ public class PersonneServices implements IServicesUser<Personne> {
                     personne.setEmail(resultSet.getString("Email"));
                     personne.setPassword(resultSet.getString("Password"));
                     personne.setAge(resultSet.getInt("Age"));
-                    personne.setRole(resultSet.getString("Role"));
                 }
             }
         }
@@ -139,7 +135,6 @@ public class PersonneServices implements IServicesUser<Personne> {
                     personne.setEmail(resultSet.getString("Email"));
                     personne.setPassword(resultSet.getString("Password"));
                     personne.setAge(resultSet.getInt("Age"));
-                    personne.setRole(resultSet.getString("Role"));
                     return personne;
                 }
             }
@@ -155,7 +150,7 @@ public class PersonneServices implements IServicesUser<Personne> {
 
         try {
             connection = MyConnection.getInstance().getCnx(); // Utilisation de MyConnection.getConnection()
-            String query = "SELECT id, Nom, Prenom, Email, Password,Role FROM utilisateur"; // Assurez-vous de spécifier le nom de votre table
+            String query = "SELECT id, Nom, Prenom, Email, Password FROM utilisateur"; // Assurez-vous de spécifier le nom de votre table
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
 
@@ -167,7 +162,6 @@ public class PersonneServices implements IServicesUser<Personne> {
                 personne.setPrenom(resultSet.getString("Prenom"));
                 personne.setEmail(resultSet.getString("Email"));
                 personne.setPassword(resultSet.getString("Password"));
-                personne.setRole(resultSet.getString("Role"));
 
                 // Ajout de la personne à la liste
                 personnes.add(personne);
@@ -188,13 +182,12 @@ public class PersonneServices implements IServicesUser<Personne> {
     }
 
     public void modifier(Personne t) throws SQLException {
-        String req = "Update utilisateur set Nom=?, Prenom=?, Email=?, Password=?,Age=?,Role where id=?";
+        String req = "Update utilisateur set Nom=?, Prenom=?, Email=?, Password=?,Age=? where id=?";
         PreparedStatement stmt = cnx.prepareStatement(req);
         stmt.setString(1, t.getNom());
         stmt.setString(2, t.getPrenom());
         stmt.setString(3, t.getEmail());
-        stmt.setString(4, t.getRole());
-        stmt.setInt(5, t.getId());
+        stmt.setInt(4, t.getId());
 
         stmt.executeUpdate();
 
@@ -277,7 +270,6 @@ public class PersonneServices implements IServicesUser<Personne> {
             p.setNom(rs.getString("Nom"));
             p.setPrenom(rs.getString("Prenom"));
             p.setPassword(rs.getString("Password"));
-            p.setRole(rs.getString("Role"));
 
             users.add(p);
         }
@@ -286,7 +278,7 @@ public class PersonneServices implements IServicesUser<Personne> {
 
     public List<Personne> recupererParPrenom(String prenom) throws SQLException {
         List<Personne> personnes = new ArrayList<>();
-        String query = "SELECT id, Nom, Prenom, Email, Password,Role FROM utilisateur WHERE Prenom = ?";
+        String query = "SELECT id, Nom, Prenom, Email, Password FROM utilisateur WHERE Prenom = ?";
         try (PreparedStatement statement = cnx.prepareStatement(query)) {
             statement.setString(1, prenom);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -297,7 +289,6 @@ public class PersonneServices implements IServicesUser<Personne> {
                     personne.setPrenom(resultSet.getString("Prenom"));
                     personne.setEmail(resultSet.getString("Email"));
                     personne.setPassword(resultSet.getString("Password"));
-                    personne.setRole(resultSet.getString("Role"));
                     personnes.add(personne);
                 }
             }
@@ -313,13 +304,12 @@ public class PersonneServices implements IServicesUser<Personne> {
             Statement st = MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
-                Personne p = new Personne("Rebai", "Saber", "saberweldzakeya@gmail.com", "aloulou123", 20,"PATIENT");
+                Personne p = new Personne("Rebai", "Saber", "saberweldzakeya@gmail.com", "aloulou123", "20");
                 p.setId(rs.getInt(1));
                 p.setNom(rs.getString("Nom"));
                 p.setPrenom(rs.getString("Prenom"));
                 p.setEmail(rs.getString("Email"));
                 p.setPassword(rs.getString("Password"));
-                p.setRole(rs.getString("Role"));
 
                 data.add(p);
             }

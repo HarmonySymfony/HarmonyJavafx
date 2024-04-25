@@ -3,34 +3,39 @@ package entities;
 import java.util.Objects;
 
 public class Personne {
-    private int id;
+    private int id ;
     private String Nom;
     private String Prenom;
     private String Email;
     private String Password;
-    private String Role;
     private int age;
 
-    public Personne(int id, String Nom, String Prenom, String Email, String Password, int age, String Role) {
+
+
+
+    public Personne(int id, String Nom, String Prenom,String Email,String Password,int age) {
         this.id = id;
         this.Nom = Nom;
         this.Prenom = Prenom;
         this.Email = Email;
-        this.Password = Password;
-        this.age = age;
-        this.Role = Role;
+        this.Password= Password;
+        this.age= age;
     }
 
-    public Personne(String Nom, String Prenom, String Email, String Password, int age, String Role) {
+    public Personne( String Nom, String Prenom,String Email,String Password,int age) {
         this.Nom = Nom;
         this.Prenom = Prenom;
-        this.Email = Email;
-        this.Password = Password;
-        this.age = age;
-        this.Role = Role;
+        this.Email=Email;
+        this.Password=Password;
+        this.age=age;
+    }
+    public Personne() {}
+
+    public Personne(String rebai, String saber, String email, String aloulou123, String s) {
     }
 
-    public Personne() {}
+
+
 
     public int getId() {
         return id;
@@ -38,14 +43,6 @@ public class Personne {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getRole() {
-        return Role;
-    }
-
-    public void setRole(String Role) {
-        this.Role = Role;
     }
 
     public String getNom() {
@@ -92,16 +89,15 @@ public class Personne {
                 ", prenom='" + Prenom + '\'' +
                 ", Email='" + Email + '\'' +
                 ", age='" + age + '\'' +
-                ", Role='" + Role + '\'' +
+
+
                 '}';
     }
-
     @Override
     public int hashCode() {
         int hash = 3;
         return hash;
     }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -120,23 +116,24 @@ public class Personne {
         if (!Objects.equals(this.Nom, other.Nom)) {
             return false;
         }
+
         if (!Objects.equals(this.Prenom, other.Prenom)) {
             return false;
         }
+
         if (!Objects.equals(this.Email, other.Email)) {
             return false;
         }
         return Objects.equals(this.Password, other.Password);
     }
-
     // Méthode pour afficher les informations de la personne
     public void afficherInformations() {
         System.out.println("Nom : " + Nom);
         System.out.println("Prénom : " + Prenom);
         System.out.println("Email : " + Email);
         System.out.println("age : " + age);
-        System.out.println("Role : " + Role);
     }
+
 
     public void setPrenom(String Prenom) {
         this.Prenom = Prenom;

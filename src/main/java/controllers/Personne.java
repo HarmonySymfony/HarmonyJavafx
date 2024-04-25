@@ -29,8 +29,6 @@ public class Personne {
 
     @FXML
     private TextField prenomTextField;
-    @FXML
-    private TextField roleTextField;
 
     private PersonneServices personneServices = new PersonneServices();
 
@@ -42,7 +40,7 @@ public class Personne {
 
 
         // Create a new Personne object with the entered data
-        entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), passwordTextField.getText(), Integer.parseInt(ageTextField.getText()),roleTextField.getText());
+        entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), passwordTextField.getText(), Integer.parseInt(ageTextField.getText()));
         PersonneServices personneServices = new PersonneServices();
         try {
 
@@ -60,14 +58,13 @@ public class Personne {
                 alert.setHeaderText(null);
                 alert.setContentText("format email non valide!");
                 alert.show();
-            } else if (!ageTextField.getText().matches("^([1-9]|[1-9][0-9])$")) {
+            } else if (!ageTextField.getText().matches("[1-99]")) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Age non valide");
                 alert.setHeaderText(null);
-                alert.setContentText("Format AGE non valide! L'âge doit être compris entre 1 et 99.");
+                alert.setContentText("format AGE non valide!");
                 alert.show();
             }
-
             // Call the Ajouter method of PersonneServices to add the Personne to the database
             else {
                 personneServices.Ajouter(p);
@@ -90,11 +87,11 @@ public class Personne {
             }
 
             // Optionally, you can clear the text fields after adding the Personne
-//            nomTextField.clear();
-//            prenomTextField.clear();
-//            emailTextField.clear();
-//            passwordTextField.clear();
-//            ageTextField.clear();
+            nomTextField.clear();
+            prenomTextField.clear();
+            emailTextField.clear();
+            passwordTextField.clear();
+            ageTextField.clear();
         } catch (Exception e) { // Catch more general exception or handle specific exceptions thrown by Ajouter method
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());

@@ -13,6 +13,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -50,7 +51,6 @@
             <version>21.0.2</version>
         </dependency>
     </dependencies>
-
 
 
     <build>

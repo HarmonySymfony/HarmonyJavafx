@@ -44,14 +44,13 @@ public class Login {
             Boolean verif = false;
             List<entities.Personne> users = us.recuperer();
 
-            for (entities.Personne user : users) {
-                if (user.getEmail().equals(emailtextfield2.getText()) && user.getPassword().equals(passwordtextfield2.getText())) {
-                    UserConnected = user;
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getEmail().equals(emailtextfield2.getText()) && users.get(i).getPassword().equals(passwordtextfield2.getText())) {
+                    UserConnected = users.get(i);
                     verif = true;
                     break;
                 }
             }
-
 
             if (verif) {
                 if (emailtextfield2.getText().equals("admin@admin.fr") && passwordtextfield2.getText().equals("admin123")) {
