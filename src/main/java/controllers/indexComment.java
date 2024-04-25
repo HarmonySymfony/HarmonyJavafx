@@ -52,10 +52,18 @@ public class indexComment {
 
         private ObservableList<Comments> commentsList = FXCollections.observableArrayList();
 
-        private Posts selectedPost; // Store the selected post
-        private detailsPost detailsController; // Reference to detailsPost controller
+        private Posts post; // Store the selected post
+
+        // Method to set the selected post from detailsPost controller
 
         private Stage indexStage;
+
+        private detailsPost detailsController; // Reference to detailsPost controller
+
+        // Setter method for detailsController
+        public void setDetailsController(detailsPost controller) {
+                this.detailsController = controller;
+        }
 
         public void setIndexStage(Stage indexStage) {
                 this.indexStage = indexStage;
@@ -65,26 +73,37 @@ public class indexComment {
                 return indexStage;
         }
 
-        // Method to set the selected post
 
-        public void setPost(Posts post) {
-                this.selectedPost = post;
-        }
-        public void setDetailsController(detailsPost controller) {
-                this.detailsController = controller;
-        }
 
+//        // Method to set the selected post from detailsPost controller
+//        public void setPost(Posts post) {
+//                this.post = post;
+//        }
+
+
+
+        // Method to populate the TableView with comments associated with the selected post
+        public void setSelectedPostAndRefreshTableView(Posts post) {
+                this.post = post;
+                try {
+                        initialize(); // Refresh the TableView with comments associated with the selected post
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+        }
 
         // Initialize commentsList
 
 
         public void initialize() throws SQLException {
-                // Retrieve posts from the database
-                PostsServices commentsServices = new PostsServices();
-                commentsList.addAll(commentsServices.getCommentsByPost(selectedPost));
+                if (post != null) {
+                        // Retrieve comments associated with the selected post from the database
+                        CommentsServices commentsServices = new CommentsServices();
+                        commentsList.clear(); // Clear existing comments
+                        commentsList.addAll(commentsServices.getCommentsByPost(post));
 
-                // Populate the TableView with posts
-                commentTableView.setItems(commentsList);
+                        // Populate the TableView with comments
+                        commentTableView.setItems(commentsList);
 
                 // Configure the TableView columns
                 idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -94,7 +113,11 @@ public class indexComment {
                 lastModificationCol.setCellValueFactory(new PropertyValueFactory<>("lastModification"));
 
                 actionsCol.setCellValueFactory(param -> new SimpleObjectProperty<>(createButtonBox(param.getValue())));
+                } else {
+                        System.out.println("Selected post is null.");
+                }
         }
+
 
 //        public void setSelectedPostAndRefreshTableView(Posts post) {
 //                this.selectedPost = post;
@@ -134,17 +157,6 @@ public class indexComment {
         private void handleDetails(Comments comment) {
         }
 
-        // Method to populate the TableView with comments associated with the selected post
-        public void setSelectedPostAndRefreshTableView(Posts post) {
-                this.selectedPost = post;
-                try {
-                        initialize(); // Refresh the TableView with comments associated with the selected post
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                }
-        }
-
-
 
         // Handle button actions
 
@@ -157,7 +169,7 @@ public class indexComment {
 
                         // Pass the selected post to the addComment controller
                         addComment addController = loader.getController();
-                        addController.setPost(selectedPost);
+                        addController.setPost(post);
 
                         // Close the index window
                         Stage indexStage = (Stage) commentTableView.getScene().getWindow();

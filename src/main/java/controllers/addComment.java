@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextArea;
 import services.CommentsServices;
+import services.PostsServices;
 
 import java.sql.SQLException;
 import java.util.Date;
@@ -36,17 +37,20 @@ public class addComment {
         Comments comment = new Comments();
         comment.setContenu(contenu);
         comment.setDateCreation(new java.sql.Timestamp(new Date().getTime()));
-        comment.setPost(post);
 
-        // Save the comment using the CommentsServices
-        CommentsServices commentsServices = new CommentsServices();
+        // Add the comment to the post's collection of comments
+        post.addComment(comment);
+
+        // Save the post (which cascades to save the comment as well)
+        PostsServices postsServices = new PostsServices();
         try {
-            commentsServices.add(comment);
+            postsServices.update(post);
             showAlert("Commentaire ajouté avec succès.");
         } catch (SQLException e) {
             showAlert("Erreur lors de l'ajout du commentaire: " + e.getMessage());
         }
     }
+
 
     // Method to show an alert dialog
     private void showAlert(String message) {
