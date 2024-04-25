@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Evenement;
 import entities.Personne;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -221,6 +222,11 @@ public class AfficheUser {
         stage.show();
 
     }
+
+
+
+
+
 
 
 

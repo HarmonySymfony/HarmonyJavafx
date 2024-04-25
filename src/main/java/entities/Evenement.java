@@ -1,6 +1,8 @@
 
 package entities;
 
+import java.util.Date;
+
 public class Evenement {
 
     private int id;
@@ -14,19 +16,21 @@ public class Evenement {
     private int placeDispo;
 
     private String adresse;
+    private Date date;
 
 
     public Evenement (){
 
     }
 
-    public Evenement (int id , String nom , String description , float prix , int placeDispo , String adresse){
+    public Evenement (int id , String nom , String description , float prix , int placeDispo , String adresse, Date date){
         this.id = id;
         this.nom = nom;
         this.description = description;
         this.prix = prix;
         this.placeDispo = placeDispo;
         this.adresse = adresse;
+        this.date = date;
     }
 
     public int getId() {
@@ -77,7 +81,13 @@ public class Evenement {
         this.adresse = adresse;
     }
 
+    public java.sql.Date getDate() {
+        return (java.sql.Date) date;
+    }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     @Override
     public String toString() {
@@ -88,6 +98,7 @@ public class Evenement {
                 ", prix=" + prix +
                 ", placeDispo=" + placeDispo +
                 ", adresse='" + adresse + '\'' +
+                ", date=" + date +
                 '}';
     }
 }
