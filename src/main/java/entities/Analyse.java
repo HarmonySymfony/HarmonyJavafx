@@ -3,10 +3,28 @@ package entities;
 import java.util.Objects;
 
 public class Analyse {
-    private int id;
-    private float prix;
-    private String type ;
+    private  int id;
+    private  float prix;
+    private  String type;
     private int laboratoireId;
+    private Laboratoire laboratoire;
+
+    public Analyse() {
+
+    }
+
+    public Analyse(float prix, String type, int laboratoireId) {
+        this.prix = prix;
+        this.type = type;
+        this.laboratoireId = laboratoireId;
+    }
+
+    public Analyse(int id, float prix, String type, int laboratoireId) {
+        this.id = id;
+        this.prix = prix;
+        this.type = type;
+        this.laboratoireId = laboratoireId;
+    }
 
     public Analyse(int id, float prix, String type) {
         this.id = id;
@@ -14,7 +32,7 @@ public class Analyse {
         this.type = type;
     }
 
-    public int getId() {
+    public  int getId() {
         return id;
     }
 
@@ -22,7 +40,7 @@ public class Analyse {
         this.id = id;
     }
 
-    public float getPrix() {
+    public  float getPrix() {
         return prix;
     }
 
@@ -30,7 +48,7 @@ public class Analyse {
         this.prix = prix;
     }
 
-    public String getType() {
+    public  String getType() {
         return type;
     }
 
@@ -54,11 +72,6 @@ public class Analyse {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getPrix(), getType());
-    }
-
-    @Override
     public String toString() {
         return "Analyse{" +
                 "id=" + id +
@@ -66,4 +79,6 @@ public class Analyse {
                 ", type='" + type + '\'' +
                 '}';
     }
+
+
 }

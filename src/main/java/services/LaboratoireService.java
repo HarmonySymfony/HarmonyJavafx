@@ -6,7 +6,9 @@ import utils.DB;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LaboratoireService implements IService<Laboratoire>{
     private Connection connection ;
@@ -62,6 +64,30 @@ public class LaboratoireService implements IService<Laboratoire>{
         }
         return laboratoireList;
 
+    }
+    public Set<Analyse> getAnalysesForLaboratoire(Laboratoire laboratoire) throws SQLException {
+        Set<Analyse> analyses = new HashSet<>();
+
+        String request = "SELECT * FROM analyses WHERE laboratoireId = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(request);
+        preparedStatement.setInt(1, laboratoire.getId());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            float prix = resultSet.getFloat("prix");
+            String type = resultSet.getString("type");
+            Analyse analyse = new Analyse();
+            analyse.setId(id);
+            analyse.setPrix(prix);
+            analyse.setType(type);
+            System.out.println(analyse);
+            analyses.add(analyse);
+            System.out.println(analyses);
+
+        }
+        System.out.println("in service");
+        System.out.println(analyses);
+        return analyses;
     }
     public boolean existeNom(String nom) throws SQLException {
         String request = "SELECT COUNT(*) AS count FROM laboratoire WHERE nom = ?";
