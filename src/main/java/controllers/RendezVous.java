@@ -1,21 +1,8 @@
-package Controllers;
-import javafx.concurrent.Task;
-import javafx.fxml.FXML;
-import java.awt.Desktop;
-import java.io.File;
-import javafx.scene.layout.AnchorPane;
+package controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.web.WebEngine;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
-
-import java.io.File;
-import java.io.IOException;
 
 import javafx.scene.control.TableView;
 

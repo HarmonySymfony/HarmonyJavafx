@@ -163,7 +163,7 @@ public class AfficheUser {
             Parent root = loader.load();
 
             // Pass the user information to the controller of the editing window
-            EditUserController editUserController = loader.getController();
+            controllers.EditUserController editUserController = loader.getController();
             editUserController.initData(utilisateur);
 
             // Show the editing window
@@ -192,6 +192,21 @@ public class AfficheUser {
         stage.show();
 
     }
+    @FXML
+    void listeCabinets(ActionEvent event) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/SAHTEK.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
 
 
 }

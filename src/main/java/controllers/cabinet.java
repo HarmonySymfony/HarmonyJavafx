@@ -1,4 +1,4 @@
-package Controllers;
+package controllers;
 
 
 import entites.Cabinet;
@@ -19,7 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import services.CabinetServices;
 
-public class Home implements Initializable {
+public class cabinet implements Initializable {
     @FXML
     private Button ADD_Cabinet;
 
@@ -38,8 +38,8 @@ public class Home implements Initializable {
     @FXML
     private TextField ID_cabinet;
 
-   // @FXML
-   // private AnchorPane RDV_form;
+    // @FXML
+    // private AnchorPane RDV_form;
 
     @FXML
     private Button Rendezvouspage;
@@ -50,7 +50,7 @@ public class Home implements Initializable {
     @FXML
     private Button Update_Cabinet;
 
-  //  @FXML
+    //  @FXML
     //private AnchorPane User_form;
 
     @FXML
@@ -85,7 +85,7 @@ public class Home implements Initializable {
     @FXML
     private Button logout;
 
-   // @FXML
+    // @FXML
     //private AnchorPane main_form;
 
     @FXML
@@ -201,11 +201,11 @@ public class Home implements Initializable {
     @FXML
     void getcabinet() {
         Cabinet cabinet = cabinetTableView.getSelectionModel().getSelectedItem();
-            ID_cabinet.setText(cabinet.getNom());
-            nom_cabinet.setText(cabinet.getNom());
-            adress_cabinet.setText(cabinet.getAdress());
-            heur_cabinet.setText(cabinet.getHoraires());
-            email_cabinet.setText(cabinet.getEmail());
+        ID_cabinet.setText(cabinet.getNom());
+        nom_cabinet.setText(cabinet.getNom());
+        adress_cabinet.setText(cabinet.getAdress());
+        heur_cabinet.setText(cabinet.getHoraires());
+        email_cabinet.setText(cabinet.getEmail());
     }
 
     private void loadCabinetData() {
@@ -282,5 +282,3 @@ public class Home implements Initializable {
     }
 
 }
-
-

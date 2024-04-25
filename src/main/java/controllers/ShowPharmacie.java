@@ -92,7 +92,7 @@ public class ShowPharmacie {
             Parent root = loader.load();
 
             // Obtenir le contrôleur de la vue de modification
-            ModifierPharmacie controller = loader.getController();
+            controllers.ModifierPharmacie controller = loader.getController();
 
             // Passer les informations de la pharmacie sélectionnée
             controller.setPharmacie(selectedPharmacy);
@@ -143,4 +143,5 @@ public class ShowPharmacie {
         stage.setScene(scene);
         stage.show();
     }
+
 }
