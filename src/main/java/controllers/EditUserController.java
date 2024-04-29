@@ -22,6 +22,9 @@ public class EditUserController {
 
     @FXML
     private TextField ageField;
+    @FXML
+    private TextField roleField;
+
 
     private Personne user; // The user being edited
 
@@ -41,6 +44,7 @@ public class EditUserController {
             emailField.setText(user.getEmail());
             passwordField.setText(user.getPassword());
             ageField.setText(String.valueOf(user.getAge()));
+            roleField.setText(user.getRole());
         }
     }
 
@@ -54,21 +58,13 @@ public class EditUserController {
                 user.setPrenom(prenomField.getText());
                 user.setEmail(emailField.getText());
                 user.setPassword(passwordField.getText());
+                user.setAge(Integer.parseInt(ageField.getText()));
+                user.setRole(roleField.getText());
 
-                // Parse age field to int, handle exceptions as needed
-                try {
-                    int age = Integer.parseInt(ageField.getText());
-                    user.setAge(age);
-                } catch (NumberFormatException e) {
-                    // Handle invalid age input
-                }
-
-                // Update the user in the database
+// Update the user details in the database
                 PersonneServices service = new PersonneServices();
                 service.updateEntity(user);
-
-//                // Close the editing window
-//                nomField.getScene().getWindow().hide();
+                showAlert("Success", "User details updated successfully.");
             } else {
                 // Display an error message if any required field is empty
                 showAlert("Error", "Please fill in all fields.");
