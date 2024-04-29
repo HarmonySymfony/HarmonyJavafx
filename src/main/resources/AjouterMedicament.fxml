@@ -5,47 +5,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMedicament">
+<AnchorPane prefHeight="753.0" prefWidth="1153.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMedicament">
    <children>
-      <Text layoutX="24.0" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajouter Medicament" wrappingWidth="317.41015625">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Text>
-      <Label layoutX="133.0" layoutY="95.0" prefHeight="37.0" prefWidth="94.0" text="Reference:">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="137.0" layoutY="145.0" prefHeight="26.0" prefWidth="65.0" text="Stock:">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="136.0" layoutY="190.0" text="Disponibilite:">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="140.0" layoutY="236.0" text="Description:">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <Label layoutX="144.0" layoutY="288.0" text="Prix:">
-         <font>
-            <Font size="17.0" />
-         </font>
-      </Label>
-      <TextField fx:id="refrencetextfield" layoutX="261.0" layoutY="95.0" prefHeight="37.0" prefWidth="188.0" />
-      <TextField fx:id="stocktextfield" layoutX="261.0" layoutY="140.0" prefHeight="37.0" prefWidth="188.0" />
-      <TextField fx:id="disponibilitetextfield" layoutX="261.0" layoutY="186.0" prefHeight="37.0" prefWidth="188.0" />
-      <TextField fx:id="descriptiontextfield" layoutX="261.0" layoutY="233.0" prefHeight="37.0" prefWidth="188.0" />
-      <TextField fx:id="prixtextfield" layoutX="261.0" layoutY="283.0" prefHeight="37.0" prefWidth="188.0" />
-      <Button layoutX="10.0" layoutY="361.0" mnemonicParsing="false" onAction="#Backtolist" text="Back To List" />
-      <Button layoutX="310.0" layoutY="343.0" mnemonicParsing="false" onAction="#SubmitButton" prefHeight="37.0" prefWidth="90.0" text="Submit" />
+      <Label layoutX="37.0" layoutY="123.0" text="Référence" />
+      <Label layoutX="37.0" layoutY="194.0" text="Description" />
+      <Label layoutX="37.0" layoutY="268.0" text="Disponibilité" />
+      <Label layoutX="37.0" layoutY="339.0" text="Stock" />
+      <Label layoutX="37.0" layoutY="411.0" text="Prix" />
+      <TextField fx:id="refrencetextfield" layoutX="172.0" layoutY="123.0" />
+      <TextField fx:id="descriptiontextfield" layoutX="172.0" layoutY="194.0" />
+      <TextField fx:id="disponibilitetextfield" layoutX="172.0" layoutY="268.0" />
+      <TextField fx:id="stocktextfield" layoutX="172.0" layoutY="339.0" />
+      <TextField fx:id="prixtextfield" layoutX="172.0" layoutY="411.0" />
+      <Label fx:id="erreurLabel" layoutX="172.0" layoutY="480.0" textFill="red" />
+      <Button layoutX="37.0" layoutY="682.0" mnemonicParsing="false" onAction="#Backtolist" prefHeight="31.0" prefWidth="88.0" text="Retour" />
+      <Button layoutX="323.0" layoutY="536.0" mnemonicParsing="false" onAction="#SubmitButton" prefHeight="31.0" prefWidth="88.0" text="Valider" />
    </children>
 </AnchorPane>

@@ -4,10 +4,15 @@ import entities.medicament;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import services.MedicamentServices;
+
+import java.io.IOException;
 
 public class ModifierMedicament {
     @FXML
@@ -61,7 +66,13 @@ public class ModifierMedicament {
         }
 
 
-    public void backTOlist(ActionEvent actionEvent) {
+    @FXML
+    void backTOlist(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/IndexMedicament.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
 

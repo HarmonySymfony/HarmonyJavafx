@@ -1,6 +1,7 @@
 package controllers;
 
 import entities.medicament;
+import entities.pharmacie;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -42,6 +43,7 @@ public class IndexMedicament {
     private Button ajoutButton;
 
     private ObservableList<medicament> medicaments = FXCollections.observableArrayList();
+    private entities.pharmacie pharmacie;
 
     @FXML
     void initialize() {
@@ -131,7 +133,7 @@ public class IndexMedicament {
 
     @FXML
     void retourBack(ActionEvent event) {
-        loadFXML("/AfficheUser.fxml", event);
+        loadFXML("/IndexPharmacie.fxml", event);
     }
 
     private void loadFXML(String fxmlPath, ActionEvent event) {
@@ -145,5 +147,16 @@ public class IndexMedicament {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void setPharmacie(pharmacie pharmacie) {
+        this.pharmacie = pharmacie;
+    }
+
+    public pharmacie getPharmacie() {
+        return pharmacie;
+    }
+
+    public void setListePharmacies(ListView<entities.pharmacie> listepharmacie) {
     }
 }
