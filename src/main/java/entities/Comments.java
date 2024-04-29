@@ -1,7 +1,6 @@
 package entities;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 public class Comments {
@@ -22,14 +21,21 @@ public class Comments {
     @Column(length = 255)
     private String commentedAs = "Anonyme";
 
+
     @ManyToOne
     @JoinColumn(name = "posts_id")
     private Posts post;
 
-    // Constructors, getters and setters...
+
+    // Add a field to store the post ID
+    @Column(name = "posts_id")
+    private int postId;
+
+    // Constructors, getters, and setters...
 
     public Comments() {
     }
+
 
 
     public Comments(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, String commentedAs, Posts post) {
@@ -42,6 +48,7 @@ public class Comments {
         if (post != null) {
             post.addComment(this);
         }
+
     }
     // Getters and Setters
     public int getId() {
@@ -84,11 +91,11 @@ public class Comments {
         this.commentedAs = postedAs;
     }
 
-    public Posts getPost() {
-        return post;
+    public int getPostId() {
+        return postId;
     }
 
-    public void setPost(Posts post) {
-        this.post = post;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 }

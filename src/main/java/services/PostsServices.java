@@ -1,34 +1,33 @@
 package services;
 
-import entities.Comments;
 import entities.Posts;
 import utils.MyConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsServices implements IService<Posts>{
+public class PostsServices implements IService<Posts> {
 
-    private Connection connection;
+    private final Connection connection;
 
     public PostsServices() {
         connection = MyConnection.getInstance().getCnx();
     }
 
     @Override
-    public void add(Posts post) throws SQLException{
-        String query = "INSERT INTO posts (contenu, date_creation, posted_as) VALUES (?, ?, ?)";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+    public void add(Posts post) throws SQLException {
+        String query = "INSERT INTO posts (contenu, date_creation, last_modification, posted_as) VALUES (?, ?, ?, ?)";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             preparedStatement.setString(1, post.getContenu());
             preparedStatement.setTimestamp(2, new java.sql.Timestamp(post.getDateCreation().getTime()));
-            preparedStatement.setString(3, post.getPostedAs());
+            preparedStatement.setTimestamp(3, post.getLastModification() != null ? new java.sql.Timestamp(post.getLastModification().getTime()) : null);
+            preparedStatement.setString(4, post.getPostedAs());
             preparedStatement.executeUpdate();
+            ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                post.setId(generatedKeys.getInt(1));
+            }
             System.out.println("Post added successfully.");
         } catch (SQLException e) {
             System.out.println("Error adding post: " + e.getMessage());
@@ -36,13 +35,11 @@ public class PostsServices implements IService<Posts>{
     }
 
     @Override
-
-    public void update(Posts post) throws SQLException{
+    public void update(Posts post) throws SQLException {
         String query = "UPDATE posts SET contenu = ?, last_modification = ?, posted_as = ? WHERE id = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, post.getContenu());
-            preparedStatement.setTimestamp(2, new java.sql.Timestamp(System.currentTimeMillis()));
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(post.getLastModification().getTime()));
             preparedStatement.setString(3, post.getPostedAs());
             preparedStatement.setInt(4, post.getId());
             preparedStatement.executeUpdate();
@@ -53,10 +50,9 @@ public class PostsServices implements IService<Posts>{
     }
 
     @Override
-    public void delete(int id) throws SQLException{
+    public void delete(int id) throws SQLException {
         String query = "DELETE FROM posts WHERE id = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
             System.out.println("Post deleted successfully.");
@@ -66,13 +62,11 @@ public class PostsServices implements IService<Posts>{
     }
 
     @Override
-
-    public List<Posts> getAll() throws SQLException{
+    public List<Posts> getAll() throws SQLException {
         List<Posts> postsList = new ArrayList<>();
         String query = "SELECT * FROM posts";
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
             while (resultSet.next()) {
                 Posts post = new Posts();
                 post.setId(resultSet.getInt("id"));
@@ -87,31 +81,25 @@ public class PostsServices implements IService<Posts>{
         }
         return postsList;
     }
+
     @Override
     public Posts getById(int id) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public List<Comments> getCommentsByPost(Posts post) throws SQLException {
-        List<Comments> commentsList = new ArrayList<>();
-        String query = "SELECT * FROM comments WHERE posts_id = ?";
+        Posts post = null;
+        String query = "SELECT * FROM posts WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-            preparedStatement.setInt(1, post.getId());
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Comments comment = new Comments();
-                    comment.setId(resultSet.getInt("id"));
-                    comment.setContenu(resultSet.getString("contenu"));
-                    comment.setDateCreation(resultSet.getTimestamp("date_creation"));
-                    comment.setLastModification(resultSet.getTimestamp("last_modification"));
-                    comment.setCommentedAs(resultSet.getString("commented_as"));
-                    commentsList.add(comment);
-                }
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                post = new Posts();
+                post.setId(resultSet.getInt("id"));
+                post.setContenu(resultSet.getString("contenu"));
+                post.setDateCreation(resultSet.getTimestamp("date_creation"));
+                post.setLastModification(resultSet.getTimestamp("last_modification"));
+                post.setPostedAs(resultSet.getString("posted_as"));
             }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving post by ID: " + e.getMessage());
         }
-        return commentsList;
+        return post;
     }
-
-
 }

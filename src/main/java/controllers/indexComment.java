@@ -83,6 +83,7 @@ public class indexComment {
 
 
 
+
         // Method to populate the TableView with comments associated with the selected post
         public void setSelectedPostAndRefreshTableView(Posts post) {
                 this.post = post;
@@ -97,6 +98,7 @@ public class indexComment {
 
         public void initialize() throws SQLException {
                 if (post != null) {
+
                         // Initialize an observable list of Comments
                         ObservableList<Comments> commentList = FXCollections.observableArrayList();
                         // Retrieve comments associated with the selected post from the database
@@ -106,6 +108,7 @@ public class indexComment {
 
                         // Populate the TableView with comments
                         commentTableView.setItems(commentList);
+
 
                 // Configure the TableView columns
                 idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -198,8 +201,10 @@ public class indexComment {
                         addComment addController = loader.getController();
                         addController.setPost(post);
 
+
                         // Set the TableView reference for the add controller
                         addController.setCommentTableView(commentTableView);
+
 
                         // Close the index window
                         Stage indexStage = (Stage) commentTableView.getScene().getWindow();

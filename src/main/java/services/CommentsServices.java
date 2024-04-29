@@ -2,8 +2,11 @@ package services;
 
 import entities.Comments;
 import entities.Posts;
+
 import utils.MyConnection;
 
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +21,17 @@ public class CommentsServices implements IService<Comments> {
 
     @Override
     public void add(Comments comment) throws SQLException {
+
         String query = "INSERT INTO comments (contenu, date_creation, last_modification, posts_id, commented_as) VALUES (?, ?, ?, ?, ?)";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, comment.getContenu());
             preparedStatement.setTimestamp(2, new java.sql.Timestamp(comment.getDateCreation().getTime()));
             preparedStatement.setTimestamp(3, comment.getLastModification() != null ? new java.sql.Timestamp(comment.getLastModification().getTime()) : null);
+
             preparedStatement.setInt(4, comment.getPost().getId());
             preparedStatement.setString(5, comment.getCommentedAs());
+
 
             preparedStatement.executeUpdate();
             System.out.println("Comment added successfully.");
@@ -38,7 +45,7 @@ public class CommentsServices implements IService<Comments> {
         String query = "UPDATE comments SET contenu = ?, last_modification = ?, commented_as = ? WHERE id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, comment.getContenu());
-            preparedStatement.setTimestamp(2, new java.sql.Timestamp(System.currentTimeMillis()));
+            preparedStatement.setTimestamp(2, new java.sql.Timestamp(comment.getLastModification().getTime()));
             preparedStatement.setString(3, comment.getCommentedAs());
             preparedStatement.setInt(4, comment.getId());
             preparedStatement.executeUpdate();
@@ -73,6 +80,7 @@ public class CommentsServices implements IService<Comments> {
                 comment.setDateCreation(resultSet.getTimestamp("date_creation"));
                 comment.setLastModification(resultSet.getTimestamp("last_modification"));
                 comment.setCommentedAs(resultSet.getString("commented_as"));
+                comment.setPostId(resultSet.getInt("posts_id"));
                 commentsList.add(comment);
             }
         } catch (SQLException e) {
@@ -95,6 +103,7 @@ public class CommentsServices implements IService<Comments> {
                 comment.setDateCreation(resultSet.getTimestamp("date_creation"));
                 comment.setLastModification(resultSet.getTimestamp("last_modification"));
                 comment.setCommentedAs(resultSet.getString("commented_as"));
+                comment.setPostId(resultSet.getInt("posts_id"));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving comment by ID: " + e.getMessage());
@@ -102,34 +111,24 @@ public class CommentsServices implements IService<Comments> {
         return comment;
     }
 
-    // Method to fetch comments by post
+    // Method to get comments by post
     public List<Comments> getCommentsByPost(Posts post) throws SQLException {
         List<Comments> commentsList = new ArrayList<>();
         String query = "SELECT * FROM comments WHERE posts_id = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, post.getId());
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Comments comment = new Comments();
-                    comment.setId(resultSet.getInt("id"));
-                    comment.setContenu(resultSet.getString("contenu"));
-                    comment.setDateCreation(resultSet.getTimestamp("date_creation"));
-                    comment.setLastModification(resultSet.getTimestamp("last_modification"));
-                    comment.setCommentedAs(resultSet.getString("commented_as"));
-                    // Set the post association
-                    comment.setPost(post);
-                    commentsList.add(comment);
-                }
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                Comments comment = new Comments();
+                comment.setId(resultSet.getInt("id"));
+                comment.setContenu(resultSet.getString("contenu"));
+                comment.setDateCreation(resultSet.getTimestamp("date_creation"));
+                comment.setLastModification(resultSet.getTimestamp("last_modification"));
+                comment.setCommentedAs(resultSet.getString("commented_as"));
+                comment.setPostId(resultSet.getInt("posts_id"));
+                commentsList.add(comment);
             }
         }
         return commentsList;
-    }
-
-    // Method to manage bidirectional association
-    public void manageBidirectionalAssociation(Comments comment, Posts post) throws SQLException {
-        // Add the comment to the post's collection of comments
-        post.addComment(comment);
-        // Update the comment to set the post association
-        update(comment);
     }
 }

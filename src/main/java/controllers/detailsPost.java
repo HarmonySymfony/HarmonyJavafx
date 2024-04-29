@@ -92,7 +92,10 @@ public class detailsPost {
         dateCreationLabel.setText(post.getDateCreation() != null ? post.getDateCreation().toString() : "");
         lastModificationLabel.setText(post.getLastModification() != null ? post.getLastModification().toString() : "");
         postedAsLabel.setText(post.getPostedAs() != null ? post.getPostedAs() : "");
+//        Posts selectedPost = this.post;
     }
+
+
 
 
     @FXML
@@ -173,11 +176,10 @@ public class detailsPost {
             // Get the controller from the FXMLLoader
             indexComment commentsController = loader.getController();
 
-            // Set the selected post and refresh the TableView in the comments controller
-            commentsController.setSelectedPostAndRefreshTableView(post);
+            System.out.println("Setting post in indexComment controller: " + post);
 
-            // Set the details controller reference
-            commentsController.setDetailsController(this);
+            // Pass the selected post to the indexComment controller
+            commentsController.setSelectedPostAndRefreshTableView(post);
 
             // Set the stage for the comments controller
             Stage indexStage = (Stage) postIdLabel.getScene().getWindow();
@@ -193,9 +195,6 @@ public class detailsPost {
             e.printStackTrace();
         }
     }
-
-
-
 
     @FXML
     private void retourAction(ActionEvent event) {

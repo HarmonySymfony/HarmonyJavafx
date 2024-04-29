@@ -100,7 +100,7 @@ public class addPost {
 
         // Create a new instance of Posts with the provided data
         java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
-        entities.Posts posts = new entities.Posts(contenu, now, now, postedAs, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        entities.Posts posts = new entities.Posts(contenu, now, null, postedAs, new ArrayList<>());
 
         // Add the new post
         ps.add(posts);

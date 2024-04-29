@@ -100,6 +100,7 @@ public class addComment {
             return;
         }
 
+
         // Determine the commentedAs value based on the selected RadioButton
         String commentedAs = comment_commentedAs_anonyme.isSelected() ? "Anonyme" : "Username";
 
@@ -112,6 +113,8 @@ public class addComment {
         try {
             commentsServices.add(comment);
             showAlert(Alert.AlertType.INFORMATION, "Succès", "Commentaire ajouté avec succès.");
+owAlert("Commentaire ajouté avec succès.");
+
         } catch (SQLException e) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'ajout du commentaire: " + e.getMessage());
         }
@@ -130,6 +133,7 @@ public class addComment {
 
         }
     }
+
 
     // Method to show an alert dialog
     @FXML

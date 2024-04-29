@@ -23,26 +23,18 @@ public class Posts {
     @Column(length = 255)
     private String postedAs = "Anonyme";
 
-    @ElementCollection
-    private List<String> likedBy = new ArrayList<>();
-
-    @ElementCollection
-    private List<String> dislikedBy = new ArrayList<>();
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comments> comments = new ArrayList<>();
 
     // Constructors
     public Posts() {
     }
-
-    public Posts(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, String postedAs, List<String> likedBy, List<String> dislikedBy, List<Comments> comments) {
+    // Advanced constructor
+    public Posts(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, String postedAs, List<Comments> comments) {
         this.contenu = contenu;
         this.dateCreation = dateCreation;
         this.lastModification = lastModification;
         this.postedAs = postedAs;
-        this.likedBy = likedBy;
-        this.dislikedBy = dislikedBy;
         this.comments = comments;
     }
 
@@ -87,22 +79,6 @@ public class Posts {
         this.postedAs = postedAs;
     }
 
-    public List<String> getLikedBy() {
-        return likedBy;
-    }
-
-    public void setLikedBy(List<String> likedBy) {
-        this.likedBy = likedBy;
-    }
-
-    public List<String> getDislikedBy() {
-        return dislikedBy;
-    }
-
-    public void setDislikedBy(List<String> dislikedBy) {
-        this.dislikedBy = dislikedBy;
-    }
-
     public List<Comments> getComments() {
         return comments;
     }
@@ -113,7 +89,6 @@ public class Posts {
 
     // Method to add a comment to the post's collection of comments
     public void addComment(Comments comment) {
-        comment.setPost(this); // Set the post for the comment
-        this.comments.add(comment);
+        this.comments.add(comment); // Simply add the comment to the list
     }
 }
