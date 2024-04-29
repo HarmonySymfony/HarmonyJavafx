@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -50,12 +51,20 @@ public class indexComment {
         @FXML
         private TableColumn<Comments, HBox> actionsCol;
 
-        private ObservableList<Comments> commentsList = FXCollections.observableArrayList();
+        private ObservableList<Comments> commentList = FXCollections.observableArrayList();
 
-        private Posts selectedPost; // Store the selected post
-        private detailsPost detailsController; // Reference to detailsPost controller
+        private Posts post; // Store the selected post
+
+        // Method to set the selected post from detailsPost controller
 
         private Stage indexStage;
+
+        private detailsPost detailsController; // Reference to detailsPost controller
+
+        // Setter method for detailsController
+        public void setDetailsController(detailsPost controller) {
+                this.detailsController = controller;
+        }
 
         public void setIndexStage(Stage indexStage) {
                 this.indexStage = indexStage;
@@ -65,26 +74,38 @@ public class indexComment {
                 return indexStage;
         }
 
-        // Method to set the selected post
 
-        public void setPost(Posts post) {
-                this.selectedPost = post;
-        }
-        public void setDetailsController(detailsPost controller) {
-                this.detailsController = controller;
-        }
 
+//        // Method to set the selected post from detailsPost controller
+//        public void setPost(Posts post) {
+//                this.post = post;
+//        }
+
+
+
+        // Method to populate the TableView with comments associated with the selected post
+        public void setSelectedPostAndRefreshTableView(Posts post) {
+                this.post = post;
+                try {
+                        initialize(); // Refresh the TableView with comments associated with the selected post
+                } catch (SQLException e) {
+                        e.printStackTrace();
+                }
+        }
 
         // Initialize commentsList
 
-
         public void initialize() throws SQLException {
-                // Retrieve posts from the database
-                PostsServices commentsServices = new PostsServices();
-                commentsList.addAll(commentsServices.getCommentsByPost(selectedPost));
+                if (post != null) {
+                        // Initialize an observable list of Comments
+                        ObservableList<Comments> commentList = FXCollections.observableArrayList();
+                        // Retrieve comments associated with the selected post from the database
+                        CommentsServices commentsServices = new CommentsServices();
+                        commentList.clear(); // Clear existing comments
+                        commentList.addAll(commentsServices.getCommentsByPost(post));
 
-                // Populate the TableView with posts
-                commentTableView.setItems(commentsList);
+                        // Populate the TableView with comments
+                        commentTableView.setItems(commentList);
 
                 // Configure the TableView columns
                 idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -94,7 +115,11 @@ public class indexComment {
                 lastModificationCol.setCellValueFactory(new PropertyValueFactory<>("lastModification"));
 
                 actionsCol.setCellValueFactory(param -> new SimpleObjectProperty<>(createButtonBox(param.getValue())));
+                } else {
+                        System.out.println("Selected post is null.");
+                }
         }
+
 
 //        public void setSelectedPostAndRefreshTableView(Posts post) {
 //                this.selectedPost = post;
@@ -119,31 +144,45 @@ public class indexComment {
                 detailsButton.setOnAction(event -> handleDetails(comment));
                 editButton.setOnAction(event -> handleEdit(comment));
                 deleteButton.setOnAction(event -> {
-                        handleDelete(comment);
+                        try {
+                                handleDelete(comment);
+                        } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                        }
                 });
 
                 return new HBox(detailsButton, editButton, deleteButton);
         }
 
-        private void handleDelete(Comments comment) {
+        private void handleDelete(Comments comment) throws SQLException {
+                // Instantiate Alert
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                // Instantiate PostsServices to interact with the database
+                CommentsServices commentsServices = new CommentsServices();
+
+
+                int id=comment.getId();
+                // Delete the post using the deletePost method from PostsServices
+                commentsServices.delete(id);
+
+                // Show alert
+                alert.setTitle("Comment Deleted");
+                alert.setHeaderText(null);
+                alert.setContentText("The Comment has been successfully deleted.");
+                alert.showAndWait();
+
+                // Remove the deleted post from the TableView
+                ObservableList<Comments> items = commentTableView.getItems();
+                items.remove(comment);
         }
+
 
         private void handleEdit(Comments comment) {
         }
 
         private void handleDetails(Comments comment) {
         }
-
-        // Method to populate the TableView with comments associated with the selected post
-        public void setSelectedPostAndRefreshTableView(Posts post) {
-                this.selectedPost = post;
-                try {
-                        initialize(); // Refresh the TableView with comments associated with the selected post
-                } catch (SQLException e) {
-                        e.printStackTrace();
-                }
-        }
-
 
 
         // Handle button actions
@@ -157,7 +196,10 @@ public class indexComment {
 
                         // Pass the selected post to the addComment controller
                         addComment addController = loader.getController();
-                        addController.setPost(selectedPost);
+                        addController.setPost(post);
+
+                        // Set the TableView reference for the add controller
+                        addController.setCommentTableView(commentTableView);
 
                         // Close the index window
                         Stage indexStage = (Stage) commentTableView.getScene().getWindow();

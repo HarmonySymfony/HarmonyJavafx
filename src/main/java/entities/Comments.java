@@ -23,7 +23,7 @@ public class Comments {
     private String commentedAs = "Anonyme";
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "posts_id")
     private Posts post;
 
     // Constructors, getters and setters...
@@ -31,17 +31,18 @@ public class Comments {
     public Comments() {
     }
 
-    public Comments(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, Posts post) {
+
+    public Comments(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, String commentedAs, Posts post) {
         this.contenu = contenu;
         this.dateCreation = dateCreation;
         this.lastModification = lastModification;
+        this.commentedAs = commentedAs;
         this.post = post;
         // Associate this comment with the post by adding it to the post's collection of comments
         if (post != null) {
             post.addComment(this);
         }
     }
-
     // Getters and Setters
     public int getId() {
         return id;
