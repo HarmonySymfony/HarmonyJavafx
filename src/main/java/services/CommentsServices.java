@@ -21,13 +21,18 @@ public class CommentsServices implements IService<Comments> {
 
     @Override
     public void add(Comments comment) throws SQLException {
-        String query = "INSERT INTO comments (contenu, date_creation, last_modification, commented_as, posts_id) VALUES (?, ?, ?, ?, ?)";
+
+        String query = "INSERT INTO comments (contenu, date_creation, last_modification, posts_id, commented_as) VALUES (?, ?, ?, ?, ?)";
+
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, comment.getContenu());
             preparedStatement.setTimestamp(2, new java.sql.Timestamp(comment.getDateCreation().getTime()));
             preparedStatement.setTimestamp(3, comment.getLastModification() != null ? new java.sql.Timestamp(comment.getLastModification().getTime()) : null);
-            preparedStatement.setString(4, comment.getCommentedAs());
-            preparedStatement.setInt(5, comment.getPostId());
+
+            preparedStatement.setInt(4, comment.getPost().getId());
+            preparedStatement.setString(5, comment.getCommentedAs());
+
+
             preparedStatement.executeUpdate();
             System.out.println("Comment added successfully.");
         } catch (SQLException e) {
