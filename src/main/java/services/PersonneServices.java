@@ -15,7 +15,7 @@ public class PersonneServices implements IServicesUser<Personne> {
         cnx = MyConnection.getInstance().getCnx();
     }
 
-
+    @Override
     public void Ajouter(Personne personne) {
         String sql = "INSERT INTO utilisateur (Nom,Prenom,Email,Password,age,role)" + " VALUES ('" + personne.getNom() + "','" + personne.getPrenom() + "','" + personne.getEmail() + "','" + personne.getPassword() + "','" + personne.getAge() + "','" + personne.getRole() + "')";
         try {
