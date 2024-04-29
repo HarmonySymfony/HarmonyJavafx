@@ -53,24 +53,39 @@ public class EditUserController {
     void saveUser(ActionEvent event) {
         if (user != null) {
             // Check if required fields are not empty
-            if (!nomField.getText().isEmpty() && !prenomField.getText().isEmpty() && !emailField.getText().isEmpty() && !passwordField.getText().isEmpty() && !ageField.getText().isEmpty()) {
-                user.setNom(nomField.getText());
-                user.setPrenom(prenomField.getText());
-                user.setEmail(emailField.getText());
-                user.setPassword(passwordField.getText());
-                user.setAge(Integer.parseInt(ageField.getText()));
-                user.setRole(roleField.getText());
+            if (nomField != null && !nomField.getText().isEmpty() &&
+                    prenomField != null && !prenomField.getText().isEmpty() &&
+                    emailField != null && !emailField.getText().isEmpty() &&
+                    passwordField != null && !passwordField.getText().isEmpty() &&
+                    ageField != null && !ageField.getText().isEmpty()) {
 
-// Update the user details in the database
-                PersonneServices service = new PersonneServices();
-                service.updateEntity(user);
-                showAlert("Success", "User details updated successfully.");
+                try {
+                    // Parse age as an integer
+                    int age = Integer.parseInt(ageField.getText());
+
+                    // Update user details
+                    user.setNom(nomField.getText());
+                    user.setPrenom(prenomField.getText());
+                    user.setEmail(emailField.getText());
+                    user.setPassword(passwordField.getText());
+                    user.setAge(age);
+                    user.setRole(roleField.getText());
+
+                    // Update the user details in the database
+                    PersonneServices service = new PersonneServices();
+                    service.updateEntity(user);
+                    showAlert("Success", "User details updated successfully.");
+                } catch (NumberFormatException e) {
+                    // Handle the case where age is not a valid integer
+                    showAlert("Error", "Please enter a valid age.");
+                }
             } else {
-                // Display an error message if any required field is empty
+                // Display an error message if any required field is empty or null
                 showAlert("Error", "Please fill in all fields.");
             }
         }
     }
+
 
 
 }
