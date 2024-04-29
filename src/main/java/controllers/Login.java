@@ -42,7 +42,7 @@ public class Login {
             alert.show();
         } else {
             Boolean verif = false;
-            List<entities.Personne> users = us.recuperer();
+            List<entities.Personne> users = us.getAllData();
 
             for (entities.Personne user : users) {
                 if (user.getEmail().equals(emailtextfield2.getText()) && user.getPassword().equals(passwordtextfield2.getText())) {

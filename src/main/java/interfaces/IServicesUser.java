@@ -1,14 +1,10 @@
 package interfaces;
 
-import controllers.Personne;
-
 import java.util.List;
 
-public interface IServicesUser<T>{
-    void Ajouter(entities.Personne personne);
-    
-
-    void addEntity (T t);
+public interface IServicesUser<T> {
+    void Ajouter(T t);
+    void addEntity(T t);
     void updateEntity(T t);
     void deleteEntity(T t);
     List<T> getAllData();

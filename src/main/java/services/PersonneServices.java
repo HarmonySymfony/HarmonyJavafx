@@ -67,44 +67,28 @@ public class PersonneServices implements IServicesUser<Personne> {
     }
 
 
-    public List<Personne> recuperer() throws SQLException {
-        List<Personne> personnes = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
+    public List<Personne> getAllData() {
+        List<Personne> data = new ArrayList<>();
+        String requete = "SELECT * FROM utilisateur ";
         try {
-            connection = MyConnection.getInstance().getCnx(); // Utilisation de MyConnection.getConnection()
-            String query = "SELECT id, Nom, Prenom, Email, Password,Role FROM utilisateur"; // Assurez-vous de spécifier le nom de votre table
-            statement = connection.prepareStatement(query);
-            resultSet = statement.executeQuery();
+            Statement st = MyConnection.getInstance().getCnx().createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+                Personne p = new Personne("Rebai", "Saber", "saberweldzakeya@gmail.com", "aloulou123", 20,"PATIENT");
+                p.setId(rs.getInt(1));
+                p.setNom(rs.getString("Nom"));
+                p.setPrenom(rs.getString("Prenom"));
+                p.setEmail(rs.getString("Email"));
+                p.setPassword(rs.getString("Password"));
+                p.setRole(rs.getString("Role"));
 
-            while (resultSet.next()) {
-                // Création d'un objet Personne à partir des données récupérées de la base de données
-                Personne personne = new Personne();
-                personne.setId(resultSet.getInt("id"));
-                personne.setNom(resultSet.getString("Nom"));
-                personne.setPrenom(resultSet.getString("Prenom"));
-                personne.setEmail(resultSet.getString("Email"));
-                personne.setPassword(resultSet.getString("Password"));
-                personne.setRole(resultSet.getString("Role"));
-
-                // Ajout de la personne à la liste
-                personnes.add(personne);
+                data.add(p);
             }
-        } finally {
-            // Fermeture des ressources
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            // Notez que nous n'avons pas besoin de fermer explicitement la connexion ici car elle est obtenue à partir de MyConnection.getInstance().getCnx(),
-            // et sa gestion de la connexion est gérée ailleurs (probablement dans MyConnection)
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            // Handle the exception here
         }
-
-        return personnes;
+        return data;
     }
 
 
@@ -163,29 +147,5 @@ public class PersonneServices implements IServicesUser<Personne> {
             }
         }
         return personnes;
-    }
-
-    @Override
-    public List<Personne> getAllData() {
-        List<Personne> data = new ArrayList<>();
-        String requete = "SELECT * FROM utilisateur ";
-        try {
-            Statement st = MyConnection.getInstance().getCnx().createStatement();
-            ResultSet rs = st.executeQuery(requete);
-            while (rs.next()) {
-                Personne p = new Personne("Rebai", "Saber", "saberweldzakeya@gmail.com", "aloulou123", 20,"PATIENT");
-                p.setId(rs.getInt(1));
-                p.setNom(rs.getString("Nom"));
-                p.setPrenom(rs.getString("Prenom"));
-                p.setEmail(rs.getString("Email"));
-                p.setPassword(rs.getString("Password"));
-                p.setRole(rs.getString("Role"));
-
-                data.add(p);
-            }
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return data;
     }
 }
