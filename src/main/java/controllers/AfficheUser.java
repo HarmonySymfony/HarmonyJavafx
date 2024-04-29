@@ -182,7 +182,7 @@ public class AfficheUser {
     void ListePharmacie(ActionEvent event) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/ShowPharmacie.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/IndexPharmacie.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
