@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="782.0" prefWidth="1152.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexPharmacie">
    <children>
-      <ListView fx:id="listepharmacie" layoutX="49.0" layoutY="221.0" prefHeight="416.0" prefWidth="795.0" />
+      <ListView fx:id="listepharmacie" layoutX="49.0" layoutY="215.0" prefHeight="416.0" prefWidth="795.0" />
 
       <Text layoutX="49.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des pharmacies" wrappingWidth="481.376953125">
          <font>
