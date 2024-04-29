@@ -87,8 +87,8 @@ public class Comments {
         this.commentedAs = postedAs;
     }
 
-        public int getPost() {
-        return postId;
+    public Posts getPost() {
+        return post;
     }
 
     public void setPost(int postId) {

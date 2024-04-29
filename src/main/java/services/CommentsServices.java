@@ -19,6 +19,7 @@ public class CommentsServices implements IService<Comments> {
         connection = MyConnection.getInstance().getCnx();
     }
 
+
     @Override
     public void add(Comments comment) throws SQLException {
         String query = "INSERT INTO comments (contenu, date_creation, last_modification, posts_id, commented_as) VALUES (?, ?, ?, ?, ?)";
@@ -76,7 +77,7 @@ public class CommentsServices implements IService<Comments> {
                 comment.setDateCreation(resultSet.getTimestamp("date_creation"));
                 comment.setLastModification(resultSet.getTimestamp("last_modification"));
                 comment.setCommentedAs(resultSet.getString("commented_as"));
-                comment.setPostId(resultSet.getInt("posts_id"));
+                comment.setPost(resultSet.getInt("posts_id"));
                 commentsList.add(comment);
             }
         } catch (SQLException e) {
@@ -99,7 +100,7 @@ public class CommentsServices implements IService<Comments> {
                 comment.setDateCreation(resultSet.getTimestamp("date_creation"));
                 comment.setLastModification(resultSet.getTimestamp("last_modification"));
                 comment.setCommentedAs(resultSet.getString("commented_as"));
-                comment.setPostId(resultSet.getInt("posts_id"));
+                comment.setPost(resultSet.getInt("posts_id"));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving comment by ID: " + e.getMessage());
@@ -121,7 +122,7 @@ public class CommentsServices implements IService<Comments> {
                 comment.setDateCreation(resultSet.getTimestamp("date_creation"));
                 comment.setLastModification(resultSet.getTimestamp("last_modification"));
                 comment.setCommentedAs(resultSet.getString("commented_as"));
-                comment.setPostId(resultSet.getInt("posts_id"));
+                comment.setPost(resultSet.getInt("posts_id"));
                 commentsList.add(comment);
             }
         }
