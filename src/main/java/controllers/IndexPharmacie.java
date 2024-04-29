@@ -100,6 +100,11 @@ public class IndexPharmacie {
             controller.setPharmacie(selectedPharmacy);
             controller.setListePharmacies(listepharmacie);
 
+            // Fermer la fenêtre actuelle
+            Stage currentStage = (Stage) listepharmacie.getScene().getWindow();
+            currentStage.close();
+
+            // Afficher la fenêtre pour modifier la pharmacie sélectionnée
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();

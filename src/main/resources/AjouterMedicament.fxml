@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="753.0" prefWidth="1153.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AjouterMedicament">
    <children>
@@ -20,6 +21,11 @@
       <TextField fx:id="prixtextfield" layoutX="172.0" layoutY="411.0" />
       <Label fx:id="erreurLabel" layoutX="172.0" layoutY="480.0" textFill="red" />
       <Button layoutX="37.0" layoutY="682.0" mnemonicParsing="false" onAction="#Backtolist" prefHeight="31.0" prefWidth="88.0" text="Retour" />
-      <Button layoutX="323.0" layoutY="536.0" mnemonicParsing="false" onAction="#SubmitButton" prefHeight="31.0" prefWidth="88.0" text="Valider" />
+      <Button layoutX="323.0" layoutY="536.0" mnemonicParsing="false" onAction="#SubmitButton" prefHeight="31.0" prefWidth="88.0" text="submit" />
+      <Text layoutX="37.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ajout Medicament" wrappingWidth="330.41015625">
+         <font>
+            <Font size="35.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

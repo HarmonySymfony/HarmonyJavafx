@@ -54,12 +54,18 @@ public class AjouterPharmacie {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Pharmacie ajoutée avec succès.");
         alert.showAndWait();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+        // Ouvrir la liste des pharmacies
+        openPharmacieList();
+    }
 
-        // Recharger la vue ShowPharmacie
+    private void openPharmacieList() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/IndexPharmacie.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = new Stage();
         stage.setScene(scene);
         stage.show();
     }
+
 }
