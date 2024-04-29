@@ -98,6 +98,10 @@ public class updatePost {
             updatedPost.setId(postId);
             updatedPost.setContenu(contenu);
             updatedPost.setPostedAs(postedAsValue);
+            java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
+            updatedPost.setLastModification(now);
+
+
 
             PostsServices postsServices = new PostsServices();
             postsServices.update(updatedPost);
