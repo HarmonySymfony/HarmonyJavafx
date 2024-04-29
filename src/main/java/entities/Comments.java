@@ -21,10 +21,16 @@ public class Comments {
     @Column(length = 255)
     private String commentedAs = "Anonyme";
 
+<<<<<<< HEAD
     // Remove the ManyToOne association
     // @ManyToOne
     // @JoinColumn(name = "posts_id")
     // private Posts post;
+=======
+    @ManyToOne
+    @JoinColumn(name = "posts_id")
+    private Posts post;
+>>>>>>> 7d159dbe82d4e3edcd2c52f9dc3ffe7be9b48716
 
     // Add a field to store the post ID
     @Column(name = "posts_id")
@@ -35,13 +41,26 @@ public class Comments {
     public Comments() {
     }
 
+<<<<<<< HEAD
     public Comments(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, int postId) {
         this.contenu = contenu;
         this.dateCreation = dateCreation;
         this.lastModification = lastModification;
         this.postId = postId;
-    }
+=======
 
+    public Comments(String contenu, java.sql.Timestamp dateCreation, java.sql.Timestamp lastModification, String commentedAs, Posts post) {
+        this.contenu = contenu;
+        this.dateCreation = dateCreation;
+        this.lastModification = lastModification;
+        this.commentedAs = commentedAs;
+        this.post = post;
+        // Associate this comment with the post by adding it to the post's collection of comments
+        if (post != null) {
+            post.addComment(this);
+        }
+>>>>>>> 7d159dbe82d4e3edcd2c52f9dc3ffe7be9b48716
+    }
     // Getters and Setters
     public int getId() {
         return id;

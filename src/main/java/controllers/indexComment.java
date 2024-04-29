@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -50,7 +51,7 @@ public class indexComment {
         @FXML
         private TableColumn<Comments, HBox> actionsCol;
 
-        private ObservableList<Comments> commentsList = FXCollections.observableArrayList();
+        private ObservableList<Comments> commentList = FXCollections.observableArrayList();
 
         private Posts post; // Store the selected post
 
@@ -94,16 +95,17 @@ public class indexComment {
 
         // Initialize commentsList
 
-
         public void initialize() throws SQLException {
                 if (post != null) {
+                        // Initialize an observable list of Comments
+                        ObservableList<Comments> commentList = FXCollections.observableArrayList();
                         // Retrieve comments associated with the selected post from the database
                         CommentsServices commentsServices = new CommentsServices();
-                        commentsList.clear(); // Clear existing comments
-                        commentsList.addAll(commentsServices.getCommentsByPost(post));
+                        commentList.clear(); // Clear existing comments
+                        commentList.addAll(commentsServices.getCommentsByPost(post));
 
                         // Populate the TableView with comments
-                        commentTableView.setItems(commentsList);
+                        commentTableView.setItems(commentList);
 
                 // Configure the TableView columns
                 idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -142,14 +144,39 @@ public class indexComment {
                 detailsButton.setOnAction(event -> handleDetails(comment));
                 editButton.setOnAction(event -> handleEdit(comment));
                 deleteButton.setOnAction(event -> {
-                        handleDelete(comment);
+                        try {
+                                handleDelete(comment);
+                        } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                        }
                 });
 
                 return new HBox(detailsButton, editButton, deleteButton);
         }
 
-        private void handleDelete(Comments comment) {
+        private void handleDelete(Comments comment) throws SQLException {
+                // Instantiate Alert
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                // Instantiate PostsServices to interact with the database
+                CommentsServices commentsServices = new CommentsServices();
+
+
+                int id=comment.getId();
+                // Delete the post using the deletePost method from PostsServices
+                commentsServices.delete(id);
+
+                // Show alert
+                alert.setTitle("Comment Deleted");
+                alert.setHeaderText(null);
+                alert.setContentText("The Comment has been successfully deleted.");
+                alert.showAndWait();
+
+                // Remove the deleted post from the TableView
+                ObservableList<Comments> items = commentTableView.getItems();
+                items.remove(comment);
         }
+
 
         private void handleEdit(Comments comment) {
         }
@@ -170,6 +197,9 @@ public class indexComment {
                         // Pass the selected post to the addComment controller
                         addComment addController = loader.getController();
                         addController.setPost(post);
+
+                        // Set the TableView reference for the add controller
+                        addController.setCommentTableView(commentTableView);
 
                         // Close the index window
                         Stage indexStage = (Stage) commentTableView.getScene().getWindow();
