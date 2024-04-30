@@ -2,17 +2,23 @@
 
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<?import javafx.scene.control.Button?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AfficherAnalyse">
-   <children>
-      <TableView fx:id="analyseTable" layoutX="121.0" layoutY="89.0" prefHeight="240.0" prefWidth="413.0">
-        <columns>
-            <TableColumn fx:id="idColumn" prefWidth="77.0" text="id analyse" />
-            <TableColumn fx:id="typeColumn" prefWidth="166.0" text="type" />
-          <TableColumn fx:id="prixColumn" prefWidth="166.0" text="prix" />
-        </columns>
-      </TableView>
-   </children>
+    <ImageView fitHeight="738.0" fitWidth="995.0">
+        <image>
+            <Image url="file:///C:/Users/bilel/IdeaProjects/PIHarmony/src/main/resources/back.jpg" />
+        </image>
+    </ImageView>
+
+        <TableView fx:id="analyseTable" layoutX="221.0" layoutY="249.0" prefHeight="240.0" prefWidth="553.0">
+            <columns>
+                <TableColumn fx:id="idColumn" prefWidth="77.0" text="id analyse" />
+                <TableColumn fx:id="typeColumn" prefWidth="166.0" text="type" />
+                <TableColumn fx:id="prixColumn" prefWidth="166.0" text="prix" />
+                <TableColumn fx:id="actionColumn" prefWidth="166.0" text="action" />
+            </columns>
+        </TableView>
 </AnchorPane>

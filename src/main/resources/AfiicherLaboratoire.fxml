@@ -3,37 +3,46 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="560.0" prefWidth="805.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AfficherLaboratoire">
-    <TableView fx:id="laboratoireTable" layoutX="132.0" layoutY="96.0" prefHeight="450" prefWidth="521.0" visible="true">
+<AnchorPane prefHeight="728.0" prefWidth="1028.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AfficherLaboratoire">
+    <ImageView fitHeight="728.0" fitWidth="1028.0">
+        <image>
+            <Image url="file:///C:/Users/bilel/IdeaProjects/PIHarmony/src/main/resources/back.jpg" />
+        </image>
+    </ImageView>
 
-        <columns>
-            <TableColumn fx:id="idColumn" prefWidth="75" text="ID">
-                <cellValueFactory>
-                    <PropertyValueFactory property="id" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="nomColumn" prefWidth="100" text="nom">
-                <cellValueFactory>
-                    <PropertyValueFactory property="nom" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="emplacementColumn" prefWidth="100" text="emplacement">
-                <cellValueFactory>
-                    <PropertyValueFactory property="emplacement" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn fx:id="actionsColumn" prefWidth="245.0" text="actions">
-                <cellFactory>
-                    <PropertyValueFactory property="DUMMY" />
-                </cellFactory>
-            </TableColumn>
+    <TableView fx:id="laboratoireTable" layoutX="218.0" layoutY="195.0" prefHeight="394.0" prefWidth="593.0" styleClass="table-view" style="-fx-background-color: rgba(255, 255, 255, 0.8); -fx-background-color: lightblue;" visible="true">        <columns>
+        <TableColumn fx:id="idColumn" prefWidth="75" text="ID">
+            <cellValueFactory>
+                <PropertyValueFactory property="id" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn fx:id="nomColumn" prefWidth="166.0" text="Nom">
+            <cellValueFactory>
+                <PropertyValueFactory property="nom" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn fx:id="emplacementColumn" prefWidth="152.0" text="Emplacement">
+            <cellValueFactory>
+                <PropertyValueFactory property="emplacement" />
+            </cellValueFactory>
+        </TableColumn>
+        <TableColumn fx:id="actionsColumn" prefWidth="319.0" text="Actions">
+            <cellFactory>
+                <PropertyValueFactory property="DUMMY" />
+            </cellFactory>
+        </TableColumn>
+    </columns>
 
-        </columns>
     </TableView>
-   <Button fx:id="ajouterLaboratoire" layoutX="539.0" layoutY="56.0" mnemonicParsing="false" onAction="#addLaboratoire" text="Ajouter laboratoire" />
-   <Button layoutX="74.0" layoutY="56.0" mnemonicParsing="false" onAction="#ajouteranalyse" text="ajouter Analyse" />
 
+
+    <Button fx:id="ajouterLaboratoire" layoutX="684.0" layoutY="34.0" mnemonicParsing="false" onAction="#addLaboratoire" style="-fx-background-color: #1554b3; -fx-text-fill: white;" text="Ajouter laboratoire" />
+    <Button layoutX="811.0" layoutY="34.0" mnemonicParsing="false" onAction="#ajouteranalyse" style="-fx-background-color: #1554b3; -fx-text-fill: white;" text="Ajouter Analyse" />
+    <TextField fx:id="keyword" layoutX="110.0" layoutY="33.0" prefHeight="26.0" prefWidth="562.0" promptText="Recherche" styleClass="progress" />
 </AnchorPane>
