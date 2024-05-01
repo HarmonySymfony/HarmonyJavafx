@@ -113,7 +113,7 @@ public class Login {
         result.ifPresent(email -> {
             try {
                 String resetToken = generateResetToken(); // Générer un jeton de réinitialisation
-                sendForgotPasswordRequest(email, resetToken); // Envoyer l'e-mail avec le jeton de réinitialisation
+                sendForgotPasswordRequest(email); // Envoyer l'e-mail avec le jeton de réinitialisation
             } catch (MessagingException e) {
                 e.printStackTrace();
                 showAlert("Erreur", "Une erreur s'est produite lors de la demande de réinitialisation du mot de passe.");
@@ -124,8 +124,27 @@ public class Login {
         // Utilisation de UUID pour générer un identifiant unique
         return UUID.randomUUID().toString();
     }
+    private void sendForgotPasswordRequest(String email) throws MessagingException {
+        // Generate a new temporary password
+        String tempPassword = generateTempPassword();
 
-    private void sendForgotPasswordRequest(String email, String resetToken) throws MessagingException {
+        // Update the user's password in the database with the temporary password
+        PersonneServices.resetPassword(email, tempPassword);
+
+        // Send the temporary password to the user's email
+        sendEmail(email, tempPassword);
+
+        // Show the ResetPasswordDialog
+//        showResetPasswordDialog();
+    }
+
+    private String generateTempPassword() {
+        // Generate a random temporary password
+        // This is just a simple example, you should use a more secure way to generate a temporary password
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    private void sendEmail(String email, String tempPassword) throws MessagingException {
         // Configuration des propriétés pour l'envoi d'e-mails via Outlook SMTP
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.office365.com");
@@ -145,27 +164,66 @@ public class Login {
         message.setFrom(new InternetAddress("alaeddine.aouf@esprit.tn"));
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
         message.setSubject("Réinitialisation de mot de passe");
-        message.setText("Bonjour,\n\nVous avez demandé la réinitialisation de votre mot de passe. Veuillez utiliser ce jeton pour réinitialiser votre mot de passe : " + resetToken + "\n\nCordialement,\nVotre application");
+        message.setText("Bonjour,\n\nVous avez demandé la réinitialisation de votre mot de passe. Veuillez utiliser ce jeton pour réinitialiser votre mot de passe : " + tempPassword + "\n\nCordialement,\nVotre application");
 
         // Envoi du message
         Transport.send(message);
-
-        // Afficher la page ResetPasswordDialog.fxml
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResetPasswordDialog.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResetPassword.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = new Stage();
-            stage.setTitle("Réinitialisation du mot de passe");
+            stage.setTitle("Reset Password");
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Erreur", "Une erreur s'est produite lors de l'affichage de la page de réinitialisation du mot de passe.");
+            showAlert("Error", "An error occurred while displaying the reset password page.");
         }
-
-        showAlert("Demande envoyée", "Un e-mail de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.");
     }
+
+//    private void sendForgotPasswordRequest(String email, String resetToken) throws MessagingException {
+//        // Configuration des propriétés pour l'envoi d'e-mails via Outlook SMTP
+//        Properties props = new Properties();
+//        props.put("mail.smtp.host", "smtp.office365.com");
+//        props.put("mail.smtp.port", "587");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
+//
+//        // Création de la session
+//        Session session = Session.getInstance(props, new Authenticator() {
+//            protected PasswordAuthentication getPasswordAuthentication() {
+//                return new PasswordAuthentication("alaeddine.aouf@esprit.tn", "7984651320Aa");
+//            }
+//        });
+//
+//        // Création du message
+//        Message message = new MimeMessage(session);
+//        message.setFrom(new InternetAddress("alaeddine.aouf@esprit.tn"));
+//        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+//        message.setSubject("Réinitialisation de mot de passe");
+//        message.setText("Bonjour,\n\nVous avez demandé la réinitialisation de votre mot de passe. Veuillez utiliser ce jeton pour réinitialiser votre mot de passe : " + resetToken + "\n\nCordialement,\nVotre application");
+//
+//        // Envoi du message
+//        Transport.send(message);
+//
+//        // Afficher la page ResetPasswordDialog.fxml
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResetPassword.fxml"));
+//            Parent root = loader.load();
+//            Scene scene = new Scene(root);
+//            Stage stage = new Stage();
+//            stage.setTitle("Réinitialisation du mot de passe");
+//            stage.setScene(scene);
+//            stage.show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            System.out.println("Error message: " + e.getMessage());
+//            showAlert("Erreur", "Une erreur s'est produite lors de l'affichage de la page de réinitialisation du mot de passe.");
+//        }
+//
+//        showAlert("Demande envoyée", "Un e-mail de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.");
+//    }
     @FXML
     void signup(ActionEvent event) throws IOException {
         // Load the FXML file

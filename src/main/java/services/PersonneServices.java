@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonneServices implements IServicesUser<Personne> {
-    Connection cnx;
+    static Connection cnx;
 
     public PersonneServices() {
         cnx = MyConnection.getInstance().getCnx();
@@ -197,7 +197,7 @@ public class PersonneServices implements IServicesUser<Personne> {
         }
         return personnes;
     }
-    public void resetPassword(String email, String newPassword) {
+    public static void resetPassword(String email, String newPassword) {
         try {
             String sql = "UPDATE utilisateur SET Password=? WHERE Email=?";
             PreparedStatement statement = cnx.prepareStatement(sql);
@@ -211,10 +211,32 @@ public class PersonneServices implements IServicesUser<Personne> {
             if (rowsUpdated > 0) {
                 System.out.println("The password was updated successfully!");
             } else {
-                System.out.println("The password update failed.");
+                System.out.println("The password update failed. No user with this email found.");
             }
         } catch (SQLException e) {
             System.out.println("Error updating password: " + e.getMessage());
+        }
+    }
+    public boolean checkTempPassword(String tempPassword) {
+        try {
+            String sql = "SELECT * FROM utilisateur WHERE Password=?";
+            PreparedStatement statement = cnx.prepareStatement(sql);
+
+            // Set the temporary password
+            statement.setString(1, tempPassword);
+
+            // Execute the query
+            ResultSet resultSet = statement.executeQuery();
+
+            // If the query returns a result, the temporary password is valid
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking temporary password: " + e.getMessage());
+            return false;
         }
     }
 }

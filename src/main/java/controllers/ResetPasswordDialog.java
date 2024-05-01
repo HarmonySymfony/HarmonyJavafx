@@ -8,8 +8,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import services.PersonneServices;
 
+import static controllers.Home.email;
+
 public class ResetPasswordDialog {
 
+    public PasswordField confirmPasswordField;
     private Stage dialogStage;
     private PersonneServices personneServices = new PersonneServices();
 
@@ -20,6 +23,10 @@ public class ResetPasswordDialog {
 
     @FXML
     private TextField resetTokenField;
+    @FXML
+    private PasswordField tempPasswordField;
+    @FXML
+    private TextField emailField;
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -58,6 +65,44 @@ public class ResetPasswordDialog {
         alert.setHeaderText(null);
         alert.setContentText(content);
         alert.showAndWait();
+    }
+
+    public void resetPassword(ActionEvent actionEvent) {
+    }
+
+    @FXML
+    void submitResetPassword(ActionEvent event) {
+        String email = emailField.getText();
+        String tempPassword = tempPasswordField.getText();
+        String newPassword = newPasswordField.getText();
+        String confirmPassword = confirmPasswordField.getText();
+
+        // Check if the fields are empty
+        if (email.isEmpty() || tempPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+            showAlert("Error", "All fields must be filled");
+            return;
+        }
+
+        // Check if the new password and confirmation password match
+        if (!newPassword.equals(confirmPassword)) {
+            showAlert("Error", "Passwords do not match");
+            return;
+        }
+
+        // Check if the temporary password matches the one in the database
+        if (!personneServices.checkTempPassword(tempPassword)) {
+            showAlert("Error", "Temporary password does not match");
+            return;
+        }
+
+        // Call the resetPassword method from the PersonneServices class
+        try {
+            personneServices.resetPassword(email, newPassword);
+            showAlert("Success", "Password reset successful");
+            dialogStage.close();
+        } catch (Exception e) {
+            showAlert("Error", "Error resetting password: " + e.getMessage());
+        }
     }
 }
 
