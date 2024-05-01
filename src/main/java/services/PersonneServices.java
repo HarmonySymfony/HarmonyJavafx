@@ -90,6 +90,61 @@ public class PersonneServices implements IServicesUser<Personne> {
         }
         return data;
     }
+    public void generateAndStoreResetToken(String email, String resetToken) {
+        try {
+            String sql = "UPDATE utilisateur SET ResetToken = ? WHERE Email = ?";
+            PreparedStatement statement = cnx.prepareStatement(sql);
+            statement.setString(1, resetToken);
+            statement.setString(2, email);
+            statement.executeUpdate();
+            System.out.println("Jeton de réinitialisation généré et stocké avec succès !");
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la génération et du stockage du jeton de réinitialisation : " + e.getMessage());
+        }
+    }
+
+    public boolean updatePasswordWithToken(String newPassword, String resetToken) {
+        try {
+            // Vérifiez d'abord si le service est null
+            if (this == null || cnx == null) {
+                System.out.println("PersonneServices is not initialized!");
+                return false;
+            }
+
+            // Vérifiez ensuite si le jeton de réinitialisation est valide
+            if (!isResetTokenValid(resetToken)) {
+                System.out.println("Le jeton de réinitialisation n'est pas valide.");
+                return false;
+            }
+
+            // Mettez à jour le mot de passe correspondant à ce jeton
+            String sql = "UPDATE user SET Password = ? WHERE ResetToken = ?";
+            PreparedStatement statement = cnx.prepareStatement(sql);
+            statement.setString(1, newPassword);
+            statement.setString(2, resetToken);
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Mot de passe mis à jour avec succès !");
+                return true;
+            } else {
+                System.out.println("Échec de la mise à jour du mot de passe.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur lors de la mise à jour du mot de passe : " + e.getMessage());
+            return false;
+        }
+    }
+
+
+    private boolean isResetTokenValid(String resetToken) {
+        // Implémentez ici la logique pour vérifier si le jeton de réinitialisation est valide
+        // Vous pouvez rechercher le jeton dans la base de données et vérifier s'il est expiré ou non
+        // Retournez true si le jeton est valide, sinon false
+        // Cette méthode doit être adaptée à votre modèle de données et à votre logique de gestion des jetons de réinitialisation
+        return true; // Placeholder pour la validation réussie
+    }
 
 
     public void supprimer(Personne t) throws SQLException {
@@ -100,13 +155,7 @@ public class PersonneServices implements IServicesUser<Personne> {
         System.out.println(" suppression établie!");
     }
 
-    private boolean isResetTokenValid(String resetToken) {
-        // Implémentez ici la logique pour vérifier si le jeton de réinitialisation est valide
-        // Vous pouvez rechercher le jeton dans la base de données et vérifier s'il est expiré ou non
-        // Retournez true si le jeton est valide, sinon false
-        // Cette méthode doit être adaptée à votre modèle de données et à votre logique de gestion des jetons de réinitialisation
-        return true; // Placeholder pour la validation réussie
-    }
+
 
     public List<Personne> rechercherParNom(String nom) throws SQLException {
         List<Personne> users = new ArrayList<>();
@@ -147,5 +196,25 @@ public class PersonneServices implements IServicesUser<Personne> {
             }
         }
         return personnes;
+    }
+    public void resetPassword(String email, String newPassword) {
+        try {
+            String sql = "UPDATE utilisateur SET Password=? WHERE Email=?";
+            PreparedStatement statement = cnx.prepareStatement(sql);
+
+            // Set the new password and the email of the user
+            statement.setString(1, newPassword);
+            statement.setString(2, email);
+
+            // Execute the update
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("The password was updated successfully!");
+            } else {
+                System.out.println("The password update failed.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error updating password: " + e.getMessage());
+        }
     }
 }

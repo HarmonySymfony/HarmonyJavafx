@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Properties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,13 +10,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import services.PersonneServices;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class Login {
 
@@ -97,9 +104,68 @@ public class Login {
 
     @FXML
     void motdepasseoubliee(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Mot de passe oublié");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Veuillez entrer votre adresse e-mail pour réinitialiser votre mot de passe:");
+        Optional<String> result = dialog.showAndWait();
 
+        result.ifPresent(email -> {
+            try {
+                String resetToken = generateResetToken(); // Générer un jeton de réinitialisation
+                sendForgotPasswordRequest(email, resetToken); // Envoyer l'e-mail avec le jeton de réinitialisation
+            } catch (MessagingException e) {
+                e.printStackTrace();
+                showAlert("Erreur", "Une erreur s'est produite lors de la demande de réinitialisation du mot de passe.");
+            }
+        });
+    }
+    private String generateResetToken() {
+        // Utilisation de UUID pour générer un identifiant unique
+        return UUID.randomUUID().toString();
     }
 
+    private void sendForgotPasswordRequest(String email, String resetToken) throws MessagingException {
+        // Configuration des propriétés pour l'envoi d'e-mails via Outlook SMTP
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.office365.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        // Création de la session
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("alaeddine.aouf@esprit.tn", "7984651320Aa");
+            }
+        });
+
+        // Création du message
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("alaeddine.aouf@esprit.tn"));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+        message.setSubject("Réinitialisation de mot de passe");
+        message.setText("Bonjour,\n\nVous avez demandé la réinitialisation de votre mot de passe. Veuillez utiliser ce jeton pour réinitialiser votre mot de passe : " + resetToken + "\n\nCordialement,\nVotre application");
+
+        // Envoi du message
+        Transport.send(message);
+
+        // Afficher la page ResetPasswordDialog.fxml
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResetPasswordDialog.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Réinitialisation du mot de passe");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Erreur", "Une erreur s'est produite lors de l'affichage de la page de réinitialisation du mot de passe.");
+        }
+
+        showAlert("Demande envoyée", "Un e-mail de réinitialisation du mot de passe a été envoyé à votre adresse e-mail.");
+    }
     @FXML
     void signup(ActionEvent event) throws IOException {
         // Load the FXML file
