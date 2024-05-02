@@ -2,11 +2,17 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -27,12 +33,21 @@ public class Carte implements Initializable {
     }
 
 
+
+
+
     @FXML
-    void searchAddress(ActionEvent event) {
-        String address = searchField.getText().trim();
-        if (!address.isEmpty()) {
-            webView.getEngine().executeScript("searchEcoDepotAddress('" + address + "');");
+    void retour(ActionEvent event) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/IndexPharmacie.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
 
     }
 }
