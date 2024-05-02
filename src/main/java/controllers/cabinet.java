@@ -1,6 +1,16 @@
 package controllers;
 
+import com.itextpdf.text.Document;
 
+
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Chunk;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import entites.Cabinet;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,14 +20,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import services.CabinetServices;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import java.io.FileOutputStream;
 
 public class cabinet implements Initializable {
     @FXML
@@ -81,7 +99,6 @@ public class cabinet implements Initializable {
     private TableColumn<Cabinet, Integer> IDcolone;
 
 
-
     @FXML
     private Button logout;
 
@@ -101,7 +118,6 @@ public class cabinet implements Initializable {
     private Button user_page;
 
     private CabinetServices cabinetServices;
-
 
 
     /////////////////////////////////////////////////crud//////////////////////////////////////////////
@@ -132,11 +148,10 @@ public class cabinet implements Initializable {
             showAlert("Erreur", "Veuillez saisir les horaires au format HH:MM.");
             return;
         }
-        Cabinet cabinet = new Cabinet( adress, nom, horaires, email );
+        Cabinet cabinet = new Cabinet(adress, nom, horaires, email);
         CabinetServices cabinetServices = new CabinetServices(); // Create an instance
         cabinetServices.addEntity2(cabinet); // Call the method on the instance
         loadCabinetData(); // Refresh the TableView after updating
-
 
 
         // Le reste de votre logique pour ajouter le cabinet va ici...
@@ -149,9 +164,6 @@ public class cabinet implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
-
 
 
     @FXML
@@ -189,13 +201,12 @@ public class cabinet implements Initializable {
         String horaires = heur_cabinet.getText();
         String email = email_cabinet.getText();
 
-        Cabinet cabinet = new Cabinet( adress, nom, horaires, email);
+        Cabinet cabinet = new Cabinet(adress, nom, horaires, email);
         cabinet.setId(id); // Set the ID of the cabinet to update
 
         cabinetServices.updateEntity(cabinet); // Call the updateEntity method from CabinetServices
         loadCabinetData(); // Refresh the TableView after updating
     }
-
 
 
     @FXML
@@ -234,7 +245,7 @@ public class cabinet implements Initializable {
     }
 
     @FXML
-    void Ajouter_Rapport (ActionEvent event){
+    void Ajouter_Rapport(ActionEvent event) {
         try {
             // Load the new FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/RDV.fxml"));
@@ -251,7 +262,6 @@ public class cabinet implements Initializable {
         }
 
     }
-
 
 
     @FXML
@@ -278,6 +288,86 @@ public class cabinet implements Initializable {
         } else {
             // Si le champ de recherche est vide, afficher toutes les données
             loadCabinetData();
+        }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    @FXML
+    private void generatePDF11(ActionEvent event) {
+        // Créer un document PDF
+        Document document = new Document();
+
+        try {
+            // Définir le chemin de sortie du fichier PDF
+            PdfWriter.getInstance(document, new FileOutputStream("RapportCabinets.pdf"));
+            document.open();
+
+            // Titre du document
+            Chunk titre = new Chunk("Rapport des Cabinets");
+            Paragraph titreParagraph = new Paragraph(titre);
+            titreParagraph.setAlignment(Paragraph.ALIGN_CENTER);
+            titreParagraph.setSpacingAfter(10f);
+
+            // Ajouter la date actuelle avec l'heure et les minutes
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDateTime now = LocalDateTime.now();
+            Paragraph date = new Paragraph("Date et heure: " + dtf.format(now));
+            date.setAlignment(Paragraph.ALIGN_RIGHT);
+
+
+            // Créer une table pour afficher les données des cabinets
+            PdfPTable table = new PdfPTable(4); // 4 colonnes pour les attributs des cabinets
+
+            // Ajouter les en-têtes de colonne à la table
+            PdfPCell[] headers = new PdfPCell[]{
+                    new PdfPCell(new Paragraph("Adresse")),
+                    new PdfPCell(new Paragraph("Nom")),
+                    new PdfPCell(new Paragraph("Horaires")),
+                    new PdfPCell(new Paragraph("Email"))
+            };
+
+            // Colorer les en-têtes de colonne
+            for (PdfPCell cell : headers) {
+                cell.setBackgroundColor(BaseColor.LIGHT_GRAY);
+                table.addCell(cell);
+            }
+
+            // Récupérer la liste des cabinets depuis le service
+            CabinetServices cabinetService = new CabinetServices();
+            List<Cabinet> cabinets = cabinetService.getAllDataCabinet();
+
+            // Ajouter les données des cabinets à la table
+            for (Cabinet cabinet : cabinets) {
+                table.addCell(cabinet.getAdress());
+                table.addCell(cabinet.getNom());
+                table.addCell(cabinet.getHoraires());
+                table.addCell(cabinet.getEmail());
+            }
+
+            document.add(table);
+
+            // Afficher une alerte de succès
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+            successAlert.setTitle("Succès");
+            successAlert.setHeaderText(null);
+            successAlert.setContentText("Le rapport des cabinets a été généré avec succès !");
+            successAlert.show();
+
+            document.close(); // Fermer le document PDF
+
+        } catch (DocumentException | FileNotFoundException e) {
+            System.out.println(e);
+            // Afficher une alerte en cas d'erreur
+            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+            errorAlert.setTitle("Erreur");
+            errorAlert.setHeaderText(null);
+            errorAlert.setContentText("Une erreur s'est produite lors de la génération du rapport des cabinets !");
+            errorAlert.show();
         }
     }
 

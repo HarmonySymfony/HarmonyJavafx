@@ -1,21 +1,34 @@
 package services;
 import entites.Cabinet;
 
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import outils.MyDB;
+
+import java.awt.*;
+import java.io.IOException;
 import java.sql.ResultSet;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+
 
 
 
 import java.sql.PreparedStatement;
+import java.io.File;
+
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 public class CabinetServices implements IservicesCabinet<Cabinet> {
+    private static final String PDF_PATH = "src/main/resources/PDF/";
 
 
     public boolean entityExists(Cabinet cabinet) {
@@ -181,8 +194,112 @@ public class CabinetServices implements IservicesCabinet<Cabinet> {
         return data;
     }
 
+    public static void savePDF(String fileName) {
+        String filePath = PDF_PATH + fileName + ".pdf";
+        File file = new File(filePath);
+        if (file.exists()) {
+            // Générer un nom de fichier unique si le fichier existe déjà
+            fileName = generateUniqueFileName(fileName);
+            filePath = PDF_PATH + fileName + ".pdf";
+            file = new File(filePath);
+        }
+    }
 
+    public static void generatePDF(List<Cabinet> cabinets, String fileName) throws IOException {
+        String filePath = PDF_PATH + fileName + ".pdf";
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage();
+            document.addPage(page);
 
+            try (PDPageContentStream contentStream = new PDPageContentStream(document, page)) {
+                // Ajouter la date et l'heure actuelles au contenu du document
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+                LocalDateTime now = LocalDateTime.now();
+                String currentDate = "Date: " + dtf.format(now);
+                float xDate = 50; // Position X de la date
+                float yDate = page.getMediaBox().getHeight() - 200; // Position Y de la date
+                contentStream.setFont(PDType1Font.HELVETICA, 12);
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xDate, yDate);
+                contentStream.showText(currentDate);
+                contentStream.endText();
+
+                // Dessiner une ligne pour séparer la date du reste du contenu
+                float lineY = yDate - 10;
+                contentStream.moveTo(xDate, lineY);
+                contentStream.lineTo(xDate + 150, lineY);
+                contentStream.stroke();
+
+                // Définir les coordonnées pour le début du tableau
+                float xTable = 50; // Position X du coin supérieur gauche du tableau
+                float yTable = page.getMediaBox().getHeight() - 250; // Position Y du coin supérieur gauche du tableau
+
+                // Créer un tableau pour afficher les détails des cabinets
+                float tableWidth = page.getMediaBox().getWidth() - 2 * xTable;
+                float tableHeight = 100;
+                float cellMargin = 10;
+                float cellWidth = (tableWidth - 4 * cellMargin) / 4;
+                float cellHeight = 20;
+
+                // Dessiner une ligne pour séparer l'en-tête du contenu du tableau
+                float headerLineY = yTable + cellHeight + cellMargin / 2;
+                contentStream.moveTo(xTable, headerLineY);
+                contentStream.lineTo(xTable + tableWidth, headerLineY);
+                contentStream.stroke();
+
+                // Ajouter les en-têtes de colonne avec du texte vert
+                contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+                float yText = yTable - cellHeight / 2;
+                contentStream.setNonStrokingColor(Color.GREEN);
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable + cellMargin, yText);
+                contentStream.showText("Adresse");
+                contentStream.endText();
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable + cellMargin + cellWidth + cellMargin, yText);
+                contentStream.showText("Nom");
+                contentStream.endText();
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable + cellMargin + 2 * (cellWidth + cellMargin), yText);
+                contentStream.showText("Horaires");
+                contentStream.endText();
+                contentStream.beginText();
+                contentStream.newLineAtOffset(xTable + cellMargin + 3 * (cellWidth + cellMargin), yText);
+                contentStream.showText("Email");
+                contentStream.endText();
+
+                // Remplir le tableau avec les détails des cabinets
+                contentStream.setNonStrokingColor(Color.BLACK);
+                contentStream.setFont(PDType1Font.HELVETICA, 12);
+                for (Cabinet cabinet : cabinets) {
+                    contentStream.beginText();
+                    yText -= cellHeight;
+                    contentStream.newLineAtOffset(xTable + cellMargin, yText);
+                    contentStream.showText(cabinet.getAdress());
+                    contentStream.endText();
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(xTable + cellMargin + cellWidth + cellMargin, yText);
+                    contentStream.showText(cabinet.getNom());
+                    contentStream.endText();
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(xTable + cellMargin + 2 * (cellWidth + cellMargin), yText);
+                    contentStream.showText(cabinet.getHoraires());
+                    contentStream.endText();
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(xTable + cellMargin + 3 * (cellWidth + cellMargin), yText);
+                    contentStream.showText(cabinet.getEmail());
+                    contentStream.endText();
+                }
+            }
+            document.save(filePath);
+        }
+    }
+
+    private static String generateUniqueFileName(String fileName) {
+        // Ajouter une logique pour générer un nom de fichier unique
+        // Par exemple, vous pouvez ajouter un timestamp à la fin du nom de fichier
+        return fileName + "_" + System.currentTimeMillis();
+    }
 
 
 

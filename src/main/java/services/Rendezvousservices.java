@@ -10,6 +10,9 @@ import java.sql.PreparedStatement;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.text.SimpleDateFormat;
@@ -168,6 +171,28 @@ public  class Rendezvousservices implements IservicesRendezvous<Rendezvous> {
             System.out.println(e.getMessage());
         }
         return data;
+    }
+
+    public List<Rendezvous> getRdvByDate(LocalDate dateSelectionnee) {
+        List<Rendezvous> rdvs = new ArrayList<>();
+        String formattedDateTime = dateSelectionnee.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        System.out.println(formattedDateTime);
+        String query = "SELECT * FROM rendez_vous WHERE date = ?";
+        try {
+            PreparedStatement pst = MyDB.getInstance().getConnection().prepareStatement(query);
+            pst.setString(1, formattedDateTime);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                Rendezvous rendezvous = new Rendezvous();
+                rendezvous.setId(rs.getInt("id"));
+                rendezvous.setDate(rs.getString("date"));
+                // Ajoutez d'autres attributs au besoin
+                rdvs.add(rendezvous);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return rdvs;
     }
 
 }

@@ -107,7 +107,7 @@
                               <AnchorPane layoutX="-58.0" layoutY="-13.0" prefHeight="659.0" prefWidth="1236.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="-58.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="-13.0">
                                  <children>
                                     <AnchorPane fx:id="User_form" layoutX="107.0" layoutY="116.0" prefHeight="554.4" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <AnchorPane fx:id="RDV_form" layoutX="85.0" layoutY="34.0" prefHeight="625.0" prefWidth="1181.0" stylesheets="@java.css">
+                                    <AnchorPane fx:id="RDV_form" layoutX="71.0" layoutY="60.0" prefHeight="625.0" prefWidth="1181.0" stylesheets="@java.css">
                                        <styleClass>
                                           <String fx:value="white-bg" />
                                           <String fx:value="shadow" />
@@ -144,9 +144,9 @@
                                                 <Font name="Berlin Sans FB" size="18.0" />
                                              </font>
                                           </Text>
-                                          <Button fx:id="ADD_rendezvous" layoutX="22.0" layoutY="298.0" mnemonicParsing="false" onAction="#addrendezvous" prefHeight="36.0" prefWidth="104.0" styleClass="add-btn" stylesheets="@java.css" text="Add" textFill="#595757" />
-                                          <Button fx:id="Update_rendezvous" layoutX="137.0" layoutY="298.0" mnemonicParsing="false" onAction="#updaterendezvous" prefHeight="36.0" prefWidth="106.0" styleClass="update-btn" stylesheets="@java.css" text="Update" textFill="#ddd1d1" />
-                                          <Button fx:id="Delete_rendezvous" layoutX="265.0" layoutY="298.0" mnemonicParsing="false" onAction="#deleterendezvous" prefHeight="36.0" prefWidth="109.0" styleClass="delete-btn" stylesheets="@java.css" text="Delete" textFill="#595757" />
+                                          <Button fx:id="ADD_rendezvous" layoutX="22.0" layoutY="301.0" mnemonicParsing="false" onAction="#addrendezvous" prefHeight="33.0" prefWidth="74.0" styleClass="add-btn" stylesheets="@java.css" text="Add" textFill="#595757" />
+                                          <Button fx:id="Update_rendezvous" layoutX="113.0" layoutY="302.0" mnemonicParsing="false" onAction="#updaterendezvous" prefHeight="31.0" prefWidth="89.0" styleClass="update-btn" stylesheets="@java.css" text="Update" textFill="#ddd1d1" />
+                                          <Button fx:id="Delete_rendezvous" layoutX="222.0" layoutY="303.0" mnemonicParsing="false" onAction="#deleterendezvous" prefHeight="29.0" prefWidth="96.0" styleClass="delete-btn" stylesheets="@java.css" text="Delete" textFill="#595757" />
                                           <TextField fx:id="email_rendezvous" layoutX="223.0" layoutY="244.0" prefHeight="25.0" prefWidth="227.0" promptText="azerty@sffg.com" styleClass="textfield" stylesheets="@java.css" />
                                           <Text fontSmoothingType="LCD" layoutX="14.0" layoutY="210.0" strokeType="OUTSIDE" strokeWidth="0.0" text="date :" wrappingWidth="175.5452880859375">
                                              <font>
@@ -166,7 +166,7 @@
 
                                           </Text>
                                           <TextField fx:id="ID_rendezvous" layoutX="222.0" layoutY="26.0" prefHeight="29.0" prefWidth="218.0" promptText="ID" styleClass="textfield" stylesheets="@java.css" />
-                                          <Button fx:id="Statistics" layoutX="398.0" layoutY="298.0" mnemonicParsing="false" onAction="#showAppointmentStatistics" prefHeight="36.0" prefWidth="104.0" styleClass="add-btn" stylesheets="@java.css" text="statistics" textFill="#595757" />
+                                          <Button fx:id="Statistics" layoutX="350.0" layoutY="303.0" mnemonicParsing="false" onAction="#showAppointmentStatistics" prefHeight="29.0" prefWidth="90.0" styleClass="add-btn" stylesheets="@java.css" text="statistics" textFill="#595757" />
                                           <BarChart fx:id="appointmentBarChart" layoutX="2.0" layoutY="339.0" prefHeight="286.0" prefWidth="587.0">
                                             <xAxis>
                                               <CategoryAxis side="BOTTOM" />
@@ -175,6 +175,7 @@
                                               <NumberAxis side="LEFT" />
                                             </yAxis>
                                           </BarChart>
+                                          <Button fx:id="calender" layoutX="461.0" layoutY="303.0" mnemonicParsing="false" onAction="#calendar" prefHeight="29.0" prefWidth="90.0" styleClass="add-btn" stylesheets="@java.css" text="Calendar" textFill="#595757" />
                                        </children>
                                     </AnchorPane>
                                  </children>

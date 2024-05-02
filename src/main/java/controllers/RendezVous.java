@@ -1,11 +1,20 @@
 package controllers;
+import com.twilio.rest.api.v2010.account.Message;
+import io.github.cdimascio.dotenv.Dotenv;
+
+import com.twilio.Twilio;
+import com.twilio.type.PhoneNumber;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 import javafx.scene.control.TableView;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.chart.BarChart;
@@ -23,6 +32,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import services.Rendezvousservices;
 import javafx.scene.web.WebView;
 
@@ -147,13 +157,37 @@ public class RendezVous implements Initializable {
         Rendezvous rendezvous = new Rendezvous(nom, prenom, date, email);
         Rendezvousservices Rendezvousservices = new Rendezvousservices(); // Create an instance
         Rendezvousservices.addEntity2(rendezvous); // Call the method on the instance
-        loadrendezvousData(); // Refresh the TableView after updating
+        loadrendezvousData();// Refresh the TableView after updating
 
+        // Appeler la fonction pour envoyer un SMS
+        sendSMS();
 
         // Le reste de votre logique pour ajouter le rendezvous va ici...
     }
 
-    private void showAlert(String title, String message) {
+        private void sendSMS() {
+            // Initialize Twilio with your Account SID and Auth Token
+            Twilio.init("ACf1bd89101882eec6968eb79dcd988463", "d140e45289fd47b390a906fc4fc4f91a");
+
+            // Remplacer les valeurs suivantes par votre numéro Twilio et le numéro de téléphone de destination
+            String twilioNumber = "+13342923501"; // Votre numéro Twilio
+            String recipientNumber = "+21692338746"; // Numéro de téléphone du destinataire
+
+            // Message à envoyer
+            String messageBody = "Rendez-vous chez sahtekk confirmé !";
+
+            // Envoyer le message SMS
+            Message message = Message.creator(
+                    new PhoneNumber(recipientNumber),
+                    new PhoneNumber(twilioNumber),
+                    messageBody
+            ).create();
+
+            System.out.println("Message SID: " + message.getSid());
+        }
+
+
+        private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -289,7 +323,24 @@ public class RendezVous implements Initializable {
         // Mettre à jour la TableView avec la liste filtrée
         rendezvousTableView.getItems().setAll(filteredList);
     }
+    @FXML
+    void calendar(ActionEvent event) {
+        try {
+            // Load the new FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/CalendarRDV.fxml"));
+            Parent root = loader.load();
 
+            // Create a new stage
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+
+            // Show the stage
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 }

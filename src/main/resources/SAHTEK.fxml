@@ -99,7 +99,7 @@
                         <AnchorPane layoutX="-58.0" layoutY="-13.0" prefHeight="659.0" prefWidth="1236.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="-58.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="-13.0">
                            <children>
                               <AnchorPane fx:id="User_form" layoutX="107.0" layoutY="116.0" prefHeight="554.4" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                              <AnchorPane fx:id="RDV_form" layoutX="85.0" layoutY="7.0" prefHeight="652.0" prefWidth="1238.0" stylesheets="@java.css">
+                              <AnchorPane fx:id="RDV_form" layoutX="103.0" layoutY="7.0" prefHeight="652.0" prefWidth="1238.0" stylesheets="@java.css">
                                  <styleClass>
                                     <String fx:value="white-bg" />
                                     <String fx:value="shadow" />
@@ -158,6 +158,7 @@
                                        </font>
                                     </Text>
                                     <TextField fx:id="ID_cabinet" layoutX="222.0" layoutY="26.0" prefHeight="29.0" prefWidth="218.0" promptText="ID" styleClass="textfield" stylesheets="@java.css" />
+                                    <Button fx:id="generatePDF11" layoutX="213.0" layoutY="408.0" mnemonicParsing="false" onAction="#generatePDF11" prefHeight="36.0" prefWidth="139.0" styleClass="clear-btn" stylesheets="@java.css" text="PDF" textFill="#595757" />
                                  </children>
                               </AnchorPane>
                            </children>

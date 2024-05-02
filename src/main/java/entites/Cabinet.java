@@ -1,5 +1,7 @@
 package entites;
 
+import java.util.List;
+
 public class Cabinet {
     private int id;
     private String adress;
@@ -26,9 +28,15 @@ public class Cabinet {
         this.email = email;
     }
 
+    public static void savePDF(String fileName) {
+    }
+
+    public static void generatePDF(List<Cabinet> cabinets, String fileName) {
+    }
+
 
     public int getId() {
-        return id;
+        return 0;
     }
 
     public void setId(int id) {
