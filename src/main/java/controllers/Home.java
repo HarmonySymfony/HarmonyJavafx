@@ -21,9 +21,7 @@ public class Home extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/Login.fxml"));
-
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("/indexPost.fxml"));
         try {
             Parent root=loader.load();
             Scene scene =new Scene(root);
