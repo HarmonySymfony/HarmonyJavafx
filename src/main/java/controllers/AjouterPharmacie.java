@@ -54,7 +54,7 @@ public class AjouterPharmacie {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("Pharmacie ajoutée avec succès.");
         alert.showAndWait();
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node)    event.getSource()).getScene().getWindow();
         stage.close();
         // Ouvrir la liste des pharmacies
         openPharmacieList();
