@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
@@ -15,6 +17,8 @@ import javafx.scene.layout.TilePane;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Map;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -143,6 +147,8 @@ public class EventFrontController {
         card.getChildren().addAll(nameLabel, descLabel, detailsButton);
         return card;
     }
+
+
 
 
 }

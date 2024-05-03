@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -23,6 +26,7 @@
 
             </columns>
         </TableView>
+        <VBox spacing="10" />
         <VBox layoutX="14.0" layoutY="240.0" prefHeight="346.0" prefWidth="217.0" spacing="10.0">
             <children>
                 <Label style="-fx-font-weight: bold;" text="Nom:" />
@@ -47,8 +51,18 @@
 
                     </children>
                 </HBox>
+
             </children>
         </VBox>
-      <Button fx:id="clearButton1" layoutX="832.0" layoutY="615.0" onAction="#Back" prefHeight="26.0" prefWidth="91.0" style="-fx-background-color: #000000; -fx-text-fill: white;" text="Back" />
+        <Button fx:id="clearButton1" layoutX="832.0" layoutY="615.0" onAction="#Back" prefHeight="26.0" prefWidth="91.0" style="-fx-background-color: #000000; -fx-text-fill: white;" text="Back" />
+         <BarChart fx:id="statsBarChart" layoutX="315.0" layoutY="228.0" title="Event Statistics">
+             <xAxis>
+                 <CategoryAxis label="Event Name" />
+             </xAxis>
+             <yAxis>
+                 <NumberAxis label="Number of Participants" />
+             </yAxis>
+         </BarChart>
+     
     </children>
 </AnchorPane>

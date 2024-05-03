@@ -12,11 +12,23 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import java.sql.SQLException;
+import java.util.Map;
+
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EvenementController {
     @FXML private TextField idField;
@@ -45,11 +57,19 @@ public class EvenementController {
     @FXML private TableColumn<Evenement, String> columnAdresse;
     @FXML private TableColumn<Evenement, Date> columnDate;
 
-
-
-
+    @FXML
+    private BarChart<String, Number> statsBarChart;
 
     private ServiceEvenement serviceEvenement;
+
+    @FXML
+    private BarChart<String, Integer> reservationBarChart;
+
+
+
+
+
+
     private Evenement currentSelectedEvenement;
     private int selectedEvenementId;
 
@@ -64,11 +84,16 @@ public class EvenementController {
         columnPlaceDispo.setCellValueFactory(new PropertyValueFactory<>("PlaceDispo"));
         columnAdresse.setCellValueFactory(new PropertyValueFactory<>("Adresse"));
         columnDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
+        serviceEvenement = new ServiceEvenement();
+        initializeStatsChart();
         loadEvenementData();
     }
 
 
 
+    private void initializeStatsChart() {
+        statsBarChart.setTitle("Participants per Event");
+    }
 
     private void loadEvenementData() {
         try {
@@ -89,8 +114,9 @@ public class EvenementController {
         AdresseField.clear();
         dateproPicker.setValue(null);
         evenementTableView.getSelectionModel().clearSelection();
+        statsBarChart.getData().clear();
 
-        }
+    }
 
 
 
@@ -106,6 +132,7 @@ public class EvenementController {
             PlaceDispoField.setText((String.valueOf(selectedEvenement.getPlaceDispo())));
             AdresseField.setText(selectedEvenement.getAdresse());
             dateproPicker.setValue(selectedEvenement.getDate().toLocalDate());
+            updateChartWithSelectedEvent(selectedEvenement.getPlaceDispo());
 
         }
     }
@@ -130,7 +157,7 @@ public class EvenementController {
                     Date.valueOf(dateproPicker.getValue())
 
 
-                    );
+            );
             serviceEvenement.Add(evenement);
             loadEvenementData();
             clearForm();
@@ -148,11 +175,11 @@ public class EvenementController {
         }
         try {
             Evenement evenement = new Evenement(
-                                selectedEvenementId,
-                                NomField.getText(),
-                                DescriptionField.getText(),
+                    selectedEvenementId,
+                    NomField.getText(),
+                    DescriptionField.getText(),
                     Float.parseFloat(PrixField.getText()),
-                                Integer.parseInt(PlaceDispoField.getText()),
+                    Integer.parseInt(PlaceDispoField.getText()),
                     AdresseField.getText(),
                     java.sql.Date.valueOf(dateproPicker.getValue())
 
@@ -295,4 +322,25 @@ public class EvenementController {
         stage.setScene(scene);
         stage.show();
     }
+
+
+
+
+
+
+    private void updateChartWithSelectedEvent(int availablePlaces) {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Available Places");
+
+        // Add available places data
+        series.getData().add(new XYChart.Data<>("Available Places", availablePlaces));
+
+        // Clear old data and add new data
+        statsBarChart.getData().clear();
+        statsBarChart.getData().add(series);
+    }
+
+
+
+
 }

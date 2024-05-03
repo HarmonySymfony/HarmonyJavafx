@@ -3,9 +3,13 @@ package controllers;
 import entities.Evenement;
 import entities.Reservation;
 import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import services.ServiceEvenement;
 import javafx.scene.control.*;
+
+import java.util.Map;
 
 
 public class EventDetailController {
@@ -55,4 +59,9 @@ public class EventDetailController {
             e.printStackTrace();
         }
     }
+
+
+
+
+
 }

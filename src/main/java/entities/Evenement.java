@@ -89,6 +89,8 @@ public class Evenement {
         this.date = date;
     }
 
+
+
     @Override
     public String toString() {
         return "Evenement{" +
@@ -101,6 +103,7 @@ public class Evenement {
                 ", date=" + date +
                 '}';
     }
+
 }
 
 
