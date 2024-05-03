@@ -5,6 +5,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import services.ServiceEvenement;
 import entities.Evenement;
 import javafx.collections.FXCollections;
@@ -19,6 +20,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import java.sql.SQLException;
 import java.util.Map;
+import org.controlsfx.control.Notifications;
 
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -167,6 +169,11 @@ public class EvenementController {
             loadEvenementData();
             clearForm();
             showConfirmation("Event added successfully.");
+            Notifications notifications = Notifications.create();
+            notifications.text("Event added successfully !");
+            notifications.title("Successful");
+            notifications.hideAfter(Duration.seconds(6));
+            notifications.show();
         } catch (Exception e) {
             showError(e.getMessage());
         }
@@ -196,6 +203,11 @@ public class EvenementController {
             loadEvenementData();
             clearForm();
             showConfirmation("Event updated successfully.");
+            Notifications notifications = Notifications.create();
+            notifications.text("Event updated successfully !");
+            notifications.title("Successful");
+            notifications.hideAfter(Duration.seconds(6));
+            notifications.show();
         } catch (Exception e) {
             showError(e.getMessage());
         }
@@ -210,6 +222,11 @@ public class EvenementController {
             loadEvenementData();
             clearForm();
             showConfirmation("Event deleted successfully.");
+            Notifications notifications = Notifications.create();
+            notifications.text("Event deleted successfully !");
+            notifications.title("Successful");
+            notifications.hideAfter(Duration.seconds(6));
+            notifications.show();
 
         } catch (Exception e) {
             showError(e.getMessage());
