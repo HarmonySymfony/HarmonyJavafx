@@ -132,7 +132,12 @@ public class EvenementController {
             PlaceDispoField.setText((String.valueOf(selectedEvenement.getPlaceDispo())));
             AdresseField.setText(selectedEvenement.getAdresse());
             dateproPicker.setValue(selectedEvenement.getDate().toLocalDate());
-            updateChartWithSelectedEvent(selectedEvenement.getPlaceDispo());
+            try {
+                int reservedPlaces = serviceEvenement.getReservedPlacesForEvent(selectedEvenement.getId());
+                updateChartWithSelectedEvent(selectedEvenement.getPlaceDispo(), reservedPlaces);
+            } catch (SQLException e) {
+                showError("Error retrieving reservation data: " + e.getMessage());
+            }
 
         }
     }
@@ -328,17 +333,19 @@ public class EvenementController {
 
 
 
-    private void updateChartWithSelectedEvent(int availablePlaces) {
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-        series.setName("Available Places");
+    private void updateChartWithSelectedEvent(int availablePlaces, int reservedPlaces) {
+        XYChart.Series<String, Number> seriesAvailable = new XYChart.Series<>();
+        seriesAvailable.setName("Available Places");
+        seriesAvailable.getData().add(new XYChart.Data<>("Available", availablePlaces));
 
-        // Add available places data
-        series.getData().add(new XYChart.Data<>("Available Places", availablePlaces));
+        XYChart.Series<String, Number> seriesReserved = new XYChart.Series<>();
+        seriesReserved.setName("Reserved Places");
+        seriesReserved.getData().add(new XYChart.Data<>("Reserved", reservedPlaces));
 
-        // Clear old data and add new data
         statsBarChart.getData().clear();
-        statsBarChart.getData().add(series);
+        statsBarChart.getData().addAll(seriesAvailable, seriesReserved);
     }
+
 
 
 

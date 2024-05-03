@@ -147,5 +147,19 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
         }
     }
 
+    public int getReservedPlacesForEvent(int eventId) throws SQLException {
+        String query = "SELECT SUM(nbrPlace) AS totalReserved FROM reservation WHERE event_id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, eventId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt("totalReserved");
+                }
+            }
+        }
+        return 0;
+    }
+
+
 
 }
