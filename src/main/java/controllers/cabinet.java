@@ -12,10 +12,12 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import entites.Cabinet;
+import entites.Rendezvous;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -31,11 +33,11 @@ import java.util.ResourceBundle;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import services.CabinetServices;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import services.Rendezvousservices;
+
 import java.io.FileOutputStream;
+
+
 
 public class cabinet implements Initializable {
     @FXML
@@ -93,10 +95,10 @@ public class cabinet implements Initializable {
     private TextField heur_cabinet;
 
     @FXML
-    private TableColumn<Cabinet, String> horairescolone;
+    private TableColumn<Cabinet, String> heurcolone;
 
     @FXML
-    private TableColumn<Cabinet, Integer> IDcolone;
+    private TableColumn<Cabinet, Integer> ID_colone;
 
 
     @FXML
@@ -117,7 +119,8 @@ public class cabinet implements Initializable {
     @FXML
     private Button user_page;
 
-    private CabinetServices cabinetServices;
+    private CabinetServices cabinetServices = new CabinetServices();
+
 
 
     /////////////////////////////////////////////////crud//////////////////////////////////////////////
@@ -167,24 +170,6 @@ public class cabinet implements Initializable {
 
 
     @FXML
-    private void deleteCabinet(ActionEvent event) {
-        String idStr = ID_cabinet.getText();
-        if (idStr.isEmpty()) {
-            System.out.println("Veuillez saisir l'ID du cabinet à supprimer.");
-            return;
-        }
-        int id = Integer.parseInt(idStr);
-
-        Cabinet cabinet = new Cabinet();
-        cabinet.setId(id); // Set the ID of the cabinet to delete
-
-        CabinetServices cabinetServices = new CabinetServices();
-        cabinetServices.deleteEntity(cabinet);
-        loadCabinetData(); // Refresh the TableView after updating
-    }
-
-
-    @FXML
     void updateCabinet(ActionEvent event) {
         String idStr = ID_cabinet.getText();
         if (idStr.isEmpty()) {
@@ -196,23 +181,46 @@ public class cabinet implements Initializable {
             System.out.println("L'ID du cabinet est invalide.");
             return;
         }
-        String adress = adress_cabinet.getText();
         String nom = nom_cabinet.getText();
+        String adress = adress_cabinet.getText();
         String horaires = heur_cabinet.getText();
         String email = email_cabinet.getText();
 
-        Cabinet cabinet = new Cabinet(adress, nom, horaires, email);
-        cabinet.setId(id); // Set the ID of the cabinet to update
+        // Créez un nouvel objet Cabinet avec l'ID et les autres champs mis à jour
+        Cabinet cabinet = new Cabinet(id, nom, adress, horaires, email);
 
-        cabinetServices.updateEntity(cabinet); // Call the updateEntity method from CabinetServices
-        loadCabinetData(); // Refresh the TableView after updating
+        // Créez une instance de CabinetServices
+        CabinetServices cabinetServices = new CabinetServices();
+
+        // Appelez la méthode updateEntity avec le nouvel objet Cabinet
+        cabinetServices.updateEntity(cabinet);
+
+        // Actualisez les données dans le TableView
+        loadCabinetData();
     }
 
+
+
+    @FXML
+    private void deleteCabinet(ActionEvent event) {
+        String idStr = ID_cabinet.getText();
+        if (idStr.isEmpty()) {
+            System.out.println("Veuillez saisir l'ID du cabinet à supprimer.");
+            return;
+        }
+        int id = Integer.parseInt(idStr);
+
+        Cabinet cabinet = new Cabinet();
+        cabinet.setId(id); // Set the ID of the cabinet to delete
+
+        CabinetServices cabinetServices = new CabinetServices();// Create an instance
+        cabinetServices.deleteEntity(cabinet);
+        loadCabinetData();// Refresh the TableView after updating
+    }
 
     @FXML
     void getcabinet() {
         Cabinet cabinet = cabinetTableView.getSelectionModel().getSelectedItem();
-        ID_cabinet.setText(cabinet.getNom());
         nom_cabinet.setText(cabinet.getNom());
         adress_cabinet.setText(cabinet.getAdress());
         heur_cabinet.setText(cabinet.getHoraires());
@@ -221,46 +229,58 @@ public class cabinet implements Initializable {
 
     private void loadCabinetData() {
         List<Cabinet> cabinets = cabinetServices.getAllDataCabinet();
+        for (Cabinet cabinet : cabinets) {
+            System.out.println("Cabinet ID: " + cabinet.getId());
+        }
 
-        IDcolone.setCellValueFactory(new PropertyValueFactory<>("id"));
+        ID_colone.setCellValueFactory(new PropertyValueFactory<>("id"));
         nomcolone.setCellValueFactory(new PropertyValueFactory<>("nom"));
         adresscolone.setCellValueFactory(new PropertyValueFactory<>("adress"));
-        horairescolone.setCellValueFactory(new PropertyValueFactory<>("horaires"));
+        heurcolone.setCellValueFactory(new PropertyValueFactory<>("horaires"));
         emailcolone.setCellValueFactory(new PropertyValueFactory<>("email"));
 
 
         // Clear the TableView to avoid duplicates if called multiple times
         cabinetTableView.getItems().clear();
 
-        // Add cabinet objects to the TableView
+        // Add rendezvous objects to the TableView
         cabinetTableView.getItems().addAll(cabinets);
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        cabinetServices = new CabinetServices();
-        // Initialize column cell value factories
-
-        loadCabinetData(); // Load data into the TableView on initialization
+        cabinetServices = new CabinetServices(); // Initialisez l'instance de CabinetServices
+        // Initialisez les autres composants et chargez les données dans le TableView
+        loadCabinetData(); // Chargez les données dans le TableView
     }
+
 
     @FXML
     void Ajouter_Rapport(ActionEvent event) {
+        Parent root = null;
         try {
-            // Load the new FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/RDV.fxml"));
-            Parent root = loader.load();
-
-            // Create a new stage
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-
-            // Show the stage
-            stage.show();
+            root = FXMLLoader.load(getClass().getResource("/RDV.fxml"));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
 
+    }
+    @FXML
+    void logout(ActionEvent event) {
+
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/AfficheUser.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
 
@@ -289,12 +309,7 @@ public class cabinet implements Initializable {
             // Si le champ de recherche est vide, afficher toutes les données
             loadCabinetData();
         }
-    }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     @FXML

@@ -15,6 +15,7 @@
 <?import javafx.scene.text.Text?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.cabinet">
+
    <children>
       <AnchorPane fx:id="main_form" prefHeight="348.0" prefWidth="506.0">
          <children>
@@ -81,9 +82,9 @@
                                     <FontAwesomeIconView glyphName="PLUS" size="25" tabSize="0" />
                                  </graphic>
                               </Button>
-                              <Button fx:id="logout" layoutX="20.0" layoutY="586.0" minWidth="39.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="54.0" styleClass="logout" stylesheets="@java.css">
+                              <Button fx:id="logout" layoutX="20.0" layoutY="586.0" minWidth="39.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="54.0" styleClass="logout" stylesheets="@java.css">
                                  <graphic>
-                                    <FontAwesomeIconView glyphName="SIGN_OUT" size="25" />
+                                    <FontAwesomeIconView glyphName="SIGN_OUT" size="25" text="" />
                                  </graphic>
                               </Button>
                               <Label layoutX="84.0" layoutY="595.0" text="Logout" textFill="#f2eeee" />
@@ -117,9 +118,9 @@
                                             <columns>
                                               <TableColumn fx:id="nomcolone" prefWidth="100.0" text="nom" />
                                               <TableColumn fx:id="adresscolone" prefWidth="95.0" text="adress" />
-                                                <TableColumn fx:id="horairescolone" prefWidth="134.0" text="horaires" />
+                                                <TableColumn fx:id="heurcolone" prefWidth="134.0" text="horaires" />
                                                 <TableColumn fx:id="emailcolone" prefWidth="123.0" text="email" />
-                                                <TableColumn fx:id="IDcolone" prefWidth="100.0" text="ID" />
+                                                <TableColumn fx:id="ID_colone" prefWidth="100.0" text="ID" />
                                             </columns>
                                           </TableView>
                                        </children>

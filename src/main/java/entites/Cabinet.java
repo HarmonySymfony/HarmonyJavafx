@@ -34,10 +34,11 @@ public class Cabinet {
     public static void generatePDF(List<Cabinet> cabinets, String fileName) {
     }
 
-
     public int getId() {
-        return 0;
+        return id;
+
     }
+
 
     public void setId(int id) {
         this.id = id;

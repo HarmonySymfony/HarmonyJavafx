@@ -34,16 +34,8 @@
                                           <Font name="Bodoni MT Black Italic" size="24.0" />
                                        </font>
                                     </Label>
-                                    <Button fx:id="minimize" layoutX="1291.0" layoutY="12.0" minWidth="37.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="62.0" styleClass="minimize" stylesheets="@java.css">
-                                       <graphic>
-                                          <FontAwesomeIconView glyphName="MINUS" styleClass="minimize" />
-                                       </graphic>
-                                    </Button>
-                                    <Button fx:id="close" layoutX="1342.0" layoutY="12.0" minHeight="20.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="54.0" styleClass="close" stylesheets="@java.css">
-                                       <graphic>
-                                          <FontAwesomeIconView glyphName="CLOSE" />
-                                       </graphic>
-                                    </Button>
+                                    <Button fx:id="minimize" layoutX="1291.0" layoutY="12.0" minWidth="37.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="62.0" styleClass="minimize" stylesheets="@java.css" />
+                                    <Button fx:id="close" layoutX="1342.0" layoutY="12.0" minHeight="20.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="54.0" styleClass="close" stylesheets="@java.css" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -52,7 +44,7 @@
                      <left>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <children>
-                              <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="643.0" prefWidth="210.0" styleClass="nav-form" stylesheets="@java.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-24.0" AnchorPane.topAnchor="14.0">
+                              <AnchorPane layoutX="-5.0" layoutY="14.0" prefHeight="668.0" prefWidth="191.0" styleClass="nav-form" stylesheets="@java.css" AnchorPane.bottomAnchor="-6.0" AnchorPane.leftAnchor="-5.0" AnchorPane.rightAnchor="18.0" AnchorPane.topAnchor="14.0">
                                  <children>
                                     <Label layoutX="47.0" layoutY="86.0" prefHeight="35.0" prefWidth="127.0" text="Welcome ," textFill="#f4eaea">
                                        <font>
@@ -89,7 +81,7 @@
                                           <FontAwesomeIconView glyphName="PLUS" size="25" tabSize="0" />
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="logout" layoutX="20.0" layoutY="586.0" minWidth="39.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="54.0" styleClass="logout" stylesheets="@java.css">
+                                    <Button fx:id="logout" layoutX="20.0" layoutY="586.0" minWidth="39.0" mnemonicParsing="false" onAction="#logout" prefHeight="36.0" prefWidth="54.0" styleClass="logout" stylesheets="@java.css">
                                        <graphic>
                                           <FontAwesomeIconView glyphName="SIGN_OUT" size="25" />
                                        </graphic>
@@ -104,16 +96,16 @@
                      <center>
                         <AnchorPane prefHeight="648.0" prefWidth="1332.0" BorderPane.alignment="CENTER">
                            <children>
-                              <AnchorPane layoutX="-58.0" layoutY="-13.0" prefHeight="659.0" prefWidth="1236.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="-58.0" AnchorPane.rightAnchor="66.0" AnchorPane.topAnchor="-13.0">
+                              <AnchorPane layoutX="4.0" layoutY="-11.0" prefHeight="659.0" prefWidth="1236.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="-11.0">
                                  <children>
                                     <AnchorPane fx:id="User_form" layoutX="107.0" layoutY="116.0" prefHeight="554.4" prefWidth="900.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                    <AnchorPane fx:id="RDV_form" layoutX="71.0" layoutY="60.0" prefHeight="625.0" prefWidth="1181.0" stylesheets="@java.css">
+                                    <AnchorPane fx:id="RDV_form" layoutX="-45.0" layoutY="32.0" prefHeight="625.0" prefWidth="1181.0" stylesheets="@java.css">
                                        <styleClass>
                                           <String fx:value="white-bg" />
                                           <String fx:value="shadow" />
                                        </styleClass>
                                        <children>
-                                          <AnchorPane layoutX="614.0" layoutY="30.0" prefHeight="618.0" prefWidth="538.0" stylesheets="@java.css">
+                                          <AnchorPane layoutX="577.0" layoutY="9.0" prefHeight="618.0" prefWidth="538.0" stylesheets="@java.css">
                                              <styleClass>
                                                 <String fx:value="white-bg" />
                                                 <String fx:value="shadow" />
@@ -121,7 +113,7 @@
                                              <children>
                                                 <TextField fx:id="searchField" layoutX="73.0" layoutY="28.0" onAction="#searchAction" prefHeight="26.0" prefWidth="254.0" promptText="search" styleClass="search" stylesheets="@java.css" />
                                                 <FontAwesomeIconView glyphName="SEARCH" layoutX="80.0" layoutY="45.0" selectionEnd="0" size="10" wrappingWidth="15.7000093460083" />
-                                                <TableView fx:id="rendezvousTableView" layoutX="13.0" layoutY="76.0" onMouseClicked="#getrendezvous" prefHeight="318.0" prefWidth="555.0">
+                                                <TableView fx:id="rendezvousTableView" layoutX="7.0" layoutY="76.0" onMouseClicked="#getrendezvous" prefHeight="318.0" prefWidth="548.0">
                                                    <columns>
                                                       <TableColumn fx:id="IDcolone" prefWidth="100.0" text="ID" />
                                                       <TableColumn fx:id="nomcolone" prefWidth="95.0" text="nom" />
@@ -163,7 +155,7 @@
                                              <font>
                                                 <Font name="Berlin Sans FB" size="18.0" />
                                              </font>
-
+      
                                           </Text>
                                           <TextField fx:id="ID_rendezvous" layoutX="222.0" layoutY="26.0" prefHeight="29.0" prefWidth="218.0" promptText="ID" styleClass="textfield" stylesheets="@java.css" />
                                           <Button fx:id="Statistics" layoutX="350.0" layoutY="303.0" mnemonicParsing="false" onAction="#showAppointmentStatistics" prefHeight="29.0" prefWidth="90.0" styleClass="add-btn" stylesheets="@java.css" text="statistics" textFill="#595757" />

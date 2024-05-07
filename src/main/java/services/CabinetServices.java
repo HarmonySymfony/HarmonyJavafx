@@ -113,7 +113,7 @@ public class CabinetServices implements IservicesCabinet<Cabinet> {
 
 
     public void updateEntity(Cabinet cabinet) {
-        String requete = "UPDATE cabinet SET adress = ?, nom = ?, horaires = ?, email = ? WHERE id=?";
+        String requete = "UPDATE cabinet SET adress = ?, nom = ?, horaires = ?, email = ? WHERE id= ?";
 
         try {
 
@@ -136,6 +136,8 @@ public class CabinetServices implements IservicesCabinet<Cabinet> {
             pst.setString(3, cabinet.getHoraires());
             pst.setString(4, cabinet.getEmail());
             pst.setInt(5, cabinet.getId());
+
+
 
             int rowsAffected = pst.executeUpdate();
 
@@ -180,12 +182,19 @@ public class CabinetServices implements IservicesCabinet<Cabinet> {
             while (rs.next()) {
                 Cabinet c = new Cabinet();
 
-                c.setId(rs.getInt("id"));
-                c.setAdress(rs.getString("Adress"));
-                c.setNom(rs.getString("nom"));
 
-                c.setHoraires(rs.getString("horaires"));
-                c.setEmail(rs.getString("email"));
+                int id = rs.getInt("id");
+                String address = rs.getString("Adress");
+                String nom = rs.getString("nom");
+                String horaires = rs.getString("horaires");
+                String email = rs.getString("email");
+                System.out.println("ID: " + id + ", Address: " + address + ", Nom: " + nom + ", Horaires: " + horaires + ", Email: " + email);
+
+                c.setId(id);
+                c.setAdress(address);
+                c.setNom(nom);
+                c.setHoraires(horaires);
+                c.setEmail(email);
                 data.add(c);
             }
         } catch (SQLException e) {
