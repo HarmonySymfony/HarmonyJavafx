@@ -26,7 +26,7 @@
             </opaqueInsets>
             <!-- Cards will be dynamically added here -->
         </TilePane>
-        <TextField fx:id="searchField" alignment="TOP_CENTER" layoutX="732.0" layoutY="63.0" prefHeight="37.0" prefWidth="174.0" promptText="Search Event ..." style="-fx-font-weight: bold; -fx-text-fill: navy;">
+        <TextField fx:id="searchField" alignment="TOP_CENTER" layoutX="714.0" layoutY="48.0" prefHeight="37.0" prefWidth="174.0" promptText="Search Event ..." style="-fx-font-weight: bold; -fx-text-fill: navy;">
             <font>
                 <Font name="System Bold" size="18.0" />
             </font>

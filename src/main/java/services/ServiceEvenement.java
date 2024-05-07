@@ -161,5 +161,16 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
     }
 
 
+    public void saveComment(int eventId, String comment) {
+        // Implement logic to save the comment for the event
+    }
+
+    public List<String> getComments(int eventId) {
+        // Implement logic to retrieve comments
+        return new ArrayList<>(); // Placeholder return
+    }
+
+
+
 
 }
