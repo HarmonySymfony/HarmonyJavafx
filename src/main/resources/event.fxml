@@ -49,13 +49,14 @@
                         <Button fx:id="deleteButton" onAction="#deleteEvenement" style="-fx-background-color: #ea4335; -fx-text-fill: white;" text="Delete" />
                         <Button fx:id="clearButton" onAction="#clearForm" style="-fx-background-color: #fbbc05; -fx-text-fill: white;" text="Clear" />
 
+
                     </children>
                 </HBox>
 
             </children>
         </VBox>
         <Button fx:id="clearButton1" layoutX="832.0" layoutY="609.0" onAction="#Back" prefHeight="32.0" prefWidth="91.0" style="-fx-background-color: #000000; -fx-text-fill: white;" text="Back" />
-         <BarChart fx:id="statsBarChart" layoutX="283.0" layoutY="266.0" prefHeight="400.0" prefWidth="510.0" title="Event Statistics">
+         <BarChart fx:id="statsBarChart" layoutX="249.0" layoutY="245.0" prefHeight="400.0" prefWidth="510.0" title="Event Statistics">
              <xAxis>
                  <CategoryAxis label="." />
              </xAxis>
@@ -63,6 +64,7 @@
                  <NumberAxis label="Number of Participants" />
              </yAxis>
          </BarChart>
+            <Button fx:id="generatePdfButton" layoutX="839.0" layoutY="255.0" onAction="#generatePDFReport" prefHeight="80.0" prefWidth="90.0" text="Generate PDF" />
      
     </children>
 </AnchorPane>

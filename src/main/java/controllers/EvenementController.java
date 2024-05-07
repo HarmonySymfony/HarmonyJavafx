@@ -4,8 +4,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import kong.unirest.Unirest;
 import services.ServiceEvenement;
 import entities.Evenement;
 import javafx.collections.FXCollections;
@@ -18,13 +21,32 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+
+import org.apache.http.util.EntityUtils;
+import java.nio.charset.StandardCharsets;
+
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import java.io.IOException;
+
+
+
+
+import java.awt.*;
+import java.io.File;
+//import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 import org.controlsfx.control.Notifications;
 
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.sql.Date;
@@ -69,7 +91,8 @@ public class EvenementController {
 
 
 
-
+    @FXML
+    private ImageView imagePreview;
 
 
     private Evenement currentSelectedEvenement;
@@ -363,6 +386,74 @@ public class EvenementController {
         statsBarChart.getData().addAll(seriesAvailable, seriesReserved);
     }
 
+
+
+
+    private String EvenementListToHtml(List<Evenement> evenementList) {
+        StringBuilder htmlBuilder = new StringBuilder();
+
+        // Begin HTML
+        htmlBuilder.append("<html><body>");
+        htmlBuilder.append("<h1>Liste events :</h1>");
+        htmlBuilder.append("<table border='1'><tr><th>Nom:</th><th>Adresse:</th><th>Available Places:</th><th>Description:</th></tr>");
+
+        // Add rows for each Programme
+        for (Evenement event : evenementList) {
+            htmlBuilder.append("<tr>");
+            htmlBuilder.append("<td>").append(event.getNom()).append("</td>");
+            htmlBuilder.append("<td>").append(event.getAdresse()).append("</td>");
+            htmlBuilder.append("<td>").append(event.getPlaceDispo()).append("</td>");
+            htmlBuilder.append("<td>").append(event.getDescription().toString()).append("</td>");
+            htmlBuilder.append("</tr>");
+        }
+
+        // End HTML
+        htmlBuilder.append("</table></body></html>");
+
+        return htmlBuilder.toString();
+    }
+
+    @FXML
+    public void generatePDFReport() {
+        ServiceEvenement serviceEvenement = new ServiceEvenement();
+        try {
+            List<Evenement> evenementsList = serviceEvenement.afficher();
+            String htmlContent = EvenementListToHtml(evenementsList);
+            String apiEndpoint = "https://pdf-api.co/pdf";
+            String apiKey = "952DB3D1DA80ED588277A06827311D0A627F";
+            String requestBody = String.format("{\"apiKey\": \"%s\", \"html\": \"%s\"}", apiKey, htmlContent);
+            HttpResponse<byte[]> response = Unirest.post(apiEndpoint)
+                    .header("Content-Type", "application/json")
+                    .body(requestBody)
+                    .asBytes();
+
+            if (response.getStatus() == 200 && "application/pdf".equals(response.getHeaders().getFirst("Content-Type"))) {
+                Path path = Paths.get("EventReport.pdf");
+                Files.write(path, response.getBody());
+                System.out.println("PDF Generated at: " + path.toAbsolutePath());
+
+                if (Desktop.isDesktopSupported()) {
+                    try {
+                        File pdfFile = new File(path.toString());
+                        Desktop.getDesktop().open(pdfFile);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                        System.err.println("Unable to open the PDF file. Error: " + ex.getMessage());
+                    }
+                } else {
+                    System.err.println("Desktop operations not supported on the current platform. Cannot open the PDF file automatically.");
+                }
+            } else {
+                System.err.println("Failed to generate PDF: " + response.getStatusText());
+                System.err.println("Status Code: " + response.getStatus());
+                System.err.println("Response Headers: " + response.getHeaders());
+                String responseBody = new String(response.getBody(), StandardCharsets.UTF_8);
+                System.err.println("Response Body: " + responseBody);
+            }
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
