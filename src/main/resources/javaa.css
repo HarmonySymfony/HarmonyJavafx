@@ -116,3 +116,11 @@ body {
     -fx-border-width: 0 0 3 0;
     -fx-border-color: #38caef;
 }
+.reset-password-root {
+    -fx-background-image: url('resetpassword.png');
+    -fx-background-size: cover;
+}
+.affiche-user-root {
+    -fx-background-image: url('background.jpg');
+    -fx-background-size: cover;
+}

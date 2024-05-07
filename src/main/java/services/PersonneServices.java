@@ -239,4 +239,31 @@ public class PersonneServices implements IServicesUser<Personne> {
             return false;
         }
     }
+    public Personne getUserById(int userId) {
+        // Replace with your actual SQL query
+        String query = "SELECT * FROM users WHERE id = ?";
+
+        try (PreparedStatement statement = cnx.prepareStatement(query)) {
+            statement.setInt(1, userId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Replace with your actual column names
+                    int id = resultSet.getInt("id");
+                    String nom = resultSet.getString("nom");
+                    String prenom = resultSet.getString("prenom");
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    int age = resultSet.getInt("age");
+                    String role = resultSet.getString("role");
+
+                    return new Personne(id, nom, prenom, email, password, age, role);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
