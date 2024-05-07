@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 600px;
+    background: #000000;
+    font-family: 'Raleway', sans-serif;
+    font-weight: bold;
+}
+
+.button {
+    position: relative;
+    display: inline-block;
+    padding: 25px 30px;
+    margin: 40px 0;
+    color: #03e9f4;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.5s;
+    letter-spacing: 4px;
+    overflow: hidden;
+    margin-right: 50px;
+}
+
+.button:hover {
+    background: #03e9f4;
+    color: #050801;
+    -fx-effect: dropshadow(three-pass-box, #03e9f4, 5, 0, 5, 5);
+}
+
+.button:nth-child(1) {
+    -fx-background-color: #2359d9;
+    -fx-text-fill: #faf9f9;
+    -fx-effect: dropshadow(one-pass-box, #03e9f4, 5, 0, 5, 5);
+}
+
+.button:nth-child(2) {
+    -fx-background-color: #2359d9;
+    -fx-text-fill: #faf9f9;
+    -fx-effect: dropshadow(one-pass-box, #03e9f4, 5, 0, 5, 5);
+}
+
+.button:nth-child(3) {
+    -fx-background-color: #2359d9;
+    -fx-text-fill: #faf9f9;
+    -fx-effect: dropshadow(one-pass-box, #03e9f4, 5, 0, 5, 5);
+}
+
+/* Social Link Styles */
+
+#source-link {
+    top: 120px;
+}
+
+#yt-link {
+    top: 65px;
+}
+
+#Fund-link {
+    top: 10px;
+}
+
+.meta-link {
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.05);
+    -fx-border-color: rgba(255, 255, 255, 0.1);
+    -fx-border-width: 1px;
+    border-radius: 6px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 2, 2, 2, 0);
+    cursor: pointer;
+    display: inline-flex;
+    gap: 5px;
+    left: 10px;
+    padding: 10px 20px;
+    position: fixed;
+    text-decoration: none;
+    transition: background-color 600ms, border-color 600ms;
+    z-index: 10000;
+}
+
+.meta-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-width: 1px;
+}
+
+.meta-link>i,
+.meta-link>span {
+    height: 20px;
+    line-height: 20px;
+}
+
+.meta-link>span {
+    color: white;
+    font-family: "Rubik", sans-serif;
+    transition: color 600ms;
+}
+.text-field {
+    -fx-font: 17px "System";
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #9b9b9b;
+    -fx-text-fill: #000;
+    -fx-background-color: transparent;
+}
+
+.text-field:focus {
+    -fx-font-weight: bold;
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #38caef;
+}
