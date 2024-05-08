@@ -17,7 +17,7 @@
          </font>
       </Text>
       <TextField fx:id="searchField" layoutX="33.0" layoutY="68.0" prefWidth="200.0" promptText="Rechercher..." />
-      <Button layoutX="749.0" layoutY="179.0" mnemonicParsing="false" onAction="#MapClick" prefHeight="25.0" prefWidth="67.0" text="Map" />
+      <Button layoutX="617.0" layoutY="68.0" mnemonicParsing="false" onAction="#MapClick" prefHeight="25.0" prefWidth="67.0" text="Map" />
 
    </children>
 </AnchorPane>

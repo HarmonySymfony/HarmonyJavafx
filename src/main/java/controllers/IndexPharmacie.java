@@ -12,19 +12,30 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
-import java.io.IOException;
-import java.util.List;
-import java.util.EventObject;
 import services.PharmacieServices;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
+
 public class IndexPharmacie {
+
+
+    @FXML
+    private WebView webView;
 
     @FXML
     private ListView<pharmacie> listepharmacie;
 
     @FXML
     private TextField searchField;
+
+
 
     private PharmacieServices pharmacieServices;
 
@@ -44,6 +55,19 @@ public class IndexPharmacie {
         } else {
             System.err.println("searchField is null!");
         }
+        // Récupérer la taille de l'écran
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());
     }
 
     @FXML
