@@ -5,65 +5,93 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.Rating?>
 
 <AnchorPane prefHeight="507.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventDetailController">
     <children>
-        <VBox layoutX="14.0" layoutY="13.0" prefHeight="562.0" prefWidth="826.0" spacing="10">
+        <VBox layoutX="7.0" layoutY="6.0" prefHeight="681.0" prefWidth="890.0" spacing="10">
             <children>
-                <Label fx:id="nameLabel" text="Name : " textFill="NAVY">
+                <Label fx:id="nameLabel" text="Name : " textFill="MediumBlue">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label fx:id="descriptionLabel" text="Description : " textFill="NAVY">
+                <Label fx:id="descriptionLabel" text="Description : " textFill="MediumBlue">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label fx:id="priceLabel" text="Price: " textFill="NAVY">
+                <Label fx:id="priceLabel" text="Price: " textFill="MediumBlue">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label fx:id="placesLabel" text="Places Available : " textFill="NAVY">
+                <Label fx:id="placesLabel" text="Places Available : " textFill="MediumBlue">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label fx:id="addressLabel" text="Address : " textFill="NAVY">
+                <Label fx:id="addressLabel" text="Address : " textFill="MediumBlue">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label text="Enter number of places to reserve :" textFill="NAVY">
+                <Label text="Enter number of places to reserve :" textFill="MediumBlue">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <TextField fx:id="reservationPlacesField" prefHeight="30.0" prefWidth="798.0" promptText="Number of places">
-                    <font>
-                        <Font size="14.0" />
-                    </font></TextField>
-                <Button onAction="#handleReserveAction" prefHeight="30.0" prefWidth="111.0" style="-fx-background-color: #1a73e8; -fx-text-fill: white;" text="Reserve">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Button>
-                <Label fx:id="messageLabel" text="" />
-                <Label fx:id="messageLabels" prefWidth="162.0" textFill="#bc1d1d" wrapText="true" />
-
-
-
-
-
-
-                <Label text="Your Comment :">
+                <TextField fx:id="reservationPlacesField" prefHeight="30.0" prefWidth="798.0" promptText="Number of places" />
+                    <VBox>
+   <!--                    <font>-->
+   <!--                        <Font size="14.0" />-->
+   <!--                    </font></TextField>-->
+                   <Button onAction="#handleReserveAction" prefHeight="30.0" prefWidth="111.0" style="-fx-background-color: #1a73e8; -fx-text-fill: white;" text="Reserve">
+                       <font>
+                           <Font size="14.0" />
+                       </font>
+                   </Button>
+               <VBox prefHeight="57.0" prefWidth="890.0" />
+               <VBox prefHeight="66.0" prefWidth="840.0">
+                  <children>
+                              <!-- Other components -->
+                              <Label text="Rate this event:" textFill="MEDIUMBLUE">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                              <Rating fx:id="eventRating" max="5" partialRating="true" rating="0.0">
+                        <effect>
+                           <DropShadow spread="0.75">
+                              <color>
+                                 <Color red="0.07999999821186066" green="1.0" blue="0.8697056770324707" />
+                              </color>
+                           </DropShadow>
+                        </effect>
+                     </Rating>
+                  </children></VBox>
+                        <!-- Ensure other components are properly closed -->
+                    </VBox>
+                <Label fx:id="messageLabel" text="" textFill="#FF4500" wrapText="true">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Label>
+                <Label fx:id="messageLabels" prefWidth="162.0" wrapText="true" />
+
+
+
+
+
+
+                <Label text="Your Comment : " textFill="0000CD">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Label>
                 <TextArea fx:id="commentTextArea" prefHeight="58.0" prefWidth="826.0" />
                 <Button onAction="#handleCommentSubmit" prefHeight="32.0" prefWidth="113.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Submit Comment" />
-                <Label text="Comments :">
-               <font>
-                  <Font name="System Bold" size="14.0" />
-               </font></Label>
+                <Label text="Comments :" textFill="0000CD">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Label>
                 <ListView fx:id="commentListView" prefHeight="64.0" prefWidth="826.0" />
 
 

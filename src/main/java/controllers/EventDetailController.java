@@ -6,6 +6,9 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
+import org.controlsfx.control.Rating;
 import services.ServiceEvenement;
 import javafx.scene.control.*;
 
@@ -34,6 +37,9 @@ public class EventDetailController {
     private TextArea commentTextArea;
     @FXML
     private ListView<String> commentListView;
+    @FXML
+    private Rating eventRating;
+
 
     private Set<String> bannedWords = new HashSet<>(Arrays.asList("pute", "fuck", "tiiiitt"));
 
@@ -56,6 +62,14 @@ public class EventDetailController {
     }
 
 
+    private void showConfirmation(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Operation Successful");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
 
     @FXML
@@ -74,6 +88,12 @@ public class EventDetailController {
             placesLabel.setText("Available Places: " + evenement.getPlaceDispo());
             messageLabel.setText("Success: Reservation made.");
             reservationPlacesField.clear();
+            showConfirmation("Event reserved successfully.");
+            Notifications notifications = Notifications.create();
+            notifications.text("Event reserved successfully !");
+            notifications.title("Successful");
+            notifications.hideAfter(Duration.seconds(6));
+            notifications.show();
         } catch (NumberFormatException e) {
             messageLabel.setText("Error: Please enter a valid number.");
         } catch (Exception e) {
@@ -88,6 +108,16 @@ public class EventDetailController {
 
     @FXML
     public void initialize() {
+        eventRating.setRating(0);
+
+        eventRating.ratingProperty().addListener((obs, oldVal, newVal) -> {
+            // Replace with your logic to handle the rating change
+            System.out.println("New Rating: " + newVal.doubleValue());
+            // Call your method to handle the new rating
+            saveRating(newVal.doubleValue());
+        });
+
+        // Setting up the comment list view
         commentListView.setItems(commentList);
         commentListView.setCellFactory(param -> new ListCell<>() {
             @Override
@@ -101,6 +131,7 @@ public class EventDetailController {
             }
         });
 
+        // Load comments if the event is already initialized
         if (evenement != null) {
             loadCommentsFromServer();
         } else {
@@ -108,21 +139,41 @@ public class EventDetailController {
         }
     }
 
+
+    public void saveRating(double rating) {
+        // Your code to save the rating, e.g., update a database or a model
+        System.out.println("Rating saved: " + rating);
+    }
+
+
     @FXML
     private void handleCommentSubmit() {
         String comment = commentTextArea.getText().trim();
         if (!comment.isEmpty()) {
             if (containsBannedWords(comment)) {
                 messageLabel.setText("Comment contains inappropriate content !!!");
+                showConfirmation("Comment contains inappropriate content !!!");
+                Notifications notifications = Notifications.create();
+                notifications.text("Comment contains inappropriate content !!! !");
+                notifications.title("Warning !");
+                notifications.hideAfter(Duration.seconds(6));
+                notifications.show();
                 commentTextArea.setText("");
             } else {
                 serviceEvenement.saveComment(evenement.getId(), comment);
                 commentList.add(comment);
                 commentTextArea.clear();
+                showConfirmation("Comment added successfully !");
+                Notifications notifications = Notifications.create();
+                notifications.text("Comment added successfully !");
+                notifications.title("Successful");
+                notifications.hideAfter(Duration.seconds(6));
+                notifications.show();
                 messageLabel.setText("Comment added successfully !");
             }
         } else {
             messageLabel.setText("Comment is empty.");
+
         }
     }
 

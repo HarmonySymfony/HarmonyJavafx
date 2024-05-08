@@ -171,6 +171,10 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
     }
 
 
+    public void saveRating(int eventId, double rating) {
+        // Implement your logic to save the rating to the server or database
+    }
+
 
 
 }

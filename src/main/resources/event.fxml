@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="650.0" prefWidth="882.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EvenementController">
+<AnchorPane prefHeight="674.0" prefWidth="1179.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EvenementController">
     <children>
         <TableView fx:id="evenementTableView" layoutY="14.0" onMouseClicked="#handleEvenementSelection" prefHeight="200.0" prefWidth="1179.0">
             <columns>
@@ -27,7 +27,7 @@
             </columns>
         </TableView>
         <VBox spacing="10" />
-        <VBox layoutX="14.0" layoutY="240.0" prefHeight="346.0" prefWidth="217.0" spacing="10.0">
+        <VBox layoutX="14.0" layoutY="240.0" prefHeight="410.0" prefWidth="246.0" spacing="10.0">
             <children>
                 <Label style="-fx-font-weight: bold;" text="Nom:" />
                 <TextField fx:id="NomField" promptText="Enter full name" />
@@ -44,10 +44,10 @@
 
                 <HBox alignment="BASELINE_LEFT" prefHeight="33.0" prefWidth="217.0" spacing="10.0">
                     <children>
-                        <Button fx:id="addButton" onAction="#addEvenement" style="-fx-background-color: #1a73e8; -fx-text-fill: white;" text="Add" />
+                        <Button fx:id="addButton" onAction="#addEvenement" prefHeight="26.0" prefWidth="54.0" style="-fx-background-color: #1a73e8; -fx-text-fill: white;" text="Add" />
                         <Button fx:id="updateButton" onAction="#updateEvent" style="-fx-background-color: #34a853; -fx-text-fill: white;" text="Update" />
-                        <Button fx:id="deleteButton" onAction="#deleteEvenement" style="-fx-background-color: #ea4335; -fx-text-fill: white;" text="Delete" />
-                        <Button fx:id="clearButton" onAction="#clearForm" style="-fx-background-color: #fbbc05; -fx-text-fill: white;" text="Clear" />
+                        <Button fx:id="deleteButton" onAction="#deleteEvenement" prefHeight="26.0" prefWidth="52.0" style="-fx-background-color: #ea4335; -fx-text-fill: white;" text="Delete" />
+                        <Button fx:id="clearButton" onAction="#clearForm" prefHeight="26.0" prefWidth="52.0" style="-fx-background-color: #fbbc05; -fx-text-fill: white;" text="Clear" />
 
 
                     </children>
@@ -55,16 +55,16 @@
 
             </children>
         </VBox>
-        <Button fx:id="clearButton1" layoutX="832.0" layoutY="609.0" onAction="#Back" prefHeight="32.0" prefWidth="91.0" style="-fx-background-color: #000000; -fx-text-fill: white;" text="Back" />
-         <BarChart fx:id="statsBarChart" layoutX="249.0" layoutY="245.0" prefHeight="400.0" prefWidth="510.0" title="Event Statistics">
-             <xAxis>
-                 <CategoryAxis label="." />
-             </xAxis>
-             <yAxis>
-                 <NumberAxis label="Number of Participants" />
-             </yAxis>
-         </BarChart>
-            <Button fx:id="generatePdfButton" layoutX="839.0" layoutY="255.0" onAction="#generatePDFReport" prefHeight="80.0" prefWidth="90.0" text="Generate PDF" />
-     
+        <Button fx:id="clearButton1" layoutX="895.0" layoutY="606.0" onAction="#Back" prefHeight="32.0" prefWidth="91.0" style="-fx-background-color: #808080; -fx-text-fill: white;" text="Back" />
+        <BarChart fx:id="statsBarChart" layoutX="354.0" layoutY="222.0" prefHeight="400.0" prefWidth="510.0" title="Event Statistics">
+            <xAxis>
+                <CategoryAxis label="." />
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Number of Participants" />
+            </yAxis>
+        </BarChart>
+        <Button fx:id="generatePdfButton" layoutX="896.0" layoutY="253.0" onAction="#generatePDFReport" prefHeight="80.0" prefWidth="90.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Generate PDF" />
+
     </children>
 </AnchorPane>
