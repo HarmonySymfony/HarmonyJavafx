@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class Home extends Application {
+public class home extends Application {
     public static int userID;
     public static String email ;
     public static int id_role ;
