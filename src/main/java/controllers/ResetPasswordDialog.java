@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
 
 import static controllers.Home.email;
@@ -40,24 +41,11 @@ public class ResetPasswordDialog {
     void CANCEL_CLOSE(ActionEvent event) {
         dialogStage.close();
     }
-
-    @FXML
-    void OK_DONE(ActionEvent event) {
-        String email = "email@example.com"; // Récupérez l'email de l'utilisateur depuis votre interface utilisateur
-        String resetTokenGenerated = "votre-jeton-de-reinitialisation"; // Générez un jeton unique
-        personneServices.generateAndStoreResetToken(email, resetTokenGenerated); // Stockez le jeton dans la base de données
-
-        String newPassword = newPasswordField.getText();
-        String resetTokenEntered = resetTokenField.getText(); // Renommez cette variable pour éviter les conflits
-
-        if (personneServices.updatePasswordWithToken(newPassword, resetTokenEntered)) {
-            resetClicked = true;
-            showAlert("Mot de passe réinitialisé", "Votre mot de passe a été réinitialisé avec succès !");
-            dialogStage.close();
-        } else {
-            showAlert("Jeton de réinitialisation invalide", "Le jeton de réinitialisation saisi est invalide. Veuillez réessayer.");
-        }
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(13));
     }
+
+
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -67,8 +55,6 @@ public class ResetPasswordDialog {
         alert.showAndWait();
     }
 
-    public void resetPassword(ActionEvent actionEvent) {
-    }
 
     @FXML
     void submitResetPassword(ActionEvent event) {
@@ -89,15 +75,18 @@ public class ResetPasswordDialog {
             return;
         }
 
-        // Check if the temporary password matches the one in the database
-        if (!personneServices.checkTempPassword(tempPassword)) {
+        // Check if the plain text temporary password matches the one in the database
+        if (!personneServices.checkTempPassword(email, tempPassword)) {
             showAlert("Error", "Temporary password does not match");
             return;
         }
 
+        // Hash the new password
+        String hashedPassword = hashPassword(newPassword);
+
         // Call the resetPassword method from the PersonneServices class
         try {
-            personneServices.resetPassword(email, newPassword);
+            personneServices.resetPassword(email, hashedPassword);
             showAlert("Success", "Password reset successful");
             dialogStage.close();
         } catch (Exception e) {

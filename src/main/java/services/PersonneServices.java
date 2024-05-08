@@ -217,18 +217,19 @@ public class PersonneServices implements IServicesUser<Personne> {
             System.out.println("Error updating password: " + e.getMessage());
         }
     }
-    public boolean checkTempPassword(String tempPassword) {
+    public boolean checkTempPassword(String email, String hashedTempPassword) {
         try {
-            String sql = "SELECT * FROM utilisateur WHERE Password=?";
+            String sql = "SELECT * FROM utilisateur WHERE Email=? AND Password=?";
             PreparedStatement statement = cnx.prepareStatement(sql);
 
-            // Set the temporary password
-            statement.setString(1, tempPassword);
+            // Set the email and the hashed temporary password
+            statement.setString(1, email);
+            statement.setString(2, hashedTempPassword);
 
             // Execute the query
             ResultSet resultSet = statement.executeQuery();
 
-            // If the query returns a result, the temporary password is valid
+            // If the query returns a result, the hashed temporary password is valid
             if (resultSet.next()) {
                 return true;
             } else {
