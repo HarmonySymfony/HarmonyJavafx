@@ -28,6 +28,7 @@ public class Homepage {
         // Set the new scene content
         Scene scene = new Scene(root);
         stage.setTitle("Harmony");
+
         stage.setScene(scene);
         stage.show();
     }

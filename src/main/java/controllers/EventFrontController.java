@@ -49,25 +49,7 @@ public class EventFrontController {
 
 
 
-    /*private void loadEventCards() {
-        try {
-            for (Evenement event : serviceEvenement.afficher()) {
-                VBox card = new VBox(10);
-                card.setPadding(new Insets(15));
-                card.setStyle("-fx-border-color: navy; -fx-border-width: 2;");
 
-                Label nameLabel = new Label("Name : " + event.getNom());
-                Label descLabel = new Label("Description : " + event.getDescription());
-                Button detailsButton = new Button("Show more Details");
-                detailsButton.setOnAction(e -> showEventDetails(event));
-
-                card.getChildren().addAll(nameLabel, descLabel, detailsButton);
-                cardContainer.getChildren().add(card);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }*/
 
     private void showEventDetails(Evenement evenement) {
         try {
@@ -85,25 +67,7 @@ public class EventFrontController {
             e.printStackTrace();
         }
     }
-    /*@FXML
-    private void handleSearch(ActionEvent event) {
-        String keyword = searchField.getText().trim();
-        loadEventCards(keyword); // Mettre à jour pour prendre en compte la recherche
-    }*/
 
-    /*private void loadEventCards(String keyword) {
-        cardContainer.getChildren().clear(); // Nettoyer les cartes précédentes
-        try {
-            for (Evenement event : serviceEvenement.afficher()) {
-                if (eventMatches(event, keyword)) {
-                    VBox card = createEventCard(event);
-                    cardContainer.getChildren().add(card);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }*/
     private void loadEventCards() {
         cardContainer.getChildren().clear(); // Clear previous cards
         try {

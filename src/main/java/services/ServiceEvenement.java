@@ -162,18 +162,17 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
 
 
     public void saveComment(int eventId, String comment) {
-        // Implement logic to save the comment for the event
     }
 
     public List<String> getComments(int eventId) {
-        // Implement logic to retrieve comments
-        return new ArrayList<>(); // Placeholder return
+        return new ArrayList<>();
     }
 
 
     public void saveRating(int eventId, double rating) {
-        // Implement your logic to save the rating to the server or database
     }
+
+
 
 
 

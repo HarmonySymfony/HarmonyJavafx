@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import kong.unirest.Unirest;
@@ -28,6 +30,10 @@ import java.nio.charset.StandardCharsets;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 import java.io.IOException;
+
+
+
+
 
 
 
@@ -55,31 +61,51 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EvenementController {
-    @FXML private TextField idField;
-    @FXML private TextField NomField;
-    @FXML private TextField DescriptionField;
-    @FXML private TextField PrixField;
-    @FXML private TextField PlaceDispoField;
-    @FXML private TextField AdresseField;
-    @FXML private TextField DateField;
-    @FXML private DatePicker dateproPicker;
+    @FXML
+    private TextField idField;
+    @FXML
+    private TextField NomField;
+    @FXML
+    private TextField DescriptionField;
+    @FXML
+    private TextField PrixField;
+    @FXML
+    private TextField PlaceDispoField;
+    @FXML
+    private TextField AdresseField;
+    @FXML
+    private TextField DateField;
+    @FXML
+    private DatePicker dateproPicker;
 
 
-    @FXML private Button addButton;
-    @FXML private Button updateButton;
-    @FXML private Button deleteButton;
-    @FXML private Button clearButton;
+
+    @FXML
+    private Button addButton;
+    @FXML
+    private Button updateButton;
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private Button clearButton;
 
 
-
-    @FXML private TableView<Evenement> evenementTableView;
-    @FXML private TableColumn<Evenement, Integer> columnId;
-    @FXML private TableColumn<Evenement, String> columnNom;
-    @FXML private TableColumn<Evenement, String> columnDescription;
-    @FXML private TableColumn<Evenement, Integer> columnPrix;
-    @FXML private TableColumn<Evenement, Integer> columnPlaceDispo;
-    @FXML private TableColumn<Evenement, String> columnAdresse;
-    @FXML private TableColumn<Evenement, Date> columnDate;
+    @FXML
+    private TableView<Evenement> evenementTableView;
+    @FXML
+    private TableColumn<Evenement, Integer> columnId;
+    @FXML
+    private TableColumn<Evenement, String> columnNom;
+    @FXML
+    private TableColumn<Evenement, String> columnDescription;
+    @FXML
+    private TableColumn<Evenement, Integer> columnPrix;
+    @FXML
+    private TableColumn<Evenement, Integer> columnPlaceDispo;
+    @FXML
+    private TableColumn<Evenement, String> columnAdresse;
+    @FXML
+    private TableColumn<Evenement, Date> columnDate;
 
     @FXML
     private BarChart<String, Number> statsBarChart;
@@ -88,7 +114,6 @@ public class EvenementController {
 
     @FXML
     private BarChart<String, Integer> reservationBarChart;
-
 
 
     @FXML
@@ -102,7 +127,6 @@ public class EvenementController {
     @FXML
     public void initialize() {
         serviceEvenement = new ServiceEvenement();
-//        columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
         columnNom.setCellValueFactory(new PropertyValueFactory<>("Nom"));
         columnDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
         columnPrix.setCellValueFactory(new PropertyValueFactory<>("Prix"));
@@ -113,7 +137,6 @@ public class EvenementController {
         initializeStatsChart();
         loadEvenementData();
     }
-
 
 
     private void initializeStatsChart() {
@@ -144,8 +167,6 @@ public class EvenementController {
     }
 
 
-
-
     @FXML
     public void handleEvenementSelection() {
         Evenement selectedEvenement = evenementTableView.getSelectionModel().getSelectedItem();
@@ -168,10 +189,9 @@ public class EvenementController {
     }
 
 
-
     @FXML
     public void addEvenement() {
-        if (!validateNom() || !validateDescription() || !validatePrix()|| !validatePlaceDispo()||!validateAdresse() ||!validateDate() ) {
+        if (!validateNom() || !validateDescription() || !validatePrix() || !validatePlaceDispo() || !validateAdresse() || !validateDate()) {
             return;
         }
         try {
@@ -205,7 +225,7 @@ public class EvenementController {
 
     @FXML
     public void updateEvent() {
-        if (!validateNom() || !validateDescription() || !validatePrix()|| !validatePlaceDispo()||!validateAdresse() ||!validateDate() ) {
+        if (!validateNom() || !validateDescription() || !validatePrix() || !validatePlaceDispo() || !validateAdresse() || !validateDate()) {
             return;
         }
         try {
@@ -217,8 +237,6 @@ public class EvenementController {
                     Integer.parseInt(PlaceDispoField.getText()),
                     AdresseField.getText(),
                     java.sql.Date.valueOf(dateproPicker.getValue())
-
-
 
 
             );
@@ -235,7 +253,6 @@ public class EvenementController {
             showError(e.getMessage());
         }
     }
-
 
 
     @FXML
@@ -271,7 +288,6 @@ public class EvenementController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
 
 
     private boolean validateNom() {
@@ -310,6 +326,7 @@ public class EvenementController {
         }
         return true;
     }
+
     private boolean validatePrix() {
         String prix = PrixField.getText().trim();  //
         try {
@@ -324,6 +341,7 @@ public class EvenementController {
         }
         return true;
     }
+
     private boolean validateAdresse() {
         String adresse = AdresseField.getText().trim();
         if (adresse.isEmpty()) {
@@ -333,13 +351,13 @@ public class EvenementController {
         return true;
     }
 
-    private boolean validateDate(){
-        if(dateproPicker.getValue()== null){
+    private boolean validateDate() {
+        if (dateproPicker.getValue() == null) {
             showAlert(Alert.AlertType.ERROR, "validation error", "please select a date !");
             return false;
         }
-        if(dateproPicker.getValue().isBefore(LocalDate.now())){
-            showAlert(Alert.AlertType.ERROR, "validation error" , "the date cannopt be in the past !");
+        if (dateproPicker.getValue().isBefore(LocalDate.now())) {
+            showAlert(Alert.AlertType.ERROR, "validation error", "the date cannopt be in the past !");
             return false;
         }
         return true;
@@ -369,10 +387,6 @@ public class EvenementController {
     }
 
 
-
-
-
-
     private void updateChartWithSelectedEvent(int availablePlaces, int reservedPlaces) {
         XYChart.Series<String, Number> seriesAvailable = new XYChart.Series<>();
         seriesAvailable.setName("Available Places");
@@ -385,8 +399,6 @@ public class EvenementController {
         statsBarChart.getData().clear();
         statsBarChart.getData().addAll(seriesAvailable, seriesReserved);
     }
-
-
 
 
     private String EvenementListToHtml(List<Evenement> evenementList) {
@@ -454,6 +466,7 @@ public class EvenementController {
             e.printStackTrace();
         }
     }
+
 
 
 
