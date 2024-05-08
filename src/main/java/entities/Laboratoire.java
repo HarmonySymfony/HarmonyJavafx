@@ -16,6 +16,9 @@ public class Laboratoire {
         this.nom = nom;
         this.emplacement = emplacement;
     }
+    public Laboratoire(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;

@@ -16,23 +16,23 @@
         </image>
     </ImageView>
 
-    <TableView fx:id="laboratoireTable" layoutX="190.0" layoutY="180.0" prefHeight="394.0" prefWidth="648.0" style="-fx-background-color: rgba(255, 255, 255, 0.8); -fx-background-color: lightblue;" styleClass="table-view" visible="true">        <columns>
+    <TableView fx:id="laboratoireTable" layoutX="173.0" layoutY="167.0" prefHeight="394.0" prefWidth="667.0" style="-fx-background-color: rgb(86,215,89); -fx-background-color: #56d759;" styleClass="table-view" visible="true">        <columns>
         <TableColumn fx:id="idColumn" prefWidth="75" text="ID">
             <cellValueFactory>
-                <PropertyValueFactory property="id" />
+                <PropertyValueFactory property="ID" />
             </cellValueFactory>
         </TableColumn>
-        <TableColumn fx:id="nomColumn" prefWidth="166.0" text="Nom">
+        <TableColumn fx:id="nomColumn" prefWidth="166.0" text="Laboratoire">
             <cellValueFactory>
-                <PropertyValueFactory property="nom" />
+                <PropertyValueFactory property="Laboratoire" />
             </cellValueFactory>
         </TableColumn>
         <TableColumn fx:id="emplacementColumn" prefWidth="177.0" text="Emplacement">
             <cellValueFactory>
-                <PropertyValueFactory property="emplacement" />
+                <PropertyValueFactory property="Emplacement" />
             </cellValueFactory>
         </TableColumn>
-        <TableColumn fx:id="actionsColumn" prefWidth="220.0" text="Actions">
+        <TableColumn fx:id="actionsColumn" prefWidth="248.0" text="Actions">
             <cellFactory>
                 <PropertyValueFactory property="DUMMY" />
             </cellFactory>
@@ -42,8 +42,10 @@
     </TableView>
 
 
-    <Button fx:id="ajouterLaboratoire" layoutX="779.0" layoutY="623.0" mnemonicParsing="false" onAction="#addLaboratoire" style="-fx-background-color: #1554b3; -fx-text-fill: white;" text="Ajouter Laboratoire" />
-    <Button layoutX="779.0" layoutY="658.0" mnemonicParsing="false" onAction="#ajouteranalyse" style="-fx-background-color: #1554b3; -fx-text-fill: white;" text="Ajouter Analyse" />
-    <Button layoutX="779.0" layoutY="46.0" mnemonicParsing="false" onAction="#searchLaboratoire" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #1554b3; -fx-text-fill: white;" text="Rechercher" />
+
+    <Button fx:id="ajouterLaboratoire" layoutX="779.0" layoutY="623.0" mnemonicParsing="false" onAction="#addLaboratoire" style="-fx-background-color: #56d759; -fx-text-fill: #ffffff;" text="Ajouter Laboratoire" />
+    <Button layoutX="779.0" layoutY="658.0" mnemonicParsing="false" onAction="#ajouteranalyse" style="-fx-background-color: #56d759; -fx-text-fill: white;" text="Ajouter Analyse" />
+    <Button layoutX="779.0" layoutY="46.0" mnemonicParsing="false" onAction="#searchLaboratoire" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #56d759; -fx-text-fill: white;" text="Rechercher" />
+    <Button layoutX="871.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAfficherStatistiquesButton" style="-fx-background-color: #56d759; -fx-text-fill: white;" text="Voir Statistiques" />
     <TextField fx:id="keyword" layoutX="190.0" layoutY="46.0" prefHeight="26.0" prefWidth="562.0" promptText="Recherche" styleClass="progress" />
 </AnchorPane>

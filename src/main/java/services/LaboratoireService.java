@@ -145,5 +145,19 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
         }
         return laboratoireList;
     }
+    public Laboratoire getById(int id) throws SQLException {
+        String query = "SELECT * FROM laboratoire WHERE id = ?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String nom = resultSet.getString("nom");
+                String emplacement = resultSet.getString("emplacement");
+                return new Laboratoire(id, nom, emplacement);
+            }
+        }
+        return null; // Retourne null si aucun laboratoire avec cet ID n'est trouvé
+    }
+
 
 }

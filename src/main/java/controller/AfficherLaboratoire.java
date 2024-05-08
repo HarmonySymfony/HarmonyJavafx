@@ -18,6 +18,11 @@ import javafx.stage.Stage;
 import javafx.util.Pair;
 import services.AnalyseService;
 import services.LaboratoireService;
+import javafx.fxml.FXML;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,6 +46,11 @@ public class AfficherLaboratoire {
     private TableColumn<Laboratoire, String> emplacementColumn;
     @FXML
     private TableColumn<Laboratoire, Void> actionsColumn;
+    @FXML
+    private void handleAfficherStatistiquesButton() {
+        afficherStatistiquesAnalyses();
+    }
+
 
     private LaboratoireService laboratoireService = new LaboratoireService();
     private AnalyseService analyseService = new AnalyseService();
@@ -110,8 +120,8 @@ public class AfficherLaboratoire {
 
     private void initializeActionsColumn() {
         actionsColumn.setCellFactory(param -> new TableCell<>() {
-            private final Button editButton = new Button("Edit");
-            private final Button deleteButton = new Button("Delete");
+            private final Button editButton = new Button("Modifier");
+            private final Button deleteButton = new Button("Supprimer");
             private final Button viewAnalysesButton = new Button("Voir Analyses");
 
             private final HBox container = new HBox(editButton, deleteButton, viewAnalysesButton);
@@ -234,6 +244,18 @@ public class AfficherLaboratoire {
             System.out.println("Aucun laboratoire sélectionné pour afficher les analyses.");
         }
     }
+    /*@FXML
+    void afficherDiagramme(ActionEvent event) {
+        BarChartDisplay barChartDisplay = new BarChartDisplay();
+        try {
+            barChartDisplay.start(new Stage());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }*/
+
 
 
     public void ajouteranalyse(ActionEvent actionEvent) {
@@ -255,4 +277,45 @@ public class AfficherLaboratoire {
             System.out.println("No laboratory selected to add analysis.");
         }
     }
+    private void afficherStatistiquesAnalyses() {
+        try {
+            List<Pair<Laboratoire, Integer>> statistiques = analyseService.getStatistiquesNombreAnalysesParLaboratoire();
+            if (!statistiques.isEmpty()) {
+                // Créer un nouvel objet CategoryAxis pour l'axe des catégories (noms de laboratoire)
+                CategoryAxis xAxis = new CategoryAxis();
+                // Créer un nouvel objet NumberAxis pour l'axe des valeurs (nombre d'analyses)
+                NumberAxis yAxis = new NumberAxis();
+                // Créer un nouvel objet BarChart avec l'axe des catégories et l'axe des valeurs
+                BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+
+                // Créer une série de données pour le diagramme à barres
+                XYChart.Series<String, Number> series = new XYChart.Series<>();
+                series.setName("Nombre d'analyses par laboratoire");
+
+                // Ajouter les données du service aux séries de données du diagramme à barres
+                for (Pair<Laboratoire, Integer> statistique : statistiques) {
+                    series.getData().add(new XYChart.Data<>(statistique.getKey().getNom(), statistique.getValue()));
+                }
+
+                // Ajouter la série de données au diagramme à barres
+                barChart.getData().add(series);
+
+                // Créer une nouvelle scène pour afficher le diagramme à barres
+                Scene scene = new Scene(barChart, 600, 400);
+
+                // Créer une nouvelle fenêtre pour afficher le diagramme à barres
+                Stage stage = new Stage();
+                stage.setTitle("Diagramme à Barres - Nombre d'Analyses par Laboratoire");
+                stage.setScene(scene);
+                stage.show();
+            } else {
+                System.out.println("Aucune statistique disponible.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Gérer l'exception
+        }
+    }
+
+
 }
