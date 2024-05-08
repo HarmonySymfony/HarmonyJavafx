@@ -1,4 +1,5 @@
 package controllers;
+import entities.TwilioSMS;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -207,9 +208,14 @@ public class EvenementController {
                     Date.valueOf(dateproPicker.getValue())
 
 
+
+
             );
+
             serviceEvenement.Add(evenement);
             loadEvenementData();
+            TwilioSMS.sendCustomMessage("21620515171", "Event added successfully !");
+
             clearForm();
             showConfirmation("Event added successfully.");
             Notifications notifications = Notifications.create();
@@ -242,6 +248,7 @@ public class EvenementController {
             );
             serviceEvenement.modifyEvent(evenement);
             loadEvenementData();
+            TwilioSMS.sendCustomMessage("21620515171", "Event updated successfully !");
             clearForm();
             showConfirmation("Event updated successfully.");
             Notifications notifications = Notifications.create();
@@ -260,6 +267,7 @@ public class EvenementController {
         try {
             serviceEvenement.Delete(selectedEvenementId);
             loadEvenementData();
+            TwilioSMS.sendCustomMessage("21620515171", "Event deleted successfully !");
             clearForm();
             showConfirmation("Event deleted successfully.");
             Notifications notifications = Notifications.create();

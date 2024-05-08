@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
@@ -16,27 +17,27 @@
     <children>
         <VBox layoutX="7.0" layoutY="6.0" prefHeight="681.0" prefWidth="890.0" spacing="10">
             <children>
-                <Label fx:id="nameLabel" text="Name : " textFill="MediumBlue">
+                <Label fx:id="nameLabel" text="Name : " textFill="DarkCyan">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label fx:id="descriptionLabel" text="Description : " textFill="MediumBlue">
+                <Label fx:id="descriptionLabel" text="Description : " textFill="DarkCyan">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label fx:id="priceLabel" text="Price: " textFill="MediumBlue">
+                <Label fx:id="priceLabel" text="Price: " textFill="DarkCyan">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label fx:id="placesLabel" text="Places Available : " textFill="MediumBlue">
+                <Label fx:id="placesLabel" text="Places Available : " textFill="DarkCyan">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label fx:id="addressLabel" text="Address : " textFill="MediumBlue">
+                <Label fx:id="addressLabel" text="Address : " textFill="DarkCyan">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
-                <Label text="Enter number of places to reserve :" textFill="MediumBlue">
+                <Label text="Enter number of places to reserve :" textFill="DarkCyan">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
@@ -54,16 +55,17 @@
                <VBox prefHeight="66.0" prefWidth="840.0">
                   <children>
                               <!-- Other components -->
-                              <Label text="Rate this event:" textFill="MEDIUMBLUE">
+                              <Label text="Rate this event:" textFill="#0000CD">
                         <font>
                            <Font name="System Bold" size="14.0" />
                         </font>
                      </Label>
+                     <Pane prefHeight="8.0" prefWidth="890.0" />
                               <Rating fx:id="eventRating" max="5" partialRating="true" rating="0.0">
                         <effect>
-                           <DropShadow spread="0.75">
+                           <DropShadow spread="0.46">
                               <color>
-                                 <Color red="0.07999999821186066" green="1.0" blue="0.8697056770324707" />
+                                 <Color red="0.22425925731658936" green="1.0" blue="0.21111111342906952" />
                               </color>
                            </DropShadow>
                         </effect>
