@@ -10,8 +10,10 @@ public class Personne {
     private String Password;
     private String Role;
     private int age;
+    private String profilePicturePath;
 
-    public Personne(int id, String Nom, String Prenom, String Email, String Password, int age, String Role) {
+
+    public Personne(int id, String Nom, String Prenom, String Email, String Password, int age, String Role, String profilePicturePath) {
         this.id = id;
         this.Nom = Nom;
         this.Prenom = Prenom;
@@ -19,15 +21,17 @@ public class Personne {
         this.Password = Password;
         this.age = age;
         this.Role = Role;
+        this.profilePicturePath = profilePicturePath;
     }
 
-    public Personne(String Nom, String Prenom, String Email, String Password, int age, String Role) {
+    public Personne(String Nom, String Prenom, String Email, String Password, int age, String Role, String profilePicturePath) {
         this.Nom = Nom;
         this.Prenom = Prenom;
         this.Email = Email;
         this.Password = Password;
         this.age = age;
         this.Role = Role;
+        this.profilePicturePath = profilePicturePath;
     }
 
     public Personne() {}
@@ -141,4 +145,15 @@ public class Personne {
     public void setPrenom(String Prenom) {
         this.Prenom = Prenom;
     }
+
+
+
+    public String getProfilePicturePath() {
+        return profilePicturePath;
+    }
+
+    public void setProfilePicturePath(String profilePicturePath) {
+        this.profilePicturePath = profilePicturePath;
+    }
+
 }
