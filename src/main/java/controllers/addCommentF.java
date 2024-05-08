@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 
-public class addComment {
+public class addCommentF {
 
     @FXML
     private TextArea comment_contenu;

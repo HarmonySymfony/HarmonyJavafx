@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class updatePost {
+public class updatePostF {
 
     @FXML
     public Button submitButton;
@@ -139,7 +139,7 @@ public class updatePost {
     @FXML
     private void annuler(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexPost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexPostF.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) annulerButton.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -152,7 +152,7 @@ public class updatePost {
 //        try {
 //            Stage indexStage = new Stage();
 //            indexStage.setTitle("Index Post");
-//            indexStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/indexPost.fxml"))));
+//            indexStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/indexPostF.fxml"))));
 //            indexStage.show();
 //        } catch (IOException e) {
 //            e.printStackTrace();

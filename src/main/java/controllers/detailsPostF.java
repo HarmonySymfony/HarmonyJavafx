@@ -14,7 +14,7 @@ import services.PostsServices;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class detailsPost {
+public class detailsPostF {
 
     @FXML
     public Button retourButton;
@@ -103,7 +103,7 @@ public class detailsPost {
     @FXML
     private void modifierAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePostF.fxml"));
             Parent root = loader.load();
 
             // Get the controller from the FXMLLoader
@@ -177,7 +177,7 @@ public class detailsPost {
 //    @FXML
 //    private void toggleComments(ActionEvent event) {
 //        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexComment.fxml"));
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexCommentF.fxml"));
 //            Parent root = loader.load();
 //    //      Get the controller from the FXMLLoader
 //            indexComment commentsController = loader.getController();
@@ -214,11 +214,11 @@ public class detailsPost {
 
     private void initializeIndexCommentSection() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexComment.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexCommentF.fxml"));
             Parent root = loader.load();
 
             // Get the controller from the FXMLLoader
-            indexComment commentsController = loader.getController();
+            indexCommentF commentsController = loader.getController();
 
             // Pass the necessary data to the indexComment controller
             commentsController.setSelectedPostAndRefreshTableView(post);
@@ -235,7 +235,7 @@ public class detailsPost {
 //    @FXML
 //    private void afficherCommentairesAction(ActionEvent event) {
 //        try {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexComment.fxml"));
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexCommentF.fxml"));
 //            Parent root = loader.load();
 //
 //            // Get the controller from the FXMLLoader
@@ -267,7 +267,7 @@ public class detailsPost {
     @FXML
     private void retourAction(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexPost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexPostF.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) retourButton.getScene().getWindow();
             stage.setScene(new Scene(root));

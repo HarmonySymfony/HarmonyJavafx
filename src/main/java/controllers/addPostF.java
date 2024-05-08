@@ -17,7 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class addPost {
+public class addPostF {
 
     private final PostsServices ps = new PostsServices();
 

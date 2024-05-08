@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class indexComment {
+public class indexCommentF {
 
         @FXML
         private Button addCommentButton;
@@ -147,11 +147,11 @@ public class indexComment {
         @FXML
         private void handleAddComment(ActionEvent event) {
                 try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/addComment.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/addCommentF.fxml"));
                         Parent root = loader.load();
 
                         // Pass the selected post to the addComment controller
-                        addComment addController = loader.getController();
+                        addCommentF addController = loader.getController();
                         addController.setPost(post);
 
                         // Set the TableView reference for the add controller
@@ -190,11 +190,11 @@ public class indexComment {
 
         private void handleEdit(Comments comment) {
                 try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/updateComment.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/updateCommentF.fxml"));
                         Parent root = loader.load();
 
                         // Get the controller from the FXMLLoader
-                        updateComment updateController = loader.getController();
+                        updateCommentF updateController = loader.getController();
 
                         // Set the TableView reference for the details controller
                         updateController.setCommentTableView(commentTableView);
@@ -220,11 +220,11 @@ public class indexComment {
 
         private void handleDetails(Comments comment) {
                 try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsComment.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsCommentF.fxml"));
                         Parent root = loader.load();
 
                         // Get the controller from the FXMLLoader
-                        detailsComment detailsController = loader.getController();
+                        detailsCommentF detailsController = loader.getController();
 
                         // Set the TableView reference for the details controller
                         detailsController.setCommentTableView(commentTableView);
@@ -251,7 +251,7 @@ public class indexComment {
         public void RetourBack(ActionEvent event) {
                 Parent root = null;
                 try {
-                        root = FXMLLoader.load(getClass().getResource("/detailsPost.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("/detailsPostF.fxml"));
                 } catch (IOException e) {
                         throw new RuntimeException(e);
                 }

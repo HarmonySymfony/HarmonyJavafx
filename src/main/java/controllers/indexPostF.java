@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class indexPost {
+public class indexPostF {
 
     @FXML
     private Button addPostButton, nextButton, prevButton;
@@ -110,9 +110,9 @@ public class indexPost {
     @FXML
     private void handleAddPost(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addPost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addPostF.fxml"));
             Parent root = loader.load();
-            addPost addController = loader.getController();
+            addPostF addController = loader.getController();
             addController.setPostTableView(postTableView);
 
             Stage addStage = new Stage();
@@ -154,9 +154,9 @@ public class indexPost {
 
     private void handleDetails(Posts post) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsPost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsPostF.fxml"));
             Parent root = loader.load();
-            detailsPost detailsController = loader.getController();
+            detailsPostF detailsController = loader.getController();
             detailsController.setPostTableView(postTableView);
             detailsController.setIndexStage((Stage) postTableView.getScene().getWindow());
             detailsController.setPost(post);
@@ -172,9 +172,9 @@ public class indexPost {
 
     private void handleEdit(Posts post) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePostF.fxml"));
             Parent root = loader.load();
-            updatePost updateController = loader.getController();
+            updatePostF updateController = loader.getController();
             updateController.setPostTableView(postTableView);
             updateController.setIndexStage((Stage) postTableView.getScene().getWindow());
             updateController.setPost(post);
@@ -225,7 +225,7 @@ public class indexPost {
     public void RetourBack(ActionEvent event) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/AfficheUser.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/Login.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
