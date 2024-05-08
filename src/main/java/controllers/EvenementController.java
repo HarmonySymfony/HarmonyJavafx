@@ -328,7 +328,7 @@ public class EvenementController {
     }
 
     private boolean validatePrix() {
-        String prix = PrixField.getText().trim();  //
+        String prix = PrixField.getText().trim();
         try {
             double price = Double.parseDouble(prix);
             if (price <= 0) {

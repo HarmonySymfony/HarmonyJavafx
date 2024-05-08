@@ -21,11 +21,10 @@ public class Home extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-            FXMLLoader loader=new FXMLLoader(getClass().getResource("/event.fxml"));
+            FXMLLoader loader=new FXMLLoader(getClass().getResource("/EventFront.fxml"));
         try {
             Parent root=loader.load();
             Scene scene =new Scene(root);
-//            scene.getStylesheets().add(getClass().getResource("Style.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.show();
 

@@ -37,12 +37,11 @@ public class EventFrontController {
     public void initialize() {
         loadEventCards();
 
-        // Add a listener to searchField to handle real-time search updates
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
-                loadEventCards(); // Reload all events if search field is cleared
+                loadEventCards();
             } else {
-                loadEventCards(newValue); // Load filtered events based on the current input
+                loadEventCards(newValue);
             }
         });
     }
@@ -69,7 +68,7 @@ public class EventFrontController {
     }
 
     private void loadEventCards() {
-        cardContainer.getChildren().clear(); // Clear previous cards
+        cardContainer.getChildren().clear();
         try {
             for (Evenement event : serviceEvenement.afficher()) {
                 VBox card = createEventCard(event);
@@ -80,7 +79,7 @@ public class EventFrontController {
         }
     }
     private void loadEventCards(String keyword) {
-        cardContainer.getChildren().clear(); // Clear previous cards
+        cardContainer.getChildren().clear();
         try {
             for (Evenement event : serviceEvenement.afficher()) {
                 if (eventMatches(event, keyword)) {

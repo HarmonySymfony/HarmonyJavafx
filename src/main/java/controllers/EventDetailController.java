@@ -111,9 +111,7 @@ public class EventDetailController {
         eventRating.setRating(0);
 
         eventRating.ratingProperty().addListener((obs, oldVal, newVal) -> {
-            // Replace with your logic to handle the rating change
             System.out.println("New Rating: " + newVal.doubleValue());
-            // Call your method to handle the new rating
             saveRating(newVal.doubleValue());
         });
 
@@ -131,7 +129,6 @@ public class EventDetailController {
             }
         });
 
-        // Load comments if the event is already initialized
         if (evenement != null) {
             loadCommentsFromServer();
         } else {
@@ -141,7 +138,6 @@ public class EventDetailController {
 
 
     public void saveRating(double rating) {
-        // Your code to save the rating, e.g., update a database or a model
         System.out.println("Rating saved: " + rating);
     }
 
@@ -178,7 +174,7 @@ public class EventDetailController {
     }
 
     private boolean containsBannedWords(String comment) {
-        for (String word : comment.split("\\s+")) { // Split by whitespace
+        for (String word : comment.split("\\s+")) {
             if (bannedWords.contains(word.toLowerCase())) {
                 return true;
             }

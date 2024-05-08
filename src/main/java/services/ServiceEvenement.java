@@ -56,31 +56,25 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
 
     @Override
     public void Delete(int id) throws SQLException {
-        // Start transaction
         connection.setAutoCommit(false);
 
         try {
-            // Delete dependent reservations
             String deleteReservations = "DELETE FROM reservation WHERE event_id=?";
             PreparedStatement psReservations = connection.prepareStatement(deleteReservations);
             psReservations.setInt(1, id);
             psReservations.executeUpdate();
 
-            // Delete the event
             String deleteEvent = "DELETE FROM evenement WHERE id=?";
             PreparedStatement psEvent = connection.prepareStatement(deleteEvent);
             psEvent.setInt(1, id);
             psEvent.executeUpdate();
 
-            // Commit transaction
             connection.commit();
             System.out.println("Event and associated reservations deleted");
         } catch (SQLException e) {
-            // If there is an error, rollback any changes
             connection.rollback();
-            throw e; // Re-throw the exception to handle it further (e.g., logging or user feedback)
+            throw e;
         } finally {
-            // Reset auto-commit to default
             connection.setAutoCommit(true);
         }
     }
