@@ -44,6 +44,34 @@ public class AfficherLaboratoire {
 
     private LaboratoireService laboratoireService = new LaboratoireService();
     private AnalyseService analyseService = new AnalyseService();
+    @FXML
+    private TextField keyword;
+
+    @FXML
+    void searchLaboratoire(ActionEvent event) {
+        String searchKeyword = keyword.getText().trim();
+        if (!searchKeyword.isEmpty()) {
+            try {
+                List<Laboratoire> searchResult = laboratoireService.rechercherParNom(searchKeyword);
+                if (searchResult.isEmpty()) {
+                    searchResult = laboratoireService.rechercherParEmplacement(searchKeyword);
+                }
+                if (!searchResult.isEmpty()) {
+                    laboratoireTable.setItems(FXCollections.observableList(searchResult));
+                } else {
+                    // Aucun résultat trouvé, peut-être afficher un message à l'utilisateur
+                    System.out.println("Aucun laboratoire trouvé pour le mot-clé de recherche: " + searchKeyword);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                // Gérer l'exception
+            }
+        } else {
+            // Si le champ de recherche est vide, afficher tous les laboratoires
+            afficherLaboratoire();
+        }
+    }
+
 
     @FXML
     void initialize() {

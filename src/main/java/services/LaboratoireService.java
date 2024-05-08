@@ -112,4 +112,38 @@ public class LaboratoireService implements IService<Laboratoire>{
         }
         return false;
     }
+    public List<Laboratoire> rechercherParNom(String nom) throws SQLException {
+        List<Laboratoire> laboratoireList = new ArrayList<>();
+        String request = "SELECT * FROM laboratoire WHERE nom LIKE ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(request);
+        preparedStatement.setString(1, "%" + nom + "%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String nomLab = resultSet.getString("nom");
+            String emplacement = resultSet.getString("emplacement");
+
+            Laboratoire laboratoire = new Laboratoire(id, nomLab, emplacement);
+            laboratoireList.add(laboratoire);
+        }
+        return laboratoireList;
+    }
+
+    public List<Laboratoire> rechercherParEmplacement(String emplacement) throws SQLException {
+        List<Laboratoire> laboratoireList = new ArrayList<>();
+        String request = "SELECT * FROM laboratoire WHERE emplacement LIKE ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(request);
+        preparedStatement.setString(1, "%" + emplacement + "%");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id");
+            String nom = resultSet.getString("nom");
+            String emplacementLab = resultSet.getString("emplacement");
+
+            Laboratoire laboratoire = new Laboratoire(id, nom, emplacementLab);
+            laboratoireList.add(laboratoire);
+        }
+        return laboratoireList;
+    }
+
 }
