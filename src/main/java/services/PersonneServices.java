@@ -241,7 +241,7 @@ public class PersonneServices implements IServicesUser<Personne> {
     }
     public Personne getUserById(int userId) {
         // Replace with your actual SQL query
-        String query = "SELECT * FROM users WHERE id = ?";
+        String query = "SELECT * FROM utilisateur WHERE id = ?";
 
         try (PreparedStatement statement = cnx.prepareStatement(query)) {
             statement.setInt(1, userId);

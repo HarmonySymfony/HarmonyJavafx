@@ -39,7 +39,7 @@ public class Homepage {
         Personne user = personneServices.getUserById(userId);
         welcomeText.setText("Welcome to our app " + user.getNom());
         nameLabel.setText("Name: " + user.getNom());
-        surnameLabel.setText("Surname: " + user.getPrenom());
+        surnameLabel.setText("Prenom: " + user.getPrenom());
         emailLabel.setText("Email: " + user.getEmail());
         roleLabel.setText("Role: " + user.getRole());
         ageLabel.setText("Age: " + user.getAge());

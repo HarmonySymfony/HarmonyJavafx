@@ -78,16 +78,24 @@ public class Login {
                 } else {
 
 
-                    loggedInUserId = UserConnected.getId();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Homepage.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
+                    if (UserConnected != null) {
+                        loggedInUserId = UserConnected.getId();
+                        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        currentStage.close();
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Homepage.fxml"));
+                        Parent root = loader.load();
+                        Scene scene = new Scene(root);
+                        Homepage homepageController = loader.getController();
+                        homepageController.setUser(UserConnected.getId());
 
-                    Stage stage = new Stage();
-                    stage.setTitle("Sahtik");
-                    stage.setScene(scene);
-                    stage.show();
-                    showAlert("Bienvenue", "Welcome " + UserConnected.getPrenom());
+                        Stage stage = new Stage();
+                        stage.setTitle("Sahtik");
+                        stage.setScene(scene);
+                        stage.show();
+                        showAlert("Bienvenue", "Welcome " + UserConnected.getPrenom());
+                    } else {
+                        showAlert("Utilisateur inexistant", "Utilisateur inexistant!");
+                    }
 
                     // Affichage de la page d'accueil
 
