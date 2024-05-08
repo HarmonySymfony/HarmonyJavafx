@@ -40,7 +40,7 @@ public class Carte implements Initializable {
     void retour(ActionEvent event) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/IndexPharmacie.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/IndexPharmacieFRONT.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
