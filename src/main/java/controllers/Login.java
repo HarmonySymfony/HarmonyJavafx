@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
 
 import javax.mail.*;
@@ -52,7 +53,7 @@ public class Login {
             List<entities.Personne> users = us.getAllData();
 
             for (entities.Personne user : users) {
-                if (user.getEmail().equals(emailtextfield2.getText()) && user.getPassword().equals(passwordtextfield2.getText())) {
+                if (user.getEmail().equals(emailtextfield2.getText()) && BCrypt.checkpw(passwordtextfield2.getText(), user.getPassword())) {
                     UserConnected = user;
                     verif = true;
                     break;

@@ -11,6 +11,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import services.PersonneServices;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.io.IOException;
 
@@ -34,21 +35,18 @@ public class Personne {
 
     private PersonneServices personneServices = new PersonneServices();
 
-    // Constructor not needed if using FXML
-    // You can remove the constructor
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(13));
+    }
 
     @FXML
     void ajouterPersonne(ActionEvent event) throws IOException {
+        String hashedPassword = hashPassword(passwordTextField.getText());
 
-
-        // Create a new Personne object with the entered data
-        entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), passwordTextField.getText(), Integer.parseInt(ageTextField.getText()),roleTextField.getText());
+        entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), hashedPassword, Integer.parseInt(ageTextField.getText()),roleTextField.getText());
         PersonneServices personneServices = new PersonneServices();
         try {
-
-
             if (emailTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
-
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("champ vide");
                 alert.setHeaderText(null);
@@ -66,21 +64,13 @@ public class Personne {
                 alert.setHeaderText(null);
                 alert.setContentText("Format AGE non valide! L'âge doit être compris entre 1 et 99.");
                 alert.show();
-            }
-
-            // Call the Ajouter method of PersonneServices to add the Personne to the database
-            else {
+            } else {
                 personneServices.Ajouter(p);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setContentText("l'utilisateur a été ajouté avec succès");
                 alert.show();
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
-                Parent root = null;
-                try {
-                    root = loader.load();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                Parent root = loader.load();
                 Scene scene = new Scene(root);
 
                 Stage stage = new Stage();
@@ -88,14 +78,7 @@ public class Personne {
                 stage.setScene(scene);
                 stage.show();
             }
-
-            // Optionally, you can clear the text fields after adding the Personne
-//            nomTextField.clear();
-//            prenomTextField.clear();
-//            emailTextField.clear();
-//            passwordTextField.clear();
-//            ageTextField.clear();
-        } catch (Exception e) { // Catch more general exception or handle specific exceptions thrown by Ajouter method
+        } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText(e.getMessage());
             alert.show();
@@ -112,10 +95,7 @@ public class Personne {
             throw new RuntimeException(e);
         }
 
-        // Get the current stage (window)
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Set the new scene content
         Scene scene = new Scene(root);
         stage.setTitle("Harmony");
         stage.setScene(scene);
