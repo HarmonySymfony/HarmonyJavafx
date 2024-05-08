@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="681.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.frontcabinet">
+   <children>
+      <TableView fx:id="cabinetTableViewfront" layoutX="51.0" layoutY="14.0" prefHeight="385.0" prefWidth="555.0">
+         <columns>
+            <TableColumn fx:id="nomcab" prefWidth="100.0" text="nom" />
+            <TableColumn fx:id="adresscab" prefWidth="95.0" text="adress" />
+            <TableColumn fx:id="heurcab" prefWidth="134.0" text="horaires" />
+            <TableColumn fx:id="emailcab" prefWidth="123.0" text="email" />
+            <TableColumn fx:id="ID_cab" prefWidth="100.0" text="ID" />
+         </columns>
+      </TableView>
+      <Button fx:id="rendezvous" layoutX="86.0" layoutY="420.0" mnemonicParsing="false" onAction="#rendezvous" text="RDV" />
+   </children>
+</AnchorPane>
