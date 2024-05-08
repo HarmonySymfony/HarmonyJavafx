@@ -5,7 +5,7 @@ import utils.DB;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-public class AnalyseService implements IService<Analyse>{
+public class AnalyseService implements IServiceLabo<Analyse>{
     private Connection connection ;
     public AnalyseService(){connection = (Connection) DB.getInstance().getConnection();}
 

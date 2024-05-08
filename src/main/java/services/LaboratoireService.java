@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LaboratoireService implements IService<Laboratoire>{
+public class LaboratoireService implements IServiceLabo<Laboratoire>{
     private Connection connection ;
     public LaboratoireService(){connection = DB.getInstance().getConnection();}
 
