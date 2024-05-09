@@ -1,4 +1,4 @@
-package controller;
+package controllers;
 
 import entities.Laboratoire;
 import javafx.event.ActionEvent;

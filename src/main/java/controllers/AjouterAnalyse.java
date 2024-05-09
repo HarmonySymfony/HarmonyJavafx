@@ -1,5 +1,5 @@
 
-package controller;
+package controllers;
 
 import entities.Analyse;
 import entities.Laboratoire;

@@ -1,4 +1,4 @@
-package controller;
+package controllers;
 
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
