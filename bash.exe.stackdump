@@ -1,3 +1,1 @@
-Exception: STATUS_ACCESS_VIOLATION at eip=00CF38EA
-eax=00007277 ebx=00000000 ecx=81430000 edx=00400000 esi=00400000 edi=00000001
-ebp=0101CCBC esp=0101CAA4 program=\\?\C:\Program Files (x86)\Git\usr\bin\bash.exe, pid 313, thread 
+Exception: STATUS_ACCESS_VIOLATION at eip=016038EA

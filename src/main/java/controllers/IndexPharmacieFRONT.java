@@ -4,13 +4,11 @@ import entities.pharmacie;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -20,18 +18,30 @@ import java.io.IOException;
 import java.util.List;
 import services.PharmacieServices;
 
-public class ShowPharmacie {
+public class IndexPharmacieFRONT {
 
     @FXML
-    private ListView<pharmacie> listepharmacie; // ListView de type pharmacie
+    private ListView<pharmacie> listepharmacie;
+
+    @FXML
+    private TextField searchField;
 
     private PharmacieServices pharmacieServices;
 
     @FXML
     public void initialize() {
         pharmacieServices = new PharmacieServices();
-        // Retrieve the list of pharmacies from the database and populate the ListView
         populateListView();
+
+        assert searchField != null : "fx:id searchField not injected!";
+
+        if (searchField != null) {
+            searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+                filterPharmacies(newValue);
+            });
+        } else {
+            System.err.println("searchField is null!");
+        }
     }
 
     @FXML
@@ -43,11 +53,9 @@ public class ShowPharmacie {
             listepharmacie.getItems().add(pharmacy);
         }
 
-        // Set the custom cell factory for the ListView
         listepharmacie.setCellFactory(param -> new PharmacieListCell());
     }
 
-    // Custom ListCell for displaying pharmacies with delete and edit buttons
     private class PharmacieListCell extends ListCell<pharmacie> {
         @Override
         protected void updateItem(pharmacie item, boolean empty) {
@@ -57,81 +65,69 @@ public class ShowPharmacie {
                 setText(null);
                 setGraphic(null);
             } else {
-                // Create buttons for delete and edit
-                Button deleteButton = new Button("Delete");
-                Button editButton = new Button("Edit");
+                Button showButton = new Button("Show");
+                Button medicamentButton = new Button("Médicament");
 
-                // Set actions for buttons
-                deleteButton.setOnAction(event -> {
-                    pharmacieServices.deleteEntity(item);
-                    populateListView(); // Refresh list view after deletion
+                showButton.setOnAction(event -> {
+                    Alert alert = new Alert(AlertType.INFORMATION);
+                    alert.setTitle("Détails de la pharmacie");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Nom: " + item.getNom() + "\nAdresse: " + item.getAdress() + "\nType: " + item.getType());
+                    alert.showAndWait();
                 });
-                editButton.setOnAction(event -> openModifierPharmacieView(item));
 
-                // Create HBox to hold buttons
-                HBox buttonsBox = new HBox(5, deleteButton, editButton);
+                medicamentButton.setOnAction(event -> openMedicamentView(event, item));
 
-                // Create a region to fill the space
+                HBox buttonsBox = new HBox(5, showButton, medicamentButton);
+                buttonsBox.setSpacing(10); // Espacement entre les boutons
+                buttonsBox.setPadding(new Insets(5)); // Marge intérieure des boutons
+
                 Region spacer = new Region();
                 HBox.setHgrow(spacer, Priority.ALWAYS);
 
-                // Add buttons and spacer to the cell
                 HBox cellBox = new HBox(spacer, buttonsBox);
                 setGraphic(cellBox);
 
-                // Set text to display pharmacy details
                 setText(item.getNom() + " - " + item.getAdress() + " (" + item.getType() + ")");
             }
         }
     }
 
+    private void filterPharmacies(String keyword) {
+        List<pharmacie> pharmacies = pharmacieServices.getAllData();
+
+        listepharmacie.getItems().clear();
+
+        for (pharmacie pharmacy : pharmacies) {
+            if (pharmacy.getNom().toLowerCase().contains(keyword.toLowerCase())) {
+                listepharmacie.getItems().add(pharmacy);
+            }
+        }
+    }
+
     @FXML
-    private void openModifierPharmacieView(pharmacie selectedPharmacy) {
+    private void openMedicamentView(ActionEvent event, pharmacie selectedPharmacy) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ModifierPharmacie.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/IndexMedicamentFRONT.fxml"));
             Parent root = loader.load();
 
-            // Obtenir le contrôleur de la vue de modification
-            ModifierPharmacie controller = loader.getController();
-
-            // Passer les informations de la pharmacie sélectionnée
+            IndexMedicamentFRONT controller = loader.getController();
             controller.setPharmacie(selectedPharmacy);
-
-            // Passer la liste des pharmacies à modifier
             controller.setListePharmacies(listepharmacie);
 
-            // Afficher la scène
-            Stage stage = new Stage(); // Créez une nouvelle fenêtre pour afficher la modification
+            Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
+
+            // Fermer la fenêtre IndexPharmacieFRONT
+            ((Node) event.getSource()).getScene().getWindow().hide();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
-    }
     @FXML
-    void ajouterpharmacie(ActionEvent event) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/AjouterPharmacie.fxml"));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-
-    }
-    @FXML
-    void RetourBack(ActionEvent event) {
+    void buttonRetour(ActionEvent event) {
         Parent root = null;
         try {
             root = FXMLLoader.load(getClass().getResource("/AfficheUser.fxml"));
@@ -143,4 +139,19 @@ public class ShowPharmacie {
         stage.setScene(scene);
         stage.show();
     }
+    @FXML
+    void MapClick(ActionEvent event) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/Carte.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
 }

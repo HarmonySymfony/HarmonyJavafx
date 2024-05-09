@@ -36,7 +36,7 @@ public class ModifierPharmacie {
 
     @FXML
     void BackToListeUpdate(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/ShowPharmacie.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/IndexPharmacie.fxml"));
         Scene scene = new Scene(root);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
