@@ -5,7 +5,9 @@ import utils.MyConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PostsServices implements IService<Posts> {
 
@@ -138,4 +140,26 @@ public class PostsServices implements IService<Posts> {
         }
         return post;
     }
+
+    public List<Map<String, Object>> getPostsWithCommentCount() throws SQLException {
+        List<Map<String, Object>> postsWithComments = new ArrayList<>();
+        String query = "SELECT p.id, p.contenu, COUNT(c.id) AS comment_count " +
+                "FROM posts p LEFT JOIN comments c ON p.id = c.posts_id " +
+                "GROUP BY p.id, p.contenu ORDER BY p.date_creation DESC";
+
+        try (Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(query)) {
+            while (resultSet.next()) {
+                Map<String, Object> postWithComments = new HashMap<>();
+                postWithComments.put("id", resultSet.getInt("id"));
+                postWithComments.put("contenu", resultSet.getString("contenu"));
+                postWithComments.put("comment_count", resultSet.getInt("comment_count"));
+                postsWithComments.add(postWithComments);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving posts with comment count: " + e.getMessage());
+        }
+        return postsWithComments;
+    }
+
 }

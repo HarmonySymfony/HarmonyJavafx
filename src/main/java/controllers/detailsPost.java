@@ -285,14 +285,10 @@ public class detailsPost {
 
     @FXML
     private void retourAction(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexPost.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) retourButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Get the stage associated with the button that triggered the event
+        Stage stage = (Stage) retourButton.getScene().getWindow();
+        // Close the current stage/window
+        stage.close();
     }
 
     @FXML
@@ -353,4 +349,42 @@ public class detailsPost {
             e.printStackTrace();
         }
     }
+
+    @FXML private Label titleLabel; // Example label
+
+
+    public void loadPostDetails(int postId) {
+        try {
+            // Assume PostsServices provides a method to get a post by ID
+            PostsServices postsServices = new PostsServices();
+            Posts post = postsServices.getById(postId);
+
+            if (post != null) {
+                // Update UI components with the details of the post
+                postIdLabel.setText(String.valueOf(post.getId()));
+                contenuLabel.setText(post.getContenu() != null ? post.getContenu() : "");
+                dateCreationLabel.setText(post.getDateCreation() != null ? post.getDateCreation().toString() : "");
+                lastModificationLabel.setText(post.getLastModification() != null ? post.getLastModification().toString() : "");
+                postedAsLabel.setText(post.getPostedAs() != null ? post.getPostedAs() : "");
+
+                // Optionally, load comments related to this post
+                loadCommentsForPost(post);
+            } else {
+                System.out.println("No post found with ID: " + postId);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error retrieving post details: " + e.getMessage());
+        }
+    }
+    private void loadCommentsForPost(Posts post) throws SQLException {
+        CommentsServices commentsService = new CommentsServices();
+        List<Comments> comments = commentsService.getCommentsByPost(post);
+        commentsSection.getChildren().clear();  // Clear existing comments
+        for (Comments comment : comments) {
+            Label commentLabel = new Label(comment.getContenu() + " - " + comment.getDateCreation());
+            commentsSection.getChildren().add(commentLabel);
+        }
+    }
+
 }

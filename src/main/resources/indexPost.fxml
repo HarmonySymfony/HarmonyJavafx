@@ -10,6 +10,7 @@
         <VBox layoutX="30.0" layoutY="100.0" spacing="10.0">
             <HBox alignment="CENTER_RIGHT" spacing="10">
                 <Button fx:id="addPostButton" onAction="#handleAddPost" text="Créer nouvelle publication" />
+                <Button text="View Statistics" onAction="#openStatisticsWindow" />
                 <Button onAction="#RetourBack" text="Retour" />
             </HBox>
             <Label text="Liste des publications" style="-fx-font-size: 24;">
@@ -17,7 +18,7 @@
                     <Font size="24.0" />
                 </font>
             </Label>
-            <TableView fx:id="postTableView" prefHeight="400.0" prefWidth="1200.0" fixedCellSize="37.3">
+            <TableView fx:id="postTableView" prefHeight="440.0" prefWidth="1200.0" fixedCellSize="40.0">
                 <columns>
                 <TableColumn fx:id="idCol" prefWidth="100" text="ID publication" />
                 <TableColumn fx:id="postedAsCol" prefWidth="100" text="Publié en tant que" />

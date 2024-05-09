@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.forumStats"
+            prefHeight="800.0" prefWidth="1000.0">
+
+    <BarChart fx:id="postCommentChart" layoutX="25.0" layoutY="51.0"
+              prefHeight="750.0" prefWidth="950.0">
+        <xAxis>
+            <CategoryAxis label="Post ID"/>
+        </xAxis>
+        <yAxis>
+            <NumberAxis fx:id="yAxis" label="Number of Comments"/> <!-- Correctly placed here -->
+        </yAxis>
+    </BarChart>
+</AnchorPane>
