@@ -24,8 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class IndexPharmacie {
-
-
+    
     @FXML
     private WebView webView;
 
@@ -34,9 +33,6 @@ public class IndexPharmacie {
 
     @FXML
     private TextField searchField;
-
-
-
     private PharmacieServices pharmacieServices;
 
     @FXML
