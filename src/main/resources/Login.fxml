@@ -14,9 +14,9 @@
 <AnchorPane prefHeight="607.0" prefWidth="890.0" styleClass="affiche-user-root" stylesheets="@javaa.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Login">
     <children>
         <WebView fx:id="webView" />
-                        <Label layoutX="61.0" layoutY="22.0" prefHeight="88.0" prefWidth="831.0" text="Welcome to our App Sahtik">
+                        <Label layoutX="648.0" layoutY="39.0" prefHeight="88.0" prefWidth="697.0" text="Welcome to our App Sahtik">
                             <font>
-                                <Font name="System Bold" size="60.0" />
+                                <Font name="System Bold" size="48.0" />
                             </font>
          <textFill>
             <LinearGradient endX="1.0" endY="1.0">
@@ -35,25 +35,25 @@
             </LinearGradient>
          </textFill>
                         </Label>
-                        <Label layoutX="800.0" layoutY="255.0" text="E-mail">
+                        <Label layoutX="822.0" layoutY="136.0" text="E-mail">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="emailtextfield2" layoutX="800.0" layoutY="290.0" prefHeight="55.0" prefWidth="349.0" />
-                        <Label layoutX="797.0" layoutY="368.0" prefHeight="40.0" prefWidth="114.0" text="Password">
+                        <TextField fx:id="emailtextfield2" layoutX="822.0" layoutY="182.0" prefHeight="35.0" prefWidth="349.0" />
+                        <Label layoutX="822.0" layoutY="237.0" text="Password">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
                         </Label>
-                        <Button layoutX="853.0" layoutY="607.0" mnemonicParsing="false" onAction="#login" text="Login">
+                        <Button layoutX="822.0" layoutY="432.0" mnemonicParsing="false" onAction="#login" text="Login">
                             <font>
                                 <Font name="System Bold" size="20.0" />
                             </font>
                         </Button>
-                        <PasswordField fx:id="passwordtextfield2" layoutX="800.0" layoutY="408.0" prefHeight="55.0" prefWidth="349.0" />
-                        <Button layoutX="797.0" layoutY="492.0" mnemonicParsing="false" onAction="#motdepasseoubliee" prefHeight="26.0" prefWidth="114.0" text="Forget Password?" underline="true" />
-                        <Button layoutX="987.0" layoutY="607.0" mnemonicParsing="false" onAction="#signup" prefHeight="44.0" prefWidth="95.0" text="SignUp">
+                        <PasswordField fx:id="passwordtextfield2" layoutX="822.0" layoutY="272.0" prefHeight="35.0" prefWidth="338.0" />
+                        <Button layoutX="822.0" layoutY="332.0" mnemonicParsing="false" onAction="#motdepasseoubliee" text="Forget Password?" underline="true" />
+                        <Button layoutX="1042.0" layoutY="432.0" mnemonicParsing="false" onAction="#signup" text="SignUp">
                             <font>
                                 <Font name="System Bold" size="20.0" />
                             </font>

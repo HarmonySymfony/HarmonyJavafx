@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -15,7 +17,12 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import services.PersonneServices;
 
+
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 public class Homepage {
 
@@ -38,6 +45,9 @@ public class Homepage {
 
     @FXML
     private Label ageLabel;
+
+    @FXML
+    private ImageView userProfilePicture;
 
     private PersonneServices personneServices = new PersonneServices();
 
@@ -65,6 +75,15 @@ public class Homepage {
         emailLabel.setText("Email: " + user.getEmail());
         roleLabel.setText("Role: " + user.getRole());
         ageLabel.setText("Age: " + user.getAge());
+
+        Blob blob = user.getProfilePicture();
+        try {
+            InputStream is = blob.getBinaryStream();
+            Image image = new Image(is);
+            userProfilePicture.setImage(image);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -86,6 +105,29 @@ public class Homepage {
 
         stage.setScene(scene);
         stage.show();
+    }
+    @FXML
+    public void openEditProfile() {
+        try {
+            // Load the FXML file for editing user details
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditProfile.fxml"));
+            Parent root = loader.load();
+
+            // Pass the user information to the controller of the editing window
+            EditProfileController editProfileController = loader.getController();
+            editProfileController.initData(personneServices.getUserById(Home.userID));
+
+            // Show the editing window
+            Stage stage = new Stage();
+            stage.setTitle("Edit Profile");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            // Refresh the user information after editing
+            setUser(Home.userID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
