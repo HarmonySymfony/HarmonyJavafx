@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class IndexPharmacie {
-    
+
     @FXML
     private WebView webView;
 
