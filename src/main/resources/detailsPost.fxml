@@ -24,6 +24,7 @@
         <HBox layoutX="30.0" layoutY="270.0" spacing="10.0">
             <Button onAction="#modifierAction" text="Modifier" />
             <Button onAction="#supprimerAction" text="Supprimer" />
+            <Button onAction="#genererPDFAction" text="Génerer PDF" />
             <Button onAction="#afficherCommentairesAction" text="Afficher/Masquer Commentaires" />
             <Button fx:id="retourButton" onAction="#retourAction" text="Retour à la liste" />
         </HBox>

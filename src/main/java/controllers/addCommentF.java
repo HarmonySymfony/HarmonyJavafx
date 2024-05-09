@@ -19,7 +19,9 @@ import services.PostsServices;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class addCommentF {
 
@@ -48,6 +50,16 @@ public class addCommentF {
 
     @FXML
     private WebView webView;
+    private final List<String> forbiddenWordsEnglish = Arrays.asList(
+            "fuck", "shit", "asshole", "bitch", "cunt",
+            "dick", "bastard", "motherfucker", "ass", "cock"
+    );
+
+    // Define the list of forbidden words in French
+    private final List<String> forbiddenWordsFrench = Arrays.asList(
+            "putain", "merde", "connard", "salope", "enculé",
+            "bite", "enculée", "con", "bordel", "chier"
+    );
 
     @FXML
     public void initialize() {// Récupérer la taille de l'écran
@@ -121,6 +133,17 @@ public class addCommentF {
             return;
         }
 
+        // Ensure the content matches the allowed pattern
+        if (!contenu.matches("^[a-zA-Z0-9_\\s!?.,;:]*$")) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Seules les lettres, les chiffres, les traits de soulignement et les espaces sont autorisés.");
+            return;
+        }
+
+        if (containsForbiddenWord(contenu)) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le contenu contient des mots interdits.");
+            return;
+        }
+
         // Determine the commentedAs value based on the selected RadioButton
         String commentedAs = comment_commentedAs_anonyme.isSelected() ? "Anonyme" : "Username";
 
@@ -145,6 +168,26 @@ public class addCommentF {
         stage.close();
     }
 
+    // Method to check if the content contains any forbidden words
+    private boolean containsForbiddenWord(String content) {
+        // Convert the content to lowercase for case-insensitive comparison
+        String lowercaseContent = content.toLowerCase();
+
+        // Check if any forbidden word is present in the content
+        for (String word : forbiddenWordsEnglish) {
+            if (lowercaseContent.contains(word)) {
+                return true;
+            }
+        }
+
+        for (String word : forbiddenWordsFrench) {
+            if (lowercaseContent.contains(word)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     // Method to show an alert dialog
     @FXML

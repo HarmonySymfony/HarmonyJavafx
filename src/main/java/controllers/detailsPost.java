@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Comments;
 import entities.Posts;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -8,11 +9,26 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.pdfbox.io.IOUtils;
+import services.CommentsServices;
 import services.PostsServices;
+
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 public class detailsPost {
 
@@ -169,7 +185,10 @@ public class detailsPost {
         items.remove(post);
     }
 
-
+    @FXML
+    private void genererPDFAction(ActionEvent event) throws SQLException {
+        genererPDF();
+    }
     @FXML
     private ToggleButton toggleButton;
 
@@ -276,5 +295,62 @@ public class detailsPost {
         }
     }
 
+    @FXML
+    private void genererPDF() {
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage();
+            document.addPage(page);
 
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            PDType0Font font = PDType0Font.load(document, getClass().getResourceAsStream("/fonts/CairoPlay-VariableFont_slnt,wght.ttf"));
+
+            float margin = 50; // Adjusted margin for better spacing
+            float fontSize = 12; // Adjust the font size if needed
+            float lineHeight = 1.5f * fontSize; // Adjust the line height for spacing
+
+            // Start writing post content
+            float yPosition = page.getMediaBox().getHeight() - 2 * margin - 100;
+
+            // Write the content of the currently opened post
+            contentStream.beginText();
+            contentStream.setFont(font, fontSize);
+            contentStream.newLineAtOffset(margin, yPosition);
+            contentStream.showText("Post content: " + post.getContenu()+"          Timestamp: " + post.getDateCreation());
+            contentStream.newLine();
+            yPosition -= lineHeight; // Adjust the y position for the next line
+            contentStream.endText();
+
+            // Retrieve comments associated with the currently opened post
+            CommentsServices commentsService = new CommentsServices();
+            List<Comments> comments;
+            try {
+                comments = commentsService.getCommentsByPost(post);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Write the comments
+            for (Comments comment : comments) {
+                contentStream.beginText();
+                contentStream.setFont(font, fontSize);
+                contentStream.newLineAtOffset(margin, yPosition);
+                contentStream.showText("Comment: " + comment.getContenu()+"      Date de Commentaire: " + comment.getDateCreation());
+                contentStream.newLine();
+                yPosition -= lineHeight; // Adjust the y position for the next line
+                contentStream.endText();
+            }
+
+            contentStream.close();
+
+            // Save the PDF file
+            File file = new File("ListOfPosts.pdf");
+            document.save(file);
+
+            // Open the PDF file
+            Desktop.getDesktop().open(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
