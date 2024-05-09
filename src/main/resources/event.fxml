@@ -17,8 +17,9 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="730.0" prefWidth="1219.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EvenementController">
+<AnchorPane prefHeight="727.0" prefWidth="1362.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EvenementController">
     <children>
       <HBox prefHeight="26.0" prefWidth="952.0" spacing="20.0">
          <children>
@@ -45,7 +46,7 @@
             <Pane prefHeight="40.0" prefWidth="187.0" />
          </children>
       </HBox>
-        <TableView fx:id="evenementTableView" layoutY="43.0" onMouseClicked="#handleEvenementSelection" prefHeight="243.0" prefWidth="1179.0">
+        <TableView fx:id="evenementTableView" layoutX="17.0" layoutY="43.0" onMouseClicked="#handleEvenementSelection" prefHeight="243.0" prefWidth="1315.0">
             <columns>
                 <TableColumn fx:id="columnNom" prefWidth="126.39999103546143" text="Nom" />
                 <TableColumn fx:id="columnDescription" prefWidth="208.8000030517578" text="Description" />
@@ -54,10 +55,10 @@
                 <TableColumn fx:id="columnAdresse" prefWidth="124.79998779296875" text="Adresse" />
                 <TableColumn fx:id="columnDate" prefWidth="180.00006103515625" text="Date" />
 
-                                    </columns>
+            </columns>
         </TableView>
         <VBox spacing="10" />
-        <VBox layoutX="14.0" layoutY="292.0" prefHeight="375.0" prefWidth="259.0" spacing="10.0">
+        <VBox layoutX="15.0" layoutY="292.0" prefHeight="410.0" prefWidth="278.0" spacing="10.0">
             <children>
                 <Label style="-fx-font-weight: bold;" text="Nom:" />
                 <TextField fx:id="NomField" promptText="Enter full name" />
@@ -70,7 +71,7 @@
                 <Label style="-fx-font-weight: bold;" text="Adresse:" />
                 <TextField fx:id="AdresseField" promptText="Street, City, Postal Code" />
                 <Label style="-fx-font-weight: bold;" text="Date:" />
-                <DatePicker fx:id="dateproPicker" promptText="Salect Event date" />
+                <DatePicker fx:id="dateproPicker" prefHeight="26.0" prefWidth="260.0" promptText="Salect Event date" />
 
                 <HBox alignment="BASELINE_LEFT" prefHeight="33.0" prefWidth="217.0" spacing="10.0">
                     <children>
@@ -85,8 +86,8 @@
 
             </children>
         </VBox>
-        <Button fx:id="clearButton1" layoutX="1043.0" layoutY="658.0" onAction="#Back" prefHeight="32.0" prefWidth="91.0" style="-fx-background-color: #808080; -fx-text-fill: white;" text="Back" />
-        <BarChart fx:id="statsBarChart" layoutX="441.0" layoutY="304.0" prefHeight="400.0" prefWidth="510.0" title="Event Statistics">
+        <Button fx:id="clearButton1" layoutX="1256.0" layoutY="674.0" onAction="#Back" prefHeight="32.0" prefWidth="91.0" style="-fx-background-color: #808080; -fx-text-fill: white;" text="Back" />
+        <BarChart fx:id="statsBarChart" layoutX="578.0" layoutY="292.0" prefHeight="426.0" prefWidth="668.0" title="Event Statistics">
             <xAxis>
                 <CategoryAxis label="." />
             </xAxis>
@@ -94,8 +95,9 @@
                 <NumberAxis label="Number of Participants" />
             </yAxis>
         </BarChart>
-        <Button fx:id="generatePdfButton" layoutX="1044.0" layoutY="304.0" onAction="#generatePDFReport" prefHeight="80.0" prefWidth="90.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Generate PDF" />
-      <HBox layoutX="905.0" prefHeight="40.0" prefWidth="266.0">
+        <Button fx:id="generatePdfButton" layoutX="1257.0" layoutY="303.0" onAction="#generatePDFReport" prefHeight="80.0" prefWidth="90.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Generate PDF" />
+       <WebView fx:id="mapView" layoutX="315.0" layoutY="328.0" prefHeight="338.0" prefWidth="278.0" />
+      <HBox layoutX="1065.0" prefHeight="40.0" prefWidth="266.0">
          <children>
             <Label alignment="BOTTOM_LEFT" prefHeight="34.0" prefWidth="128.0" text="Raed Amri " textFill="#1f23ff">
                <font>
@@ -108,7 +110,10 @@
                </image>
             </ImageView>
          </children>
+          <TextField fx:id="latTextField" layoutX="409.0" layoutY="574.0" prefHeight="26.0" prefWidth="47.0" visible="false" />
+          <TextField fx:id="lonTextField" layoutX="467.0" layoutY="575.0" prefHeight="26.0" prefWidth="34.0" visible="false" />
       </HBox>
+       <Button fx:id="updateLocationButtonClicked" layoutX="315.0" layoutY="673.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" prefHeight="34.0" prefWidth="277.0" style="-fx-background-color: #7B68EE; -fx-text-fill: white;" text="Update Location" />
 
 
     </children>

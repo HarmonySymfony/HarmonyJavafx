@@ -2,15 +2,21 @@ package controllers;
 
 import entities.Evenement;
 import entities.Reservation;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.web.WebView;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 import org.controlsfx.control.Rating;
 import services.ServiceEvenement;
 import javafx.scene.control.*;
+import services.WeatherData;
+import services.WeatherService;
 
 
 
@@ -27,8 +33,7 @@ import java.util.*;
 
 public class EventDetailController {
     @FXML
-    private Label nameLabel, descriptionLabel, priceLabel, placesLabel, addressLabel, messageLabel , messageLabels;
-
+    private Label nameLabel, descriptionLabel, priceLabel, placesLabel, addressLabel, messageLabel , messageLabels, weatherLabel;
 
 
     @FXML private TextField reservationPlacesField;
@@ -51,6 +56,14 @@ public class EventDetailController {
 
     private Evenement evenement;
 
+    @FXML
+    private WebView mapView = new WebView();
+    private double eventLongitude;
+    private double eventLatitude;
+
+    public EventDetailController() {
+    }
+
 
     public void setEvent(Evenement evenement) {
         this.evenement = evenement;
@@ -59,6 +72,10 @@ public class EventDetailController {
         priceLabel.setText("Price :   " + evenement.getPrix() + " DT");
         placesLabel.setText("Available Places :   " + evenement.getPlaceDispo());
         addressLabel.setText("Address :   " + evenement.getAdresse());
+        eventLatitude = evenement.getLongitude();
+        eventLongitude = evenement.getLatitude();
+        displayWeather(evenement.getAdresse());
+        updateMapView();
     }
 
 
@@ -101,6 +118,58 @@ public class EventDetailController {
             e.printStackTrace();
         }
     }
+
+        private void updateMapView() {
+            String mapUrl = getClass().getResource("/map.html").toExternalForm();
+            mapView.getEngine().load(mapUrl);
+            mapView.getEngine().setJavaScriptEnabled(true);
+
+            mapView.getEngine().getLoadWorker().stateProperty().addListener((observable, oldValue, newValue) -> {
+                if (newValue == Worker.State.SUCCEEDED) {
+                    // Define the initMap function
+                    mapView.getEngine().executeScript("function initMap(latitude, longitude) {" +
+                            "var map = L.map('map').setView([latitude, longitude], 13);" +
+                            "L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);" +
+                            "L.marker([latitude, longitude]).addTo(map);" +
+                            "}");
+
+                    // Call the initMap function with latitude and longitude
+                    mapView.getEngine().executeScript("initMap(" + eventLatitude + ", " + eventLongitude + ")");
+                }
+            });
+        }
+
+
+    private void displayWeather(String location) {
+        Task<WeatherData> fetchWeatherTask = new Task<>() {
+            @Override
+            protected WeatherData call() throws Exception {
+                return WeatherService.getWeather(location);
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                WeatherData weatherData = getValue();
+                Platform.runLater(() -> {
+                    weatherLabel.setText(weatherData.getMain() + ", " + weatherData.getDescription() + ", " + weatherData.getTemperature() + "°C" + ", " + "Location" + ", " + evenement.getAdresse());
+                });
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                Platform.runLater(() -> {
+                    weatherLabel.setText("Weather data unavailable");
+                });
+            }
+        };
+
+        new Thread(fetchWeatherTask).start();
+    }
+
+
+
 
 
 

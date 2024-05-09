@@ -22,7 +22,7 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
 
     @Override
     public void Add(Evenement Evenement) throws SQLException {
-        String sql = "INSERT INTO evenement(nom, description, prix, placeDispo,adresse,date) VALUES (?, ? , ? , ?, ?, ?)";
+        String sql = "INSERT INTO evenement(nom, description, prix, placeDispo,adresse,date,latitude,longitude) VALUES (?, ? , ? , ?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, Evenement.getNom());
         statement.setString(2, Evenement.getDescription());
@@ -30,6 +30,8 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
         statement.setInt(4, Evenement.getPlaceDispo());
         statement.setString(5, Evenement.getAdresse());
         statement.setDate(6, Evenement.getDate());
+        statement.setDouble(7,Evenement.getLatitude());
+        statement.setDouble(8,Evenement.getLongitude());
         statement.executeUpdate();
         System.out.println("Event Added");
     }

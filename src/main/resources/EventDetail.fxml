@@ -11,11 +11,12 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 <?import org.controlsfx.control.Rating?>
 
 <AnchorPane prefHeight="507.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventDetailController">
     <children>
-        <VBox layoutX="7.0" layoutY="6.0" prefHeight="681.0" prefWidth="890.0" spacing="10">
+        <VBox layoutX="3.0" layoutY="3.0" prefHeight="796.0" prefWidth="890.0" spacing="10">
             <children>
                 <Label fx:id="nameLabel" text="Name : " textFill="DarkCyan">
                     <font>
@@ -37,6 +38,10 @@
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font></Label>
+                <Label fx:id="weatherLabel" text="Weather : " textFill="#1e453e">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
                 <Label text="Enter number of places to reserve :" textFill="DarkCyan">
                     <font>
                         <Font name="System Bold" size="12.0" />
@@ -51,7 +56,9 @@
                            <Font size="14.0" />
                        </font>
                    </Button>
-               <VBox prefHeight="57.0" prefWidth="890.0" />
+               <VBox prefHeight="29.0" prefWidth="890.0" />
+                        <WebView fx:id="mapView" layoutX="203.0" layoutY="283.0" prefHeight="167.0" prefWidth="436.0" />
+               <Pane prefHeight="24.0" prefWidth="890.0" />
                <VBox prefHeight="66.0" prefWidth="840.0">
                   <children>
                               <!-- Other components -->
@@ -65,7 +72,7 @@
                         <effect>
                            <DropShadow spread="0.46">
                               <color>
-                                 <Color red="0.22425925731658936" green="1.0" blue="0.21111111342906952" />
+                                 <Color red="1.0" green="1.0" blue="1.0" />
                               </color>
                            </DropShadow>
                         </effect>
@@ -77,7 +84,6 @@
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Label>
-                <Label fx:id="messageLabels" prefWidth="162.0" wrapText="true" />
 
 
 
@@ -94,10 +100,12 @@
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font></Label>
-                <ListView fx:id="commentListView" prefHeight="64.0" prefWidth="826.0" />
+                <ListView fx:id="commentListView" prefHeight="75.0" prefWidth="890.0" />
+                <Label fx:id="messageLabels" prefWidth="162.0" wrapText="true" />
 
 
             </children>
         </VBox>
+
     </children>
 </AnchorPane>

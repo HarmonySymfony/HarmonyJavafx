@@ -9,6 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import kong.unirest.Unirest;
@@ -111,6 +113,15 @@ public class EvenementController {
     @FXML
     private BarChart<String, Number> statsBarChart;
 
+    @FXML
+    private WebView mapView;
+    @FXML
+    private TextField latTextField;
+    @FXML
+    private TextField lonTextField;
+    @FXML
+    private Button updateLocationButton;
+
     private ServiceEvenement serviceEvenement;
 
     @FXML
@@ -137,6 +148,49 @@ public class EvenementController {
         serviceEvenement = new ServiceEvenement();
         initializeStatsChart();
         loadEvenementData();
+        loadMap();
+    }
+
+    private void loadMap() {
+        WebEngine webEngine = mapView.getEngine();
+        webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
+
+        String javascriptCode = "function getSelectedLatitude() {" +
+                "    return selectedLatitude;" +
+                "}" +
+                "function getSelectedLongitude() {" +
+                "    return selectedLongitude;" +
+                "}" +
+                "function getSelectedLocationName() {" +
+                "    return selectedLocationName;" +
+                "}";
+
+        webEngine.executeScript(javascriptCode);
+    }
+
+    @FXML
+    public void updateLocationButtonClicked() {
+        WebEngine webEngine = mapView.getEngine();
+
+        Object latitudeObj = webEngine.executeScript("getSelectedLocation().latitude");
+        Object longitudeObj = webEngine.executeScript("getSelectedLocation().longitude");
+        String locationName = (String) webEngine.executeScript("getSelectedLocation().locationName");
+
+        if (latitudeObj instanceof Double && longitudeObj instanceof Double) {
+            Double latitude = (Double) latitudeObj;
+            Double longitude = (Double) longitudeObj;
+            String cleanLocationName = locationName.replaceAll("(?i)Tunisia", "").trim();
+
+            AdresseField.setText(cleanLocationName);
+            System.out.println("Latitude: " + latitude + ", Longitude: " + longitude + ", Location: " + locationName);
+            lonTextField.setText(longitude.toString());
+            latTextField.setText(latitude.toString());
+//            AdresseField.textProperty().addListener((observable, oldValue, newValue) -> {
+//                updateCityComboBox();
+//            });
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Unable to retrieve location from the map.", "error");
+        }
     }
 
 
@@ -202,19 +256,19 @@ public class EvenementController {
                     DescriptionField.getText(),
                     Float.parseFloat(PrixField.getText()),
 
+
                     Integer.parseInt(PlaceDispoField.getText()),
 
                     AdresseField.getText(),
-                    Date.valueOf(dateproPicker.getValue())
-
-
-
+                    Date.valueOf(dateproPicker.getValue()),
+                    Double.parseDouble(latTextField.getText()),
+                    Double.parseDouble(lonTextField.getText())
 
             );
 
             serviceEvenement.Add(evenement);
             loadEvenementData();
-            TwilioSMS.sendCustomMessage("21620515171", "Event added successfully !");
+//            TwilioSMS.sendCustomMessage("21620515171", "Event added successfully !");
 
             clearForm();
             showConfirmation("Event added successfully.");
@@ -267,7 +321,7 @@ public class EvenementController {
         try {
             serviceEvenement.Delete(selectedEvenementId);
             loadEvenementData();
-            TwilioSMS.sendCustomMessage("21620515171", "Event deleted successfully !");
+//            TwilioSMS.sendCustomMessage("21620515171", "Event deleted successfully !");
             clearForm();
             showConfirmation("Event deleted successfully.");
             Notifications notifications = Notifications.create();

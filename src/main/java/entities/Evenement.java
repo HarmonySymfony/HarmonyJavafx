@@ -18,6 +18,9 @@ public class Evenement {
     private String adresse;
     private Date date;
 
+    private double latitude ;
+    private double longitude ;
+
 
 
 
@@ -33,6 +36,18 @@ public class Evenement {
         this.placeDispo = placeDispo;
         this.adresse = adresse;
         this.date = date;
+    }
+
+    public Evenement(int id, String nom, String description, float prix, int placeDispo, String adresse, Date date, double latitude, double longitude) {
+        this.id = id;
+        this.nom = nom;
+        this.description = description;
+        this.prix = prix;
+        this.placeDispo = placeDispo;
+        this.adresse = adresse;
+        this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public int getId() {
@@ -91,7 +106,21 @@ public class Evenement {
         this.date = date;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
 
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
 
     @Override
     public String toString() {
@@ -103,7 +132,8 @@ public class Evenement {
                 ", placeDispo=" + placeDispo +
                 ", adresse='" + adresse + '\'' +
                 ", date=" + date +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
                 '}';
     }
-
 }
