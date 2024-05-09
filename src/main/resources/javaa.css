@@ -33,7 +33,7 @@ body {
 .button:hover {
     background: #03e9f4;
     color: #050801;
-    -fx-effect: dropshadow(three-pass-box, #03e9f4, 5, 0, 5, 5);
+    -fx-effect: dropshadow(three-pass-box, #ffffff, 5, 0, 5, 5);
 }
 
 .button:nth-child(1) {
