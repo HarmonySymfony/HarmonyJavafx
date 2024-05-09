@@ -169,6 +169,68 @@ and open the template in the editor.
 .hnn-btn:hover{
     -fx-background-color:#008000;
 }
+
+
+
+
+.delete-btn{
+    -fx-background-color:#86253f;
+    -fx-background-radius:8px;
+    -fx-text-fill:#fff;
+    -fx-font-size:14px;
+    -fx-font-family:"Arial";
+    -fx-cursor:hand;
+}
+.delete-btn:hover{
+    -fx-background-color:#ae1d46;
+}
+
+.clear-btn{
+    -fx-background-color:#219a6a;
+    -fx-background-radius:8px;
+    -fx-text-fill:#fff;
+    -fx-font-size:14px;
+    -fx-font-family:"Arial";
+    -fx-cursor:hand;
+}
+.clear-btn:hover{
+    -fx-background-color:#18a383;
+}
+
+.label-info{
+    -fx-background-color:transparent;
+    -fx-border-color:linear-gradient(to bottom right, #272b3f, #256b51);
+    -fx-border-radius:4px;
+    -fx-padding:0px 0px 0px 8px;
+}
+.add-btn:hover{
+    -fx-background-color:#3357a4;
+}
+
+.update-btn{
+    -fx-background-color:#327252;
+    -fx-background-radius:8px;
+    -fx-text-fill:#fff;
+    -fx-font-size:14px;
+    -fx-font-family:"Arial";
+    -fx-cursor:hand;
+}
+.update-btn:hover{
+    -fx-background-color:#309a65;
+}
+
+
+.hnn-btn{
+    -fx-background-color:#228B22;
+    -fx-background-radius:8px;
+    -fx-text-fill:#fff;
+    -fx-font-size:14px;
+    -fx-font-family:"Arial";
+    -fx-cursor:hand;
+}
+.hnn-btn:hover{
+    -fx-background-color:#008000;
+}
 .button{
     -fx-background-color:#228B22;
     -fx-background-radius:8px;

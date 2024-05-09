@@ -268,7 +268,7 @@ public class EvenementController {
 
             serviceEvenement.Add(evenement);
             loadEvenementData();
-//            TwilioSMS.sendCustomMessage("21620515171", "Event added successfully !");
+            TwilioSMS.sendCustomMessage("21620515171", "Event added successfully !");
 
             clearForm();
             showConfirmation("Event added successfully.");
@@ -321,7 +321,7 @@ public class EvenementController {
         try {
             serviceEvenement.Delete(selectedEvenementId);
             loadEvenementData();
-//            TwilioSMS.sendCustomMessage("21620515171", "Event deleted successfully !");
+            TwilioSMS.sendCustomMessage("21620515171", "Event deleted successfully !");
             clearForm();
             showConfirmation("Event deleted successfully.");
             Notifications notifications = Notifications.create();

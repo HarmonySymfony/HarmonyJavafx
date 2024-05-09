@@ -60,10 +60,10 @@
         </Button>
 
         <!-- Logo Circle -->
-        <Circle fill="#0edddd" layoutX="1112.0" layoutY="61.0" radius="34.0" stroke="WHITE" strokeType="INSIDE" />
+        <Circle fill="#0edddd" layoutX="1025.0" layoutY="68.0" radius="34.0" stroke="WHITE" strokeType="INSIDE" />
 
         <!-- Logo Text -->
-        <Text fill="WHITE" layoutX="1079.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="صحتك">
+        <Text fill="WHITE" layoutX="992.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="صحتك">
             <font>
                 <Font name="System Bold Italic" size="24.0" />
             </font>
@@ -72,7 +72,7 @@
         <!-- Partner Buttons -->
         <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#Forum" text="Forum" />
         <Button layoutX="90.0" layoutY="20.0" mnemonicParsing="false" text="Laboratoires" onAction="#laboratoires" />
-        <Button layoutX="200.0" layoutY="20.0" mnemonicParsing="false" text="Cabinets" />
+        <Button layoutX="200.0" layoutY="20.0" mnemonicParsing="false" onAction="#listeCabinets" text="Cabinets" />
         <Button layoutX="300.0" layoutY="20.0" mnemonicParsing="false" onAction="#evenement" text="Événements" />
         <Button layoutX="400.0" layoutY="20.0" mnemonicParsing="false" onAction="#ListePharmacie" text="Pharmacies" />
     </children>
