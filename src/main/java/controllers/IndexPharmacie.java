@@ -64,6 +64,7 @@ public class IndexPharmacie {
 
         // Charger le fichier HTML contenant la carte Google Maps
         webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());
+
     }
 
     @FXML

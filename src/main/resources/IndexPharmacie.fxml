@@ -12,7 +12,7 @@
     <children>
         <WebView fx:id="webView" />
 
-        <ListView fx:id="listepharmacie" layoutX="400.0" layoutY="211.0" prefHeight="417.0" prefWidth="1037.0" />
+        <ListView fx:id="listepharmacie" layoutX="400.0" layoutY="211.0" prefHeight="417.0" prefWidth="1037.0" style="-fx-background-color: transparent; "/>
         <Text fill="WHITE" layoutX="65.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des pharmacies" wrappingWidth="1016.376953125">
             <font>
                 <Font size="64.0" />

@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
@@ -28,6 +31,23 @@ public class ResetPasswordDialog {
     private PasswordField tempPasswordField;
     @FXML
     private TextField emailField;
+    @FXML
+    private WebView webView;
+
+    @FXML
+    public void initialize() {// Récupérer la taille de l'écran
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;

@@ -7,44 +7,46 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="607.0" prefWidth="890.0" styleClass="affiche-user-root" stylesheets="@javaa.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Personne">
+<AnchorPane prefHeight="607.0" prefWidth="890.0" stylesheets="@javaa.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.Personne">
 
                     <children>
-                        <Label layoutX="9.0" layoutY="-1.0" prefHeight="30.0" prefWidth="221.0" text="Welcome to ">
+                        <WebView fx:id="webView" />
+                        <Label layoutX="76.0" prefHeight="88.0" prefWidth="391.0" text="Welcome to ">
                             <font>
-                                <Font name="System Bold" size="36.0" />
+                                <Font name="System Bold" size="60.0" />
                             </font>
                         </Label>
-                        <Label layoutX="224.0" text="Sahtik" textFill="#e6e6ec">
+                        <Label layoutX="427.0" text="Sahtik" textFill="#e6e6ec">
                             <font>
-                                <Font size="35.0" />
+                                <Font size="60.0" />
                             </font>
                         </Label>
-                        <Label layoutX="18.0" layoutY="52.0" text="Nom">
+                        <Label layoutX="825.0" layoutY="153.0" text="Nom">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="nomTextField" layoutX="15.0" layoutY="87.0" prefHeight="35.0" prefWidth="349.0" />
-                        <Label layoutX="14.0" layoutY="122.0" text="Prenom">
+                        <TextField fx:id="nomTextField" layoutX="822.0" layoutY="188.0" prefHeight="35.0" prefWidth="349.0" />
+                        <Label layoutX="822.0" layoutY="240.0" text="Prenom">
                             <font>
                                 <Font name="System Bold" size="24.0" />
                             </font>
                         </Label>
-                        <Button layoutX="58.0" layoutY="530.0" mnemonicParsing="false" onAction="#retourHome" text="Retour">
+                        <Button layoutX="808.0" layoutY="738.0" mnemonicParsing="false" onAction="#retourHome" text="Retour">
                             <font>
                                 <Font name="System Bold" size="20.0" />
                             </font>
                         </Button>
-                        <Button layoutX="255.0" layoutY="530.0" mnemonicParsing="false" onAction="#ajouterPersonne" text="SignUp">
+                        <Button layoutX="1082.0" layoutY="738.0" mnemonicParsing="false" onAction="#ajouterPersonne" text="SignUp">
                             <font>
                                 <Font name="System Bold" size="20.0" />
                             </font>
                         </Button>
-                  <TextField fx:id="prenomTextField" layoutX="15.0" layoutY="157.0" prefHeight="35.0" prefWidth="349.0" />
-                  <PasswordField fx:id="passwordTextField" layoutX="14.0" layoutY="297.0" prefHeight="35.0" prefWidth="338.0" />
-                  <Label layoutX="15.0" layoutY="192.0" text="Email">
+                  <TextField fx:id="prenomTextField" layoutX="823.0" layoutY="275.0" prefHeight="35.0" prefWidth="349.0" />
+                  <PasswordField fx:id="passwordTextField" layoutX="821.0" layoutY="432.0" prefHeight="35.0" prefWidth="338.0" />
+                  <Label layoutX="822.0" layoutY="322.0" text="Email">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
@@ -54,23 +56,23 @@
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="14.0" layoutY="262.0" text="Mot de passe">
+                  <Label layoutX="821.0" layoutY="397.0" text="Mot de passe">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <Label layoutX="14.0" layoutY="332.0" text="Age">
+                  <Label layoutX="821.0" layoutY="482.0" text="Age">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="emailTextField" layoutX="15.0" layoutY="227.0" prefHeight="35.0" prefWidth="349.0" />
-                  <TextField fx:id="ageTextField" layoutX="15.0" layoutY="367.0" prefHeight="35.0" prefWidth="349.0" />
-                  <TextField fx:id="roleTextField" layoutX="15.0" layoutY="435.0" prefHeight="35.0" prefWidth="349.0" />
+                  <TextField fx:id="emailTextField" layoutX="822.0" layoutY="357.0" prefHeight="35.0" prefWidth="349.0" />
+                  <TextField fx:id="ageTextField" layoutX="822.0" layoutY="517.0" prefHeight="35.0" prefWidth="349.0" />
+                  <TextField fx:id="roleTextField" layoutX="822.0" layoutY="598.0" prefHeight="35.0" prefWidth="349.0" />
                   <ImageView fx:id="profilePictureImageView" fitHeight="100.0" fitWidth="100.0" layoutX="570.0" layoutY="382.0" />
-                        <Button fx:id="chooseFileButton" layoutX="596.0" layoutY="505.0" onAction="#chooseFile" text="Choose File" />
+                        <Button fx:id="chooseFileButton" layoutX="827.0" layoutY="649.0" onAction="#chooseFile" text="Choose File" />
 
-                        <Label layoutX="14.0" layoutY="400.0" text="Role">
+                        <Label layoutX="821.0" layoutY="563.0" text="Role">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
