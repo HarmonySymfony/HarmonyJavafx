@@ -16,27 +16,27 @@
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="postIdLabel" layoutX="920.0" layoutY="330.0" />
+        <Label fx:id="postIdLabel" layoutX="920.0" layoutY="330.0" prefHeight="17.0" prefWidth="120.0" />
         <Label layoutX="800.0" layoutY="370.0" text="Contenu:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="contenuLabel" layoutX="913.0" layoutY="377.0" prefHeight="17.0" prefWidth="0.0" />
+        <Label fx:id="contenuLabel" layoutX="913.0" layoutY="377.0" prefHeight="17.0" prefWidth="120.0" />
         <Label layoutX="800.0" layoutY="410.0" text="Date de création:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="dateCreationLabel" layoutX="983.0" layoutY="417.0" prefHeight="17.0" prefWidth="0.0" />
+        <Label fx:id="dateCreationLabel" layoutX="983.0" layoutY="417.0" prefHeight="17.0" prefWidth="120.0" />
         <Label layoutX="800.0" layoutY="450.0" text="Dernière modification:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="lastModificationLabel" layoutX="1013.0" layoutY="457.0" prefHeight="17.0" prefWidth="0.0" />
+        <Label fx:id="lastModificationLabel" layoutX="1013.0" layoutY="457.0" prefHeight="17.0" prefWidth="120.0" />
         <Label layoutX="800.0" layoutY="490.0" text="Posté en tant que:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="postedAsLabel" layoutX="982.0" layoutY="497.0" prefHeight="17.0" prefWidth="0.0" />
+        <Label fx:id="postedAsLabel" layoutX="982.0" layoutY="497.0" prefHeight="17.0" prefWidth="120.0" />
 
         <!-- Buttons -->
         <HBox layoutX="800.0" layoutY="600.0" prefHeight="41.0" prefWidth="482.0" spacing="10.0">

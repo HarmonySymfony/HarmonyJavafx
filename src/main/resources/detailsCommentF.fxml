@@ -14,32 +14,32 @@
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="postIdLabel" layoutX="1031.0" layoutY="231.0" prefHeight="17.0" prefWidth="0.0" />
+        <Label fx:id="postIdLabel" layoutX="917.0" layoutY="186.0" prefHeight="17.0" prefWidth="117.0" />
         <Label layoutX="800.0" layoutY="225.0" text="Comment ID:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="commentIdLabel" layoutX="1031.0" layoutY="231.0" />
+        <Label fx:id="commentIdLabel" layoutX="939.0" layoutY="232.0" prefHeight="17.0" prefWidth="117.0" />
         <Label layoutX="800.0" layoutY="273.0" text="Contenu:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="contenuLabel" layoutX="1031.0" layoutY="271.0" />
+        <Label fx:id="contenuLabel" layoutX="917.0" layoutY="280.0" prefHeight="17.0" prefWidth="117.0" />
         <Label layoutX="800.0" layoutY="311.0" text="Date de création:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="dateCreationLabel" layoutX="1031.0" layoutY="311.0" />
+        <Label fx:id="dateCreationLabel" layoutX="976.0" layoutY="318.0" prefHeight="17.0" prefWidth="117.0" />
         <Label layoutX="800.0" layoutY="360.0" text="Dernière modification:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="lastModificationLabel" layoutX="1031.0" layoutY="351.0" />
+        <Label fx:id="lastModificationLabel" layoutX="1009.0" layoutY="367.0" prefHeight="17.0" prefWidth="117.0" />
         <Label layoutX="800.0" layoutY="408.0" text="Commenté en tant que:">
          <font>
             <Font size="20.0" />
          </font></Label>
-        <Label fx:id="commentedAsLabel" layoutX="1031.0" layoutY="391.0" prefHeight="17.0" prefWidth="0.0" />
+        <Label fx:id="commentedAsLabel" layoutX="1035.0" layoutY="415.0" prefHeight="17.0" prefWidth="117.0" />
 
         <!-- Buttons -->
         <HBox layoutX="800.0" layoutY="474.0" spacing="10.0">
