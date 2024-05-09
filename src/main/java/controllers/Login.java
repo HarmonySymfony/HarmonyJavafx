@@ -12,6 +12,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
@@ -38,7 +41,23 @@ public class Login {
     private String hashPassword(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt(13));
     }
+    @FXML
+    private WebView webView;
 
+    @FXML
+    public void initialize() {// Récupérer la taille de l'écran
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
     @FXML
     void login(ActionEvent event) throws SQLException, IOException {
         if (emailtextfield2.getText().isEmpty() || passwordtextfield2.getText().isEmpty()) {

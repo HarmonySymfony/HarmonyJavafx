@@ -9,6 +9,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import services.PostsServices;
 
@@ -16,7 +19,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public class updatePost {
+public class updatePostF {
 
     @FXML
     public Button submitButton;
@@ -50,6 +53,24 @@ public class updatePost {
     }
 
     private Stage indexStage;
+
+    @FXML
+    private WebView webView;
+
+    @FXML
+    public void initialize() {// Récupérer la taille de l'écran
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
 
     public void setIndexStage(Stage indexStage) {
         this.indexStage = indexStage;
@@ -139,7 +160,7 @@ public class updatePost {
     @FXML
     private void annuler(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexPost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexPostF.fxml"));
             Parent root = loader.load();
             Stage stage = (Stage) annulerButton.getScene().getWindow();
             stage.setScene(new Scene(root));
@@ -152,7 +173,7 @@ public class updatePost {
 //        try {
 //            Stage indexStage = new Stage();
 //            indexStage.setTitle("Index Post");
-//            indexStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/indexPost.fxml"))));
+//            indexStage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/indexPostF.fxml"))));
 //            indexStage.show();
 //        } catch (IOException e) {
 //            e.printStackTrace();

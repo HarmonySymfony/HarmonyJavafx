@@ -12,6 +12,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import services.PostsServices;
 
@@ -19,7 +22,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class indexPost {
+public class indexPostF {
 
     @FXML
     private Button addPostButton, nextButton, prevButton;
@@ -40,14 +43,21 @@ public class indexPost {
     @FXML
     private TableColumn<Posts, HBox> actionsCol;
 
+
     @FXML
     private Label pageLabel;
+
 
     private ObservableList<Posts> postsList = FXCollections.observableArrayList();
     private int currentPage = 1;
     private final int rowsPerPage = 10;
     private int totalPosts;  // Total number of posts in the database
     private int totalPages;  // Total number of pages
+
+    @FXML
+    private WebView webView;
+
+
 
     @FXML
     public void initialize() {
@@ -67,7 +77,19 @@ public class indexPost {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
+
 
 
 
@@ -110,9 +132,9 @@ public class indexPost {
     @FXML
     private void handleAddPost(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addPost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/addPostF.fxml"));
             Parent root = loader.load();
-            addPost addController = loader.getController();
+            addPostF addController = loader.getController();
             addController.setPostTableView(postTableView);
 
             Stage addStage = new Stage();
@@ -154,9 +176,9 @@ public class indexPost {
 
     private void handleDetails(Posts post) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsPost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsPostF.fxml"));
             Parent root = loader.load();
-            detailsPost detailsController = loader.getController();
+            detailsPostF detailsController = loader.getController();
             detailsController.setPostTableView(postTableView);
             detailsController.setIndexStage((Stage) postTableView.getScene().getWindow());
             detailsController.setPost(post);
@@ -172,9 +194,9 @@ public class indexPost {
 
     private void handleEdit(Posts post) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePost.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePostF.fxml"));
             Parent root = loader.load();
-            updatePost updateController = loader.getController();
+            updatePostF updateController = loader.getController();
             updateController.setPostTableView(postTableView);
             updateController.setIndexStage((Stage) postTableView.getScene().getWindow());
             updateController.setPost(post);
@@ -225,7 +247,7 @@ public class indexPost {
     public void RetourBack(ActionEvent event) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/AfficheUser.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/Login.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -8,6 +8,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import entities.Posts;
 import services.PostsServices;
@@ -17,7 +20,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class addPost {
+public class addPostF {
 
     private final PostsServices ps = new PostsServices();
 
@@ -39,6 +42,24 @@ public class addPost {
 
     // Add a boolean variable to track whether a post was successfully added
     private boolean postAdded = false;
+
+    @FXML
+    private WebView webView;
+
+    @FXML
+    public void initialize() {// Récupérer la taille de l'écran
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
 
     // Getter method for postAdded
     public boolean isPostAdded() {

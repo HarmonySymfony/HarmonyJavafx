@@ -17,6 +17,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import services.CommentsServices;
 
@@ -24,7 +27,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class indexComment {
+public class indexCommentF {
 
         @FXML
         private Button addCommentButton;
@@ -85,6 +88,9 @@ public class indexComment {
                 }
         }
 
+        @FXML
+        private WebView webView;
+
 
         // Initialize commentsList
         public void initialize() throws SQLException {
@@ -114,7 +120,18 @@ public class indexComment {
                 else if (post == null){
                         System.out.println("Selected post is null.");
                 }
-        }
+                double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+                double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+                // Lier la taille de la WebView à la taille de l'écran
+                webView.setPrefWidth(screenWidth);
+                webView.setPrefHeight(screenHeight);
+
+                // Charger le fichier HTML avec le fond animé
+                WebEngine webEngine = webView.getEngine();
+
+                // Charger le fichier HTML contenant la carte Google Maps
+                webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
 
         // Method to set the TableView reference
         public void setCommentTableView(TableView<Comments> commentTableView) {
@@ -147,11 +164,11 @@ public class indexComment {
         @FXML
         private void handleAddComment(ActionEvent event) {
                 try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/addComment.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/addCommentF.fxml"));
                         Parent root = loader.load();
 
                         // Pass the selected post to the addComment controller
-                        addComment addController = loader.getController();
+                        addCommentF addController = loader.getController();
                         addController.setPost(post);
 
                         // Set the TableView reference for the add controller
@@ -190,11 +207,11 @@ public class indexComment {
 
         private void handleEdit(Comments comment) {
                 try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/updateComment.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/updateCommentF.fxml"));
                         Parent root = loader.load();
 
                         // Get the controller from the FXMLLoader
-                        updateComment updateController = loader.getController();
+                        updateCommentF updateController = loader.getController();
 
                         // Set the TableView reference for the details controller
                         updateController.setCommentTableView(commentTableView);
@@ -220,11 +237,11 @@ public class indexComment {
 
         private void handleDetails(Comments comment) {
                 try {
-                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsComment.fxml"));
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsCommentF.fxml"));
                         Parent root = loader.load();
 
                         // Get the controller from the FXMLLoader
-                        detailsComment detailsController = loader.getController();
+                        detailsCommentF detailsController = loader.getController();
 
                         // Set the TableView reference for the details controller
                         detailsController.setCommentTableView(commentTableView);
@@ -251,7 +268,7 @@ public class indexComment {
         public void RetourBack(ActionEvent event) {
                 Parent root = null;
                 try {
-                        root = FXMLLoader.load(getClass().getResource("/detailsPost.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("/detailsPostF.fxml"));
                 } catch (IOException e) {
                         throw new RuntimeException(e);
                 }

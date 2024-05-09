@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.detailsCommentF">
+    <children>
+        <WebView fx:id="webView" />
+        <Label layoutX="800.0" layoutY="179.0" text="Post ID:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+        <Label fx:id="postIdLabel" layoutX="1031.0" layoutY="231.0" prefHeight="17.0" prefWidth="0.0" />
+        <Label layoutX="800.0" layoutY="225.0" text="Comment ID:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+        <Label fx:id="commentIdLabel" layoutX="1031.0" layoutY="231.0" />
+        <Label layoutX="800.0" layoutY="273.0" text="Contenu:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+        <Label fx:id="contenuLabel" layoutX="1031.0" layoutY="271.0" />
+        <Label layoutX="800.0" layoutY="311.0" text="Date de création:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+        <Label fx:id="dateCreationLabel" layoutX="1031.0" layoutY="311.0" />
+        <Label layoutX="800.0" layoutY="360.0" text="Dernière modification:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+        <Label fx:id="lastModificationLabel" layoutX="1031.0" layoutY="351.0" />
+        <Label layoutX="800.0" layoutY="408.0" text="Commenté en tant que:">
+         <font>
+            <Font size="20.0" />
+         </font></Label>
+        <Label fx:id="commentedAsLabel" layoutX="1031.0" layoutY="391.0" prefHeight="17.0" prefWidth="0.0" />
+
+        <!-- Buttons -->
+        <HBox layoutX="800.0" layoutY="474.0" spacing="10.0">
+            <Button onAction="#modifierAction" prefHeight="33.0" prefWidth="90.0" text="Modifier" />
+            <Button onAction="#supprimerAction" prefHeight="33.0" prefWidth="89.0" text="Supprimer" />
+            <Button fx:id="retourButton" onAction="#retourAction" prefHeight="33.0" prefWidth="108.0" text="Retour à la liste" />
+        </HBox>
+    </children>
+</AnchorPane>
