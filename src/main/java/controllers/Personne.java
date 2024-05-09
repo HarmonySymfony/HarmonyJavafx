@@ -11,6 +11,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import services.PersonneServices;
 import org.mindrot.jbcrypt.BCrypt;
@@ -43,7 +46,8 @@ public class Personne {
     private ImageView profilePictureImageView;
     private Blob ProfilePicture;
 
-
+    @FXML
+    private WebView webView;
 
 
     private PersonneServices personneServices = new PersonneServices();
@@ -52,6 +56,21 @@ public class Personne {
         return BCrypt.hashpw(password, BCrypt.gensalt(13));
     }
 
+    @FXML
+    public void initialize() {// Récupérer la taille de l'écran
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());
+    }
     @FXML
     void chooseFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
