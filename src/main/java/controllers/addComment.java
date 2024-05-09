@@ -122,13 +122,6 @@ public class addComment {
         // Close the add comment window
         Stage stage = (Stage) comment_contenu.getScene().getWindow();
         stage.close();
-
-        // Close the index window and show it again
-        Stage indexStage = getIndexStage();
-        if (indexStage != null) {
-            indexStage.show();
-
-        }
     }
 
 
@@ -144,13 +137,7 @@ public class addComment {
 
     @FXML
     private void annuler(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexComment.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) annulerButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) annulerButton.getScene().getWindow();
+        stage.close();
     }
 }

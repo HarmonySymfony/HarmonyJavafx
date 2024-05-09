@@ -81,6 +81,42 @@ public class PostsServices implements IService<Posts> {
         }
         return postsList;
     }
+    public int countPosts() throws SQLException {
+        String query = "SELECT COUNT(*) AS count FROM posts";
+        try (PreparedStatement pstmt1 = connection.prepareStatement(query);
+             ResultSet rs1 = pstmt1.executeQuery()) {
+            if (rs1.next()) {
+                return rs1.getInt("count");
+            }
+        }
+        return 0;
+    }
+
+
+    public List<Posts> getPosts(int limit, int offset) throws SQLException {
+        List<Posts> posts = new ArrayList<>();
+        String query = "SELECT * FROM posts ORDER BY date_creation DESC LIMIT ? OFFSET ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) { // Use the already established connection
+            pstmt.setInt(1, limit);
+            pstmt.setInt(2, offset);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Posts post = new Posts();
+                post.setId(rs.getInt("id"));
+                post.setContenu(rs.getString("contenu"));
+                post.setDateCreation(rs.getTimestamp("date_creation"));
+                post.setLastModification(rs.getTimestamp("last_modification"));
+                post.setPostedAs(rs.getString("posted_as"));
+                posts.add(post);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving posts: " + e.getMessage());
+        }
+        return posts;
+    }
+
+
 
     @Override
     public Posts getById(int id) throws SQLException {

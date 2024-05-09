@@ -18,7 +18,9 @@ import java.util.Optional;
 
 public class updatePost {
 
+    @FXML
     public Button submitButton;
+    @FXML
     public Button annulerButton;
     @FXML
     private TextArea post_contenu;
@@ -35,7 +37,13 @@ public class updatePost {
     private int postId;
 
     private Stage stage;
+    // Add a boolean variable to track whether a post was successfully added
+    private boolean postUpdated = false;
 
+    // Getter method for postAdded
+    public boolean isPostUpdated() {
+        return postUpdated;
+    }
     // Setter method for stage
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -124,6 +132,8 @@ public class updatePost {
             if (indexStage != null) {
                 indexStage.show();
             }
+            // Set postAdded to true if a new post was successfully added
+            postUpdated = true;
     }
 
     @FXML

@@ -19,7 +19,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import services.CommentsServices;
-import services.PostsServices;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -51,6 +50,8 @@ public class indexComment {
         @FXML
         private TableColumn<Comments, HBox> actionsCol;
 
+
+
         private ObservableList<Comments> commentList = FXCollections.observableArrayList();
 
         private Posts post; // Store the selected post
@@ -74,16 +75,7 @@ public class indexComment {
                 return indexStage;
         }
 
-
-
-//        // Method to set the selected post from detailsPost controller
-//        public void setPost(Posts post) {
-//                this.post = post;
-//        }
-
-
-
-        // Method to populate the TableView with comments associated with the selected post
+        // Method to set the selected post from detailsPost controller
         public void setSelectedPostAndRefreshTableView(Posts post) {
                 this.post = post;
                 try {
@@ -93,44 +85,39 @@ public class indexComment {
                 }
         }
 
-        // Initialize commentsList
 
+        // Initialize commentsList
         public void initialize() throws SQLException {
                 if (post != null) {
-                        // Initialize an observable list of Comments
-                        ObservableList<Comments> commentList = FXCollections.observableArrayList();
+                        System.out.println("Set post in indexComment controller: " + post);
+
+                        // Clear existing comments
+                        commentList.clear();
+
                         // Retrieve comments associated with the selected post from the database
                         CommentsServices commentsServices = new CommentsServices();
-                        commentList.clear(); // Clear existing comments
                         commentList.addAll(commentsServices.getCommentsByPost(post));
 
                         // Populate the TableView with comments
                         commentTableView.setItems(commentList);
 
-                // Configure the TableView columns
-                idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-                commentedAsCol.setCellValueFactory(new PropertyValueFactory<>("commentedAs"));
-                contenuCol.setCellValueFactory(new PropertyValueFactory<>("contenu"));
-                dateCreationCol.setCellValueFactory(new PropertyValueFactory<>("dateCreation"));
-                lastModificationCol.setCellValueFactory(new PropertyValueFactory<>("lastModification"));
+                        // Configure the TableView columns
+                        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+                        commentedAsCol.setCellValueFactory(new PropertyValueFactory<>("commentedAs"));
+                        contenuCol.setCellValueFactory(new PropertyValueFactory<>("contenu"));
+                        dateCreationCol.setCellValueFactory(new PropertyValueFactory<>("dateCreation"));
+                        lastModificationCol.setCellValueFactory(new PropertyValueFactory<>("lastModification"));
 
-                actionsCol.setCellValueFactory(param -> new SimpleObjectProperty<>(createButtonBox(param.getValue())));
-                } else {
+                        // Update the actions column
+                        actionsCol.setCellValueFactory(param -> new SimpleObjectProperty<>(createButtonBox(param.getValue())));
+                }
+                else if (post == null){
                         System.out.println("Selected post is null.");
                 }
         }
 
-
-//        public void setSelectedPostAndRefreshTableView(Posts post) {
-//                this.selectedPost = post;
-//                try {
-//                        initialize(); // Refresh the TableView with comments associated with the selected post
-//                } catch (SQLException e) {
-//                        e.printStackTrace();
-//                }
-//        }
-
-        public void setCommentTableView(TableView<Posts> postTableView) {
+        // Method to set the TableView reference
+        public void setCommentTableView(TableView<Comments> commentTableView) {
                 this.commentTableView = commentTableView;
         }
 
@@ -154,37 +141,6 @@ public class indexComment {
                 return new HBox(detailsButton, editButton, deleteButton);
         }
 
-        private void handleDelete(Comments comment) throws SQLException {
-                // Instantiate Alert
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-                // Instantiate PostsServices to interact with the database
-                CommentsServices commentsServices = new CommentsServices();
-
-
-                int id=comment.getId();
-                // Delete the post using the deletePost method from PostsServices
-                commentsServices.delete(id);
-
-                // Show alert
-                alert.setTitle("Comment Deleted");
-                alert.setHeaderText(null);
-                alert.setContentText("The Comment has been successfully deleted.");
-                alert.showAndWait();
-
-                // Remove the deleted post from the TableView
-                ObservableList<Comments> items = commentTableView.getItems();
-                items.remove(comment);
-        }
-
-
-        private void handleEdit(Comments comment) {
-        }
-
-        private void handleDetails(Comments comment) {
-        }
-
-
         // Handle button actions
 
         // Handle adding a new comment
@@ -201,10 +157,6 @@ public class indexComment {
                         // Set the TableView reference for the add controller
                         addController.setCommentTableView(commentTableView);
 
-                        // Close the index window
-                        Stage indexStage = (Stage) commentTableView.getScene().getWindow();
-                        indexStage.close();
-
                         Stage addStage = new Stage();
                         addStage.setScene(new Scene(root));
                         addStage.setTitle("Créer un nouveau commentaire");
@@ -214,10 +166,92 @@ public class indexComment {
                 }
         }
 
+        private void handleDelete(Comments comment) throws SQLException {
+                // Instantiate Alert
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+                // Instantiate CommentsServices to interact with the database
+                CommentsServices commentsServices = new CommentsServices();
+
+                int id = comment.getId();
+                // Delete the post using the deletePost method from CommentsServices
+                commentsServices.delete(id);
+
+                // Show alert
+                alert.setTitle("Comment Deleted");
+                alert.setHeaderText(null);
+                alert.setContentText("The Comment has been successfully deleted.");
+                alert.showAndWait();
+
+                // Remove the deleted post from the TableView
+                ObservableList<Comments> items = commentTableView.getItems();
+                items.remove(comment);
+        }
+
+        private void handleEdit(Comments comment) {
+                try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/updateComment.fxml"));
+                        Parent root = loader.load();
+
+                        // Get the controller from the FXMLLoader
+                        updateComment updateController = loader.getController();
+
+                        // Set the TableView reference for the details controller
+                        updateController.setCommentTableView(commentTableView);
+
+                        // Set the stage for the details controller
+                        Stage indexStage = (Stage) commentTableView.getScene().getWindow();
+                        updateController.setIndexStage(indexStage);
+
+                        // Pass the selected post to the update controller
+                        updateController.setComment(comment);
+
+                        // Close the index window
+                        indexStage.close();
+
+                        Stage updateStage = new Stage();
+                        updateStage.setScene(new Scene(root));
+                        updateStage.setTitle("Modifier la commentaire");
+                        updateStage.show();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+        }
+
+        private void handleDetails(Comments comment) {
+                try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsComment.fxml"));
+                        Parent root = loader.load();
+
+                        // Get the controller from the FXMLLoader
+                        detailsComment detailsController = loader.getController();
+
+                        // Set the TableView reference for the details controller
+                        detailsController.setCommentTableView(commentTableView);
+
+                        // Set the stage for the details controller
+                        Stage indexStage = (Stage) commentTableView.getScene().getWindow();
+                        detailsController.setIndexStage(indexStage);
+
+                        // Pass the selected post to the details controller
+                        detailsController.setComment(comment);
+
+//                        // Close the index window
+//                        indexStage.close();
+
+                        Stage detailsStage = new Stage();
+                        detailsStage.setScene(new Scene(root));
+                        detailsStage.setTitle("Details");
+                        detailsStage.show();
+                } catch (IOException e) {
+                        e.printStackTrace();
+                }
+        }
+
         public void RetourBack(ActionEvent event) {
                 Parent root = null;
                 try {
-                        root = FXMLLoader.load(getClass().getResource("/indexPost.fxml"));
+                        root = FXMLLoader.load(getClass().getResource("/detailsPost.fxml"));
                 } catch (IOException e) {
                         throw new RuntimeException(e);
                 }
@@ -226,6 +260,4 @@ public class indexComment {
                 stage.setScene(scene);
                 stage.show();
         }
-
-        // Other action handler methods...
 }

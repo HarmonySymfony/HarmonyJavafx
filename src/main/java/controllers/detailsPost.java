@@ -1,5 +1,6 @@
 package controllers;
 
+import entities.Comments;
 import entities.Posts;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,15 +8,27 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import org.apache.pdfbox.io.IOUtils;
+import services.CommentsServices;
 import services.PostsServices;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.List;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType0Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 public class detailsPost {
 
@@ -36,6 +49,10 @@ public class detailsPost {
 
     @FXML
     private Label postedAsLabel;
+    @FXML
+    private VBox commentsSection;
+
+    private boolean commentsVisible = false;
 
 
     // Add a private field to store the stage
@@ -70,6 +87,7 @@ public class detailsPost {
     }
 
     private Posts post;
+
 
     public void refreshTableView() throws SQLException {
         if (postsList != null) { // Ensure postsList is not null before using it
@@ -168,7 +186,52 @@ public class detailsPost {
     }
 
     @FXML
+    private void genererPDFAction(ActionEvent event) throws SQLException {
+        genererPDF();
+    }
+    @FXML
+    private ToggleButton toggleButton;
+
+
+//    @FXML
+//    private void toggleComments(ActionEvent event) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexComment.fxml"));
+//            Parent root = loader.load();
+//    //      Get the controller from the FXMLLoader
+//            indexComment commentsController = loader.getController();
+//    //
+//            System.out.println("Setting post in indexComment controller: " + post);
+//            // Pass the selected post to the indexComment controller
+//                commentsController.setSelectedPostAndRefreshTableView(post);
+//            if (toggleButton.isSelected()) {
+//                // Show indexComment section
+//                indexCommentSection.setVisible(true);
+//            } else {
+//                // Hide indexComment section
+//                indexCommentSection.setVisible(false);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//      }
+//    }
+
+    @FXML
     private void afficherCommentairesAction(ActionEvent event) {
+        // Toggle the visibility of the comments section
+        commentsVisible = !commentsVisible;
+        commentsSection.setVisible(commentsVisible);
+
+        if (commentsVisible) {
+            // If comments are now visible, initialize the indexComment section
+            initializeIndexCommentSection();
+        } else {
+            // If comments are hidden, you might want to perform some cleanup
+            // or reset any state related to the comments.
+        }
+    }
+
+    private void initializeIndexCommentSection() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexComment.fxml"));
             Parent root = loader.load();
@@ -176,25 +239,49 @@ public class detailsPost {
             // Get the controller from the FXMLLoader
             indexComment commentsController = loader.getController();
 
-            System.out.println("Setting post in indexComment controller: " + post);
-
-            // Pass the selected post to the indexComment controller
+            // Pass the necessary data to the indexComment controller
             commentsController.setSelectedPostAndRefreshTableView(post);
+            commentsController.setIndexStage(stage); // Assuming you have set the stage earlier
 
-            // Set the stage for the comments controller
-            Stage indexStage = (Stage) postIdLabel.getScene().getWindow();
-            commentsController.setIndexStage(indexStage);
-
-            // Show the comments window
-            Scene scene = new Scene(root);
-            Stage stage = new Stage();
-            stage.setScene(scene);
-            stage.setTitle("Commentaires");
-            stage.show();
+            // Add the loaded FXML to the comments section VBox
+            commentsSection.getChildren().add(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
+//    @FXML
+//    private void afficherCommentairesAction(ActionEvent event) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexComment.fxml"));
+//            Parent root = loader.load();
+//
+//            // Get the controller from the FXMLLoader
+//            indexComment commentsController = loader.getController();
+//
+//            System.out.println("Setting post in indexComment controller: " + post);
+//
+//            // Pass the selected post to the indexComment controller
+//            commentsController.setSelectedPostAndRefreshTableView(post);
+//
+//            // Set the stage for the comments controller
+//            Stage indexStage = (Stage) postIdLabel.getScene().getWindow();
+//            commentsController.setIndexStage(indexStage);
+//
+////            // Close the details window
+////            Stage thisStage = (Stage) postIdLabel.getScene().getWindow();
+////            thisStage.close();
+//
+//            // Show the comments window
+//            Stage stage = new Stage();
+//            stage.setScene(new Scene(root));
+//            stage.setTitle("Commentaires");
+//            stage.show();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @FXML
     private void retourAction(ActionEvent event) {
@@ -208,5 +295,62 @@ public class detailsPost {
         }
     }
 
+    @FXML
+    private void genererPDF() {
+        try (PDDocument document = new PDDocument()) {
+            PDPage page = new PDPage();
+            document.addPage(page);
 
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+
+            PDType0Font font = PDType0Font.load(document, getClass().getResourceAsStream("/fonts/CairoPlay-VariableFont_slnt,wght.ttf"));
+
+            float margin = 50; // Adjusted margin for better spacing
+            float fontSize = 12; // Adjust the font size if needed
+            float lineHeight = 1.5f * fontSize; // Adjust the line height for spacing
+
+            // Start writing post content
+            float yPosition = page.getMediaBox().getHeight() - 2 * margin - 100;
+
+            // Write the content of the currently opened post
+            contentStream.beginText();
+            contentStream.setFont(font, fontSize);
+            contentStream.newLineAtOffset(margin, yPosition);
+            contentStream.showText("Post content: " + post.getContenu()+"          Timestamp: " + post.getDateCreation());
+            contentStream.newLine();
+            yPosition -= lineHeight; // Adjust the y position for the next line
+            contentStream.endText();
+
+            // Retrieve comments associated with the currently opened post
+            CommentsServices commentsService = new CommentsServices();
+            List<Comments> comments;
+            try {
+                comments = commentsService.getCommentsByPost(post);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+            // Write the comments
+            for (Comments comment : comments) {
+                contentStream.beginText();
+                contentStream.setFont(font, fontSize);
+                contentStream.newLineAtOffset(margin, yPosition);
+                contentStream.showText("Comment: " + comment.getContenu()+"      Date de Commentaire: " + comment.getDateCreation());
+                contentStream.newLine();
+                yPosition -= lineHeight; // Adjust the y position for the next line
+                contentStream.endText();
+            }
+
+            contentStream.close();
+
+            // Save the PDF file
+            File file = new File("ListOfPosts.pdf");
+            document.save(file);
+
+            // Open the PDF file
+            Desktop.getDesktop().open(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

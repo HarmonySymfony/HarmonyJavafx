@@ -37,6 +37,14 @@ public class addPost {
     // Add a private field to store the stage
     private Stage stage;
 
+    // Add a boolean variable to track whether a post was successfully added
+    private boolean postAdded = false;
+
+    // Getter method for postAdded
+    public boolean isPostAdded() {
+        return postAdded;
+    }
+
     // Setter method for stage
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -76,7 +84,7 @@ public class addPost {
         // Populate the TableView with posts
         postTableView.setItems(postsList);
     }
-    
+
 
     @FXML
     void publier(ActionEvent event) throws SQLException {
@@ -113,12 +121,8 @@ public class addPost {
         // Close the add window after deleting the post
         Stage stage = (Stage) post_contenu.getScene().getWindow();
         stage.close();
-
-        // Close the index window and show it again
-        Stage indexStage = getIndexStage();
-        if (indexStage != null) {
-            indexStage.show();
-        }
+        // Set postAdded to true if a new post was successfully added
+        postAdded = true;
     }
 
     @FXML
@@ -132,14 +136,8 @@ public class addPost {
 
     @FXML
     private void annuler(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/indexPost.fxml"));
-            Parent root = loader.load();
-            Stage stage = (Stage) annulerButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) annulerButton.getScene().getWindow();
+        stage.close();
     }
 
 

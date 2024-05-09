@@ -17,5 +17,6 @@
          </columns>
       </TableView>
       <Button fx:id="rendezvous" layoutX="86.0" layoutY="420.0" mnemonicParsing="false" onAction="#rendezvous" text="RDV" />
+      <Button fx:id="rendezvous1" layoutX="31.0" layoutY="420.0" mnemonicParsing="false" onAction="#rendezvous1" text="retour" />
    </children>
 </AnchorPane>

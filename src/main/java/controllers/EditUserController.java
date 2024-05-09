@@ -5,7 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
+import java.util.Base64;
 
 public class EditUserController {
     @FXML
@@ -22,6 +24,9 @@ public class EditUserController {
 
     @FXML
     private TextField ageField;
+    @FXML
+    private TextField roleField;
+
 
     private Personne user; // The user being edited
 
@@ -39,8 +44,9 @@ public class EditUserController {
             nomField.setText(user.getNom());
             prenomField.setText(user.getPrenom());
             emailField.setText(user.getEmail());
-            passwordField.setText(user.getPassword());
+            passwordField.clear();
             ageField.setText(String.valueOf(user.getAge()));
+            roleField.setText(user.getRole());
         }
     }
 
@@ -49,32 +55,43 @@ public class EditUserController {
     void saveUser(ActionEvent event) {
         if (user != null) {
             // Check if required fields are not empty
-            if (!nomField.getText().isEmpty() && !prenomField.getText().isEmpty() && !emailField.getText().isEmpty() && !passwordField.getText().isEmpty() && !ageField.getText().isEmpty()) {
-                user.setNom(nomField.getText());
-                user.setPrenom(prenomField.getText());
-                user.setEmail(emailField.getText());
-                user.setPassword(passwordField.getText());
+            if (nomField != null && !nomField.getText().isEmpty() &&
+                    prenomField != null && !prenomField.getText().isEmpty() &&
+                    emailField != null && !emailField.getText().isEmpty() &&
+                    passwordField != null && !passwordField.getText().isEmpty() &&
+                    ageField != null && !ageField.getText().isEmpty()) {
 
-                // Parse age field to int, handle exceptions as needed
                 try {
+                    // Parse age as an integer
                     int age = Integer.parseInt(ageField.getText());
+
+                    // Update user details
+                    user.setNom(nomField.getText());
+                    user.setPrenom(prenomField.getText());
+                    user.setEmail(emailField.getText());
+
+                    // Hash the new password before setting it
+                    String hashedPassword = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
+                    user.setPassword(hashedPassword);
+
                     user.setAge(age);
+                    user.setRole(roleField.getText());
+
+                    // Update the user details in the database
+                    PersonneServices service = new PersonneServices();
+                    service.updateEntity(user);
+                    showAlert("Success", "User details updated successfully.");
                 } catch (NumberFormatException e) {
-                    // Handle invalid age input
+                    // Handle the case where age is not a valid integer
+                    showAlert("Error", "Please enter a valid age.");
                 }
-
-                // Update the user in the database
-                PersonneServices service = new PersonneServices();
-                service.updateEntity(user);
-
-//                // Close the editing window
-//                nomField.getScene().getWindow().hide();
             } else {
-                // Display an error message if any required field is empty
+                // Display an error message if any required field is empty or null
                 showAlert("Error", "Please fill in all fields.");
             }
         }
     }
+
 
 
 }

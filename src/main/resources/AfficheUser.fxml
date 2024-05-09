@@ -11,20 +11,20 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane prefHeight="823.0" prefWidth="1108.0" style="-fx-background-image: url('background.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficheUser">
+<Pane prefHeight="834.0" prefWidth="1207.0" styleClass="affiche-user-root" stylesheets="@javaa.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficheUser">
     <children>
 
         <!-- GridPane for Users -->
-        <GridPane fx:id="grid" gridLinesVisible="true" layoutX="80.0" layoutY="234.0" prefHeight="455.0" prefWidth="999.0" style="-fx-background-color: white;">
+        <GridPane fx:id="grid" gridLinesVisible="true" layoutX="80.0" layoutY="234.0" prefHeight="455.0" prefWidth="999.0" style="-fx-background-color: transparent;">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="50.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="5.0" prefWidth="50.0" />
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+
             </rowConstraints>
         </GridPane>
 
@@ -70,10 +70,10 @@
         </Text>
 
         <!-- Partner Buttons -->
-        <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" text="Forums" />
-        <Button layoutX="90.0" layoutY="20.0" mnemonicParsing="false" text="Laboratoires" />
+        <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#Forum" text="Forum" />
+        <Button layoutX="90.0" layoutY="20.0" mnemonicParsing="false" text="Laboratoires" onAction="#laboratoires" />
         <Button layoutX="200.0" layoutY="20.0" mnemonicParsing="false" onAction="#listeCabinets" text="Cabinets" />
-        <Button layoutX="300.0" layoutY="20.0" mnemonicParsing="false" text="Événements" />
+        <Button layoutX="300.0" layoutY="20.0" mnemonicParsing="false" onAction="#evenement" text="Événements" />
         <Button layoutX="400.0" layoutY="20.0" mnemonicParsing="false" onAction="#ListePharmacie" text="Pharmacies" />
     </children>
 </Pane>

@@ -7,16 +7,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import services.PostsServices;
@@ -28,51 +22,36 @@ import java.sql.Timestamp;
 public class indexPost {
 
     @FXML
-    private Button addPostButton;
+    private Button addPostButton, nextButton, prevButton;
 
     @FXML
     private TableView<Posts> postTableView;
 
     @FXML
     private TableColumn<Posts, Integer> idCol;
-
     @FXML
     private TableColumn<Posts, String> postedAsCol;
-
     @FXML
     private TableColumn<Posts, String> contenuCol;
-
     @FXML
     private TableColumn<Posts, Timestamp> dateCreationCol;
-
     @FXML
     private TableColumn<Posts, Timestamp> lastModificationCol;
-
     @FXML
     private TableColumn<Posts, HBox> actionsCol;
 
+    @FXML
+    private Label pageLabel;
+
     private ObservableList<Posts> postsList = FXCollections.observableArrayList();
+    private int currentPage = 1;
+    private final int rowsPerPage = 10;
+    private int totalPosts;  // Total number of posts in the database
+    private int totalPages;  // Total number of pages
 
     @FXML
-    private void handleKeyPress(KeyEvent event) {
-        if (event.getCode() == KeyCode.ENTER) {
-            Posts selectedPost = postTableView.getSelectionModel().getSelectedItem();
-            if (selectedPost != null) {
-                handleDetails(selectedPost);
-            }
-        }
-    }
-
-    @FXML
-    public void initialize() throws SQLException {
-        // Retrieve posts from the database
-        PostsServices postsServices = new PostsServices();
-        postsList.addAll(postsServices.getAll());
-
-        // Populate the TableView with posts
-        postTableView.setItems(postsList);
-
-        // Optionally, you can configure the TableColumn cell value factories here
+    public void initialize() {
+        // Bind Table Columns to Posts properties
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
         postedAsCol.setCellValueFactory(new PropertyValueFactory<>("postedAs"));
         contenuCol.setCellValueFactory(new PropertyValueFactory<>("contenu"));
@@ -80,78 +59,107 @@ public class indexPost {
         lastModificationCol.setCellValueFactory(new PropertyValueFactory<>("lastModification"));
 
         actionsCol.setCellValueFactory(param -> new SimpleObjectProperty<>(createButtonBox(param.getValue())));
+        try {
+            PostsServices postsServices = new PostsServices();
+            totalPosts = postsServices.countPosts();  // Assume this method returns the total number of posts
+            totalPages = (int) Math.ceil((double) totalPosts / rowsPerPage);
+            updateTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    // Method to create an HBox containing buttons for each post
-    private HBox createButtonBox(Posts post) {
-        Button detailsButton = new Button("Détails");
-        Button editButton = new Button("Modifier");
-        Button deleteButton = new Button("Supprimer");
 
-        // Set action handlers for each button
-        detailsButton.setOnAction(event -> handleDetails(post));
-        editButton.setOnAction(event -> handleEdit(post));
-        deleteButton.setOnAction(event -> {
-            try {
-                handleDelete(post);
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        });
 
-        return new HBox(detailsButton, editButton, deleteButton);
+    @FXML
+    private void updateTable() {
+        try {
+            int offset = (currentPage - 1) * rowsPerPage;
+            PostsServices postsServices = new PostsServices();
+            postsList.clear();
+            postsList.addAll(postsServices.getPosts(rowsPerPage, offset));
+            postTableView.setItems(postsList);
+            pageLabel.setText("Page " + currentPage + " of " + totalPages);
+
+            // Button controls
+            prevButton.setDisable(currentPage <= 1);
+            nextButton.setDisable(currentPage >= totalPages);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+
+    @FXML
+    private void handleNextPage(ActionEvent event) {
+        if (currentPage < totalPages) {
+            currentPage++;
+            updateTable();
+        }
+    }
+
+    @FXML
+    private void handlePrevPage(ActionEvent event) {
+        if (currentPage > 1) {
+            currentPage--;
+            updateTable();
+        }
+    }
+
 
     @FXML
     private void handleAddPost(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/addPost.fxml"));
             Parent root = loader.load();
-
-            // Get the controller from the FXMLLoader
             addPost addController = loader.getController();
-
-            // Set the TableView reference for the add controller
             addController.setPostTableView(postTableView);
-
-            // Set the stage for the add controller
-            Stage indexStage = (Stage) postTableView.getScene().getWindow();
-            addController.setIndexStage(indexStage);
-
-
-            // Close the index window
-            indexStage.close();
 
             Stage addStage = new Stage();
             addStage.setScene(new Scene(root));
             addStage.setTitle("Créer nouvelle publication");
-            addStage.show();
+            addStage.showAndWait(); // Wait for the "Add Post" window to close
+
+            // After the "Add Post" window is closed, check if a new post was successfully added
+            if (addController.isPostAdded()) {
+                // If a new post was added, update the total posts count and recalculate the total pages
+                totalPosts++;
+                totalPages = (int) Math.ceil((double) totalPosts / rowsPerPage);
+
+                // If the current page exceeds the total pages after adding a new post, reset the current page to the last page
+                if (currentPage > totalPages) {
+                    currentPage = totalPages;
+                }
+
+                // Then call updateTable() to refresh the TableView with the updated data
+                updateTable();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
-    // Action handler methods for buttons
+
+    private HBox createButtonBox(Posts post) {
+        Button detailsButton = new Button("Détails");
+        Button editButton = new Button("Modifier");
+        Button deleteButton = new Button("Supprimer");
+
+        detailsButton.setOnAction(event -> handleDetails(post));
+        editButton.setOnAction(event -> handleEdit(post));
+        deleteButton.setOnAction(event -> handleDelete(post));
+
+        return new HBox(detailsButton, editButton, deleteButton);
+    }
+
     private void handleDetails(Posts post) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/detailsPost.fxml"));
             Parent root = loader.load();
-
-            // Get the controller from the FXMLLoader
             detailsPost detailsController = loader.getController();
-
-            // Set the TableView reference for the details controller
             detailsController.setPostTableView(postTableView);
-
-            // Set the stage for the details controller
-            Stage indexStage = (Stage) postTableView.getScene().getWindow();
-            detailsController.setIndexStage(indexStage);
-
-            // Pass the selected post to the details controller
+            detailsController.setIndexStage((Stage) postTableView.getScene().getWindow());
             detailsController.setPost(post);
-
-            // Close the index window
-            indexStage.close();
 
             Stage detailsStage = new Stage();
             detailsStage.setScene(new Scene(root));
@@ -161,60 +169,59 @@ public class indexPost {
             e.printStackTrace();
         }
     }
+
     private void handleEdit(Posts post) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatePost.fxml"));
             Parent root = loader.load();
-
-            // Get the controller from the FXMLLoader
             updatePost updateController = loader.getController();
-
-            // Set the TableView reference for the details controller
             updateController.setPostTableView(postTableView);
-
-            // Set the stage for the details controller
-            Stage indexStage = (Stage) postTableView.getScene().getWindow();
-            updateController.setIndexStage(indexStage);
-
-            // Pass the selected post to the update controller
+            updateController.setIndexStage((Stage) postTableView.getScene().getWindow());
             updateController.setPost(post);
-
-            // Close the index window
-            indexStage.close();
 
             Stage updateStage = new Stage();
             updateStage.setScene(new Scene(root));
             updateStage.setTitle("Modifier la publication");
-            updateStage.show();
+            updateStage.showAndWait(); // Wait for the "Update Post" window to close
+
+            // After the "Update Post" window is closed, check if a post was successfully updated
+            if (updateController.isPostUpdated()) {
+                // If a post was updated, refresh the TableView with the updated data
+                updateTable();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
 
-    private void handleDelete(Posts post) throws SQLException {
-        // Instantiate Alert
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    private void handleDelete(Posts postToDelete) {
+        try {
+            PostsServices postsServices = new PostsServices();
+            postsServices.delete(postToDelete.getId());
 
-        // Instantiate PostsServices to interact with the database
-        PostsServices postsServices = new PostsServices();
+            // Assuming the post was successfully deleted, remove it from the TableView
+            postsList.remove(postToDelete);
 
+            // Update the total number of posts and recalculate the total pages
+            totalPosts--;
+            totalPages = (int) Math.ceil((double) totalPosts / rowsPerPage);
 
-        int id=post.getId();
-        // Delete the post using the deletePost method from PostsServices
-        postsServices.delete(id);
+            // If the current page exceeds the total pages after deleting a post, reset the current page to the last page
+            if (currentPage > totalPages) {
+                currentPage = totalPages;
+            }
 
-        // Show alert
-        alert.setTitle("Post Deleted");
-        alert.setHeaderText(null);
-        alert.setContentText("The post has been successfully deleted.");
-        alert.showAndWait();
-
-        // Remove the deleted post from the TableView
-        ObservableList<Posts> items = postTableView.getItems();
-        items.remove(post);
+            // Then call updateTable() to refresh the TableView with the updated data
+            updateTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to delete post.");
+        }
     }
 
+
+    @FXML
     public void RetourBack(ActionEvent event) {
         Parent root = null;
         try {
@@ -223,9 +230,16 @@ public class indexPost {
             throw new RuntimeException(e);
         }
         Scene scene = new Scene(root);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) postTableView.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
-}
 
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+}

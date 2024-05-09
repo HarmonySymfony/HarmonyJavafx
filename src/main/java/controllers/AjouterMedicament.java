@@ -85,6 +85,8 @@ public class AjouterMedicament {
                     Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                     stage.setScene(scene);
                     stage.show();
+                    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    stage.close();
                 }
             } catch (NumberFormatException e) {
                 erreurLabel.setText("Le stock et le prix doivent être des nombres valides.");

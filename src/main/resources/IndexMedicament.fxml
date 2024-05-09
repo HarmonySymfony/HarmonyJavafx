@@ -6,8 +6,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="753.0" prefWidth="1153.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexMedicament">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@java.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexMedicament">
    <children>
       <Text layoutX="57.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste Medicaments">
          <font>
@@ -16,6 +15,6 @@
       </Text>
       <Button layoutX="37.0" layoutY="682.0" mnemonicParsing="false" onAction="#retourBack" prefHeight="31.0" prefWidth="88.0" text="Retour" />
       <Button layoutX="909.0" layoutY="135.0" mnemonicParsing="false" onAction="#ajoutmedicament" prefHeight="31.0" prefWidth="88.0" text="Ajouter" />
-      <ListView fx:id="listemedicament" layoutX="105.0" layoutY="197.0" prefHeight="460.0" prefWidth="888.0" />
+      <ListView fx:id="listemedicament" layoutX="55.0" layoutY="187.0" prefHeight="460.0" prefWidth="888.0" />
    </children>
 </AnchorPane>

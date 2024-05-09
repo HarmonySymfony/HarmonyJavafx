@@ -1,20 +1,32 @@
 package controllers;
 
+import java.util.Properties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.Pane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
 
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public class Login {
 
@@ -26,7 +38,26 @@ public class Login {
 
     @FXML
     private PasswordField passwordtextfield2;
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(13));
+    }
+    @FXML
+    private WebView webView;
 
+    @FXML
+    public void initialize() {// Récupérer la taille de l'écran
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
     @FXML
     void login(ActionEvent event) throws SQLException, IOException {
         if (emailtextfield2.getText().isEmpty() || passwordtextfield2.getText().isEmpty()) {
@@ -41,10 +72,10 @@ public class Login {
             alert.show();
         } else {
             Boolean verif = false;
-            List<entities.Personne> users = us.recuperer();
+            List<entities.Personne> users = us.getAllData();
 
             for (entities.Personne user : users) {
-                if (user.getEmail().equals(emailtextfield2.getText()) && user.getPassword().equals(passwordtextfield2.getText())) {
+                if (user.getEmail().equals(emailtextfield2.getText()) && BCrypt.checkpw(passwordtextfield2.getText(), user.getPassword())) {
                     UserConnected = user;
                     verif = true;
                     break;
@@ -70,16 +101,24 @@ public class Login {
                 } else {
 
 
-                    loggedInUserId = UserConnected.getId();
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Homepage.fxml"));
-                    Parent root = loader.load();
-                    Scene scene = new Scene(root);
+                    if (UserConnected != null) {
+                        loggedInUserId = UserConnected.getId();
+                        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                        currentStage.close();
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Homepage.fxml"));
+                        Parent root = loader.load();
+                        Scene scene = new Scene(root);
+                        Homepage homepageController = loader.getController();
+                        homepageController.setUser(UserConnected.getId());
 
-                    Stage stage = new Stage();
-                    stage.setTitle("Sahtik");
-                    stage.setScene(scene);
-                    stage.show();
-                    showAlert("Bienvenue", "Welcome " + UserConnected.getPrenom());
+                        Stage stage = new Stage();
+                        stage.setTitle("Sahtik");
+                        stage.setScene(scene);
+                        stage.show();
+                        showAlert("Bienvenue", "Welcome " + UserConnected.getPrenom());
+                    } else {
+                        showAlert("Utilisateur inexistant", "Utilisateur inexistant!");
+                    }
 
                     // Affichage de la page d'accueil
 
@@ -96,9 +135,81 @@ public class Login {
 
     @FXML
     void motdepasseoubliee(ActionEvent event) {
+        TextInputDialog dialog = new TextInputDialog();
+        dialog.setTitle("Mot de passe oublié");
+        dialog.setHeaderText(null);
+        dialog.setContentText("Veuillez entrer votre adresse e-mail pour réinitialiser votre mot de passe:");
+        Optional<String> result = dialog.showAndWait();
 
+        result.ifPresent(email -> {
+            try {
+                String resetToken = generateResetToken(); // Générer un jeton de réinitialisation
+                sendForgotPasswordRequest(email); // Envoyer l'e-mail avec le jeton de réinitialisation
+            } catch (MessagingException e) {
+                e.printStackTrace();
+                showAlert("Erreur", "Une erreur s'est produite lors de la demande de réinitialisation du mot de passe.");
+            }
+        });
+    }
+    private String generateResetToken() {
+        // Utilisation de UUID pour générer un identifiant unique
+        return UUID.randomUUID().toString();
+    }
+    private void sendForgotPasswordRequest(String email) throws MessagingException {
+        // Generate a new temporary password
+        String tempPassword = generateTempPassword();
+
+        // Update the user's password in the database with the plain text temporary password
+        PersonneServices.resetPassword(email, tempPassword);
+
+        // Send the plain text temporary password to the user's email
+        sendEmail(email, tempPassword);
     }
 
+    private String generateTempPassword() {
+        // Generate a random temporary password
+        // This is just a simple example, you should use a more secure way to generate a temporary password
+        return UUID.randomUUID().toString().substring(0, 8);
+    }
+
+    private void sendEmail(String email, String tempPassword) throws MessagingException {
+        // Configuration des propriétés pour l'envoi d'e-mails via Outlook SMTP
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.office365.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+
+        // Création de la session
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("alaeddine.aouf@esprit.tn", "7984651320Aa");
+            }
+        });
+
+        // Création du message
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("alaeddine.aouf@esprit.tn"));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+        message.setSubject("Réinitialisation de mot de passe");
+        message.setText("Bonjour,\n\nVous avez demandé la réinitialisation de votre mot de passe. Veuillez utiliser ce jeton pour réinitialiser votre mot de passe : " + tempPassword + "\n\nCordialement,\nVotre application");
+
+        // Envoi du message
+        Transport.send(message);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ResetPassword.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setTitle("Reset Password");
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "An error occurred while displaying the reset password page.");
+        }
+    }
+    
     @FXML
     void signup(ActionEvent event) throws IOException {
         // Load the FXML file
