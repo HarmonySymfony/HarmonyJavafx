@@ -124,4 +124,12 @@ body {
     -fx-background-image: url('background.jpg');
     -fx-background-size: cover;
 }
+.button{
+    -fx-background-color: #0351cb;
+    -fx-background-radius:8px;
+    -fx-text-fill:#fff;
+    -fx-font-size:14px;
+    -fx-font-family:"Arial";
+    -fx-cursor:hand;
+}
 
