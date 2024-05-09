@@ -130,7 +130,7 @@ public class IndexPharmacieFRONT {
     void buttonRetour(ActionEvent event) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/AfficheUser.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/Homepage.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

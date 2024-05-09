@@ -18,11 +18,11 @@
       </Text>
       <Button layoutX="1145.0" layoutY="92.0" mnemonicParsing="false" onAction="#openEditProfile" prefHeight="25.0" prefWidth="77.0" text="Edit profile" />
       <Button layoutY="850.0" mnemonicParsing="false" onAction="#retourHome" prefHeight="31.0" prefWidth="62.0" text="Logout" />
-      <Button layoutX="595.0" layoutY="92.0" mnemonicParsing="false" text="Forum" />
-      <Button layoutX="684.0" layoutY="92.0" mnemonicParsing="false" text="Laboratoires" />
-      <Button layoutX="808.0" layoutY="92.0" mnemonicParsing="false" text="Cabinets" />
-      <Button layoutX="912.0" layoutY="92.0" mnemonicParsing="false" text="Événements" />
-      <Button layoutX="1031.0" layoutY="92.0" mnemonicParsing="false" text="Pharmacies" />
+      <Button layoutX="595.0" layoutY="92.0" mnemonicParsing="false" text="Forum" onAction="#forum_front" />
+      <Button layoutX="684.0" layoutY="92.0" mnemonicParsing="false" text="Laboratoires" onAction="#labo_front" />
+      <Button layoutX="808.0" layoutY="92.0" mnemonicParsing="false" text="Cabinets"  />
+      <Button layoutX="912.0" layoutY="92.0" mnemonicParsing="false" text="Événements" onAction="#event_front" />
+      <Button layoutX="1031.0" layoutY="92.0" mnemonicParsing="false" text="Pharmacies" onAction="#pharmacie_front" />
       <Text fx:id="welcomeText" layoutX="892.0" layoutY="200.0" />
       <Label fx:id="nameLabel" layoutX="912.0" layoutY="300.0" />
       <Label fx:id="surnameLabel" layoutX="912.0" layoutY="350.0" />
