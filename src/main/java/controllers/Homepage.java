@@ -8,11 +8,18 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import services.PersonneServices;
 
+
+
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 public class Homepage {
     @FXML
@@ -33,6 +40,9 @@ public class Homepage {
     @FXML
     private Label ageLabel;
 
+    @FXML
+    private ImageView userProfilePicture;
+
     private PersonneServices personneServices = new PersonneServices();
 
     public void setUser(int userId) {
@@ -43,6 +53,15 @@ public class Homepage {
         emailLabel.setText("Email: " + user.getEmail());
         roleLabel.setText("Role: " + user.getRole());
         ageLabel.setText("Age: " + user.getAge());
+
+        Blob blob = user.getProfilePicture();
+        try {
+            InputStream is = blob.getBinaryStream();
+            Image image = new Image(is);
+            userProfilePicture.setImage(image);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

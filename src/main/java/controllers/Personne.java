@@ -17,7 +17,10 @@ import org.mindrot.jbcrypt.BCrypt;
 import javafx.stage.FileChooser;
 import java.io.File;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 
 public class Personne {
     @FXML
@@ -38,7 +41,7 @@ public class Personne {
     private TextField roleTextField;
     @FXML
     private ImageView profilePictureImageView;
-    private String profilePicturePath;
+    private Blob ProfilePicture;
 
 
 
@@ -56,12 +59,17 @@ public class Personne {
         File file = fileChooser.showOpenDialog(null);
 
         if (file != null) {
-            // Get the path of the selected file
-            profilePicturePath = file.getAbsolutePath();
+            try {
+                // Convert the selected file to a Blob
+                FileInputStream fis = new FileInputStream(file);
+                ProfilePicture = new javax.sql.rowset.serial.SerialBlob(fis.readAllBytes());
 
-            // Load the image and display it in the ImageView
-            Image image = new Image(file.toURI().toString());
-            profilePictureImageView.setImage(image);
+                // Load the image and display it in the ImageView
+                Image image = new Image(file.toURI().toString());
+                profilePictureImageView.setImage(image);
+            } catch (IOException | SQLException e) {
+                e.printStackTrace();
+            }
         } else {
             showAlert("Error", "No file selected");
         }
@@ -72,9 +80,9 @@ public class Personne {
         String hashedPassword = hashPassword(passwordTextField.getText());
 
         // Check if a file has been selected
-        if (profilePicturePath != null) {
+        if (ProfilePicture != null) {
             // Create a new Personne object with the entered data and hashed password
-            entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), hashedPassword, Integer.parseInt(ageTextField.getText()),roleTextField.getText(), profilePicturePath);
+            entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), hashedPassword, Integer.parseInt(ageTextField.getText()),roleTextField.getText(), ProfilePicture);
 
             // Save the Personne object to the database
             personneServices.Ajouter(p);

@@ -7,6 +7,7 @@ import utils.MyConnection;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +32,13 @@ public class PersonneServices implements IServicesUser<Personne> {
             st.setString(6, personne.getRole());
 
             // Convert the image file to a FileInputStream
-            File imageFile = new File(personne.getProfilePicturePath());
-            FileInputStream fis = new FileInputStream(imageFile);
-            st.setBinaryStream(7, fis, (int) imageFile.length());
+            Blob imageBlob = personne.getProfilePicture();
+            InputStream fis = imageBlob.getBinaryStream();
+            st.setBinaryStream(7, fis, (int)imageBlob.length());
 
             st.executeUpdate();
             System.out.println("Personne ajoutée");
-        } catch (SQLException | FileNotFoundException e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -90,7 +91,7 @@ public class PersonneServices implements IServicesUser<Personne> {
             Statement st = MyConnection.getInstance().getCnx().createStatement();
             ResultSet rs = st.executeQuery(requete);
             while (rs.next()) {
-                Personne p = new Personne("Rebai", "Saber", "saberweldzakeya@gmail.com", "aloulou123", 20,"PATIENT","C:\\Users\\saber\\Desktop\\saber.jpg");
+                Personne p = new Personne();
                 p.setId(rs.getInt(1));
                 p.setNom(rs.getString("Nom"));
                 p.setPrenom(rs.getString("Prenom"));
@@ -98,13 +99,12 @@ public class PersonneServices implements IServicesUser<Personne> {
                 p.setPassword(rs.getString("Password"));
                 p.setRole(rs.getString("Role"));
                 p.setAge(rs.getInt("Age"));
-                p.setProfilePicturePath(rs.getString("ProfilePicturePath"));
+                p.setProfilePicture(rs.getBlob("ProfilePicture"));
 
                 data.add(p);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            // Handle the exception here
         }
         return data;
     }
@@ -259,7 +259,6 @@ public class PersonneServices implements IServicesUser<Personne> {
         }
     }
     public Personne getUserById(int userId) {
-        // Replace with your actual SQL query
         String query = "SELECT * FROM utilisateur WHERE id = ?";
 
         try (PreparedStatement statement = cnx.prepareStatement(query)) {
@@ -267,7 +266,6 @@ public class PersonneServices implements IServicesUser<Personne> {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    // Replace with your actual column names
                     int id = resultSet.getInt("id");
                     String nom = resultSet.getString("nom");
                     String prenom = resultSet.getString("prenom");
@@ -275,14 +273,14 @@ public class PersonneServices implements IServicesUser<Personne> {
                     String password = resultSet.getString("password");
                     int age = resultSet.getInt("age");
                     String role = resultSet.getString("role");
+                    Blob profilePicture = resultSet.getBlob("ProfilePicture");
 
-                    return new Personne(id, nom, prenom, email, password, age, role, null);
+                    return new Personne(id, nom, prenom, email, password, age, role, profilePicture);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
 }
