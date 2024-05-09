@@ -54,7 +54,7 @@ public class PersonneServices implements IServicesUser<Personne> {
     public void updateEntity(Personne personne) {
         try {
             // Préparer la requête SQL pour la mise à jour
-            String sql = "UPDATE utilisateur SET Nom=?, Prenom=?, Email=?, Password=?, Age=?,Role=? WHERE id=?";
+            String sql = "UPDATE utilisateur SET Nom=?, Prenom=?, Email=?, Password=?, Age=?,Role=?, ProfilePicture=? WHERE id=?";
             PreparedStatement statement = cnx.prepareStatement(sql);
 
             // Définir les valeurs des paramètres de la requête
@@ -64,7 +64,8 @@ public class PersonneServices implements IServicesUser<Personne> {
             statement.setString(4, personne.getPassword());
             statement.setInt(5, personne.getAge());
             statement.setString(6, personne.getRole());
-            statement.setInt(7, personne.getId());
+            statement.setBlob(7, personne.getProfilePicture());
+            statement.setInt(8, personne.getId());
 
             // Exécuter la mise à jour
             int rowsUpdated = statement.executeUpdate();

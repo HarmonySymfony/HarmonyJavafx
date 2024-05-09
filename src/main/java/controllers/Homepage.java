@@ -105,6 +105,29 @@ public class Homepage {
         stage.setScene(scene);
         stage.show();
     }
+    @FXML
+    public void openEditProfile() {
+        try {
+            // Load the FXML file for editing user details
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditProfile.fxml"));
+            Parent root = loader.load();
+
+            // Pass the user information to the controller of the editing window
+            EditProfileController editProfileController = loader.getController();
+            editProfileController.initData(personneServices.getUserById(Home.userID));
+
+            // Show the editing window
+            Stage stage = new Stage();
+            stage.setTitle("Edit Profile");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            // Refresh the user information after editing
+            setUser(Home.userID);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 }

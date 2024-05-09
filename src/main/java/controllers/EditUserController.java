@@ -5,7 +5,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
+import java.util.Base64;
 
 public class EditUserController {
     @FXML
@@ -42,7 +44,7 @@ public class EditUserController {
             nomField.setText(user.getNom());
             prenomField.setText(user.getPrenom());
             emailField.setText(user.getEmail());
-            passwordField.setText(user.getPassword());
+            passwordField.clear();
             ageField.setText(String.valueOf(user.getAge()));
             roleField.setText(user.getRole());
         }
@@ -67,7 +69,11 @@ public class EditUserController {
                     user.setNom(nomField.getText());
                     user.setPrenom(prenomField.getText());
                     user.setEmail(emailField.getText());
-                    user.setPassword(passwordField.getText());
+
+                    // Hash the new password before setting it
+                    String hashedPassword = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
+                    user.setPassword(hashedPassword);
+
                     user.setAge(age);
                     user.setRole(roleField.getText());
 

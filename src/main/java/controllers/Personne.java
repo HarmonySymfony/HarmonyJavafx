@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -41,7 +42,7 @@ public class Personne {
     @FXML
     private TextField prenomTextField;
     @FXML
-    private TextField roleTextField;
+    private ChoiceBox<String> roleChoiceBox;
     @FXML
     private ImageView profilePictureImageView;
     private Blob ProfilePicture;
@@ -70,6 +71,8 @@ public class Personne {
 
         // Charger le fichier HTML contenant la carte Google Maps
         webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());
+        roleChoiceBox.getItems().addAll("PATIENT", "DOCTOR", "LABORATOIRE", "PHARMACIEN");
+
     }
     @FXML
     void chooseFile(ActionEvent event) {
@@ -101,7 +104,7 @@ public class Personne {
         // Check if a file has been selected
         if (ProfilePicture != null) {
             // Create a new Personne object with the entered data and hashed password
-            entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), hashedPassword, Integer.parseInt(ageTextField.getText()),roleTextField.getText(), ProfilePicture);
+            entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), hashedPassword, Integer.parseInt(ageTextField.getText()),roleChoiceBox.getValue(), ProfilePicture);
 
             // Save the Personne object to the database
             personneServices.Ajouter(p);
