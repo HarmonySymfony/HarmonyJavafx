@@ -4,12 +4,15 @@ import entities.Personne;
 import interfaces.IServicesUser;
 import utils.MyConnection;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PersonneServices implements IServicesUser<Personne> {
-    Connection cnx;
+    static Connection cnx;
 
     public PersonneServices() {
         cnx = MyConnection.getInstance().getCnx();
@@ -17,53 +20,30 @@ public class PersonneServices implements IServicesUser<Personne> {
 
     @Override
     public void Ajouter(Personne personne) {
-        String sql = "INSERT INTO utilisateur (Nom,Prenom,Email,Password,age)" + " VALUES ('" + personne.getNom() + "','" + personne.getPrenom() + "','" + personne.getEmail() + "','" + personne.getPassword() + "','" + personne.getAge() + "')";
+        String sql = "INSERT INTO utilisateur (Nom, Prenom, Email, Password, age, Role, ProfilePicture)" + " VALUES (?, ?, ?, ?, ?, ?, ?)";
         try {
-            Statement st = MyConnection.getInstance().getCnx().createStatement();
-            st.executeUpdate(sql);
+            PreparedStatement st = MyConnection.getInstance().getCnx().prepareStatement(sql);
+            st.setString(1, personne.getNom());
+            st.setString(2, personne.getPrenom());
+            st.setString(3, personne.getEmail());
+            st.setString(4, personne.getPassword());
+            st.setInt(5, personne.getAge());
+            st.setString(6, personne.getRole());
+
+            // Convert the image file to a FileInputStream
+            File imageFile = new File(personne.getProfilePicturePath());
+            FileInputStream fis = new FileInputStream(imageFile);
+            st.setBinaryStream(7, fis, (int) imageFile.length());
+
+            st.executeUpdate();
             System.out.println("Personne ajoutée");
-        } catch (SQLException e) {
+        } catch (SQLException | FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public boolean existemail(String Email) {
-        boolean exist = false;
-        String sql = "SELECT * FROM utilisateur WHERE Email = ?";
-        try {
-            PreparedStatement ps = cnx.prepareStatement(sql);
-            ps.setString(1, Email);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                exist = true;
-            }
-        } catch (SQLException ex) {
-            // Handle or log the exception appropriately
-            System.err.println("An error occurred while executing SQL query: " + ex.getMessage());
-        }
-        return exist;
-    }
 
-    public void addEntity2(Personne personne) {
-        String requete = "INSERT INTO utilisateur(Nom,Prenom,Email,Password,age) VALUES (?,?,?,?,?)";
-        try {
-            PreparedStatement pst = MyConnection.getInstance().getCnx().prepareStatement(requete);
-            pst.setString(1, personne.getNom());
-            pst.setString(2, personne.getPrenom());
-            pst.setString(3, personne.getEmail());
-            pst.setString(4, personne.getPassword());
-            pst.setInt(5, personne.getAge());
-            pst.executeUpdate();
-            System.out.println("Personne added");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
-    @Override
-    public void Ajouter(controllers.Personne personne) {
-
-    }
 
     @Override
     public void addEntity(Personne personne) {
@@ -73,7 +53,7 @@ public class PersonneServices implements IServicesUser<Personne> {
     public void updateEntity(Personne personne) {
         try {
             // Préparer la requête SQL pour la mise à jour
-            String sql = "UPDATE utilisateur SET Nom=?, Prenom=?, Email=?, Password=?, Age=? WHERE id=?";
+            String sql = "UPDATE utilisateur SET Nom=?, Prenom=?, Email=?, Password=?, Age=?,Role=? WHERE id=?";
             PreparedStatement statement = cnx.prepareStatement(sql);
 
             // Définir les valeurs des paramètres de la requête
@@ -82,7 +62,8 @@ public class PersonneServices implements IServicesUser<Personne> {
             statement.setString(3, personne.getEmail());
             statement.setString(4, personne.getPassword());
             statement.setInt(5, personne.getAge());
-            statement.setInt(6, personne.getId());
+            statement.setString(6, personne.getRole());
+            statement.setInt(7, personne.getId());
 
             // Exécuter la mise à jour
             int rowsUpdated = statement.executeUpdate();
@@ -98,108 +79,34 @@ public class PersonneServices implements IServicesUser<Personne> {
 
     @Override
     public void deleteEntity(Personne personne) {
-        // Ajouter la logique de suppression ici si nécessaire
+
     }
 
-    public Personne getPersonneById(int id) throws SQLException {
 
-        Personne personne = null;
-        String query = "SELECT * FROM utilisateur WHERE id = ?";
-        try (PreparedStatement statement = cnx.prepareStatement(query)) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    personne = new Personne();
-                    personne.setId(resultSet.getInt("id"));
-                    personne.setNom(resultSet.getString("Nom"));
-                    personne.setPrenom(resultSet.getString("Prenom"));
-                    personne.setEmail(resultSet.getString("Email"));
-                    personne.setPassword(resultSet.getString("Password"));
-                    personne.setAge(resultSet.getInt("Age"));
-                }
-            }
-        }
-        return personne;
-    }
-
-    public Personne recuperer2(int id) throws SQLException {
-        String query = "SELECT * FROM utilisateur WHERE id = ?";
-        try (PreparedStatement statement = cnx.prepareStatement(query)) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    Personne personne = new Personne();
-                    personne.setId(resultSet.getInt("id"));
-                    personne.setNom(resultSet.getString("Nom"));
-                    personne.setPrenom(resultSet.getString("Prenom"));
-                    personne.setEmail(resultSet.getString("Email"));
-                    personne.setPassword(resultSet.getString("Password"));
-                    personne.setAge(resultSet.getInt("Age"));
-                    return personne;
-                }
-            }
-        }
-        return null; // Retourne null si aucune personne n'est trouvée avec cet ID
-    }
-
-    public List<Personne> recuperer() throws SQLException {
-        List<Personne> personnes = new ArrayList<>();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-
+    public List<Personne> getAllData() {
+        List<Personne> data = new ArrayList<>();
+        String requete = "SELECT * FROM utilisateur ";
         try {
-            connection = MyConnection.getInstance().getCnx(); // Utilisation de MyConnection.getConnection()
-            String query = "SELECT id, Nom, Prenom, Email, Password FROM utilisateur"; // Assurez-vous de spécifier le nom de votre table
-            statement = connection.prepareStatement(query);
-            resultSet = statement.executeQuery();
+            Statement st = MyConnection.getInstance().getCnx().createStatement();
+            ResultSet rs = st.executeQuery(requete);
+            while (rs.next()) {
+                Personne p = new Personne("Rebai", "Saber", "saberweldzakeya@gmail.com", "aloulou123", 20,"PATIENT","C:\\Users\\saber\\Desktop\\saber.jpg");
+                p.setId(rs.getInt(1));
+                p.setNom(rs.getString("Nom"));
+                p.setPrenom(rs.getString("Prenom"));
+                p.setEmail(rs.getString("Email"));
+                p.setPassword(rs.getString("Password"));
+                p.setRole(rs.getString("Role"));
+                p.setAge(rs.getInt("Age"));
+                p.setProfilePicturePath(rs.getString("ProfilePicturePath"));
 
-            while (resultSet.next()) {
-                // Création d'un objet Personne à partir des données récupérées de la base de données
-                Personne personne = new Personne();
-                personne.setId(resultSet.getInt("id"));
-                personne.setNom(resultSet.getString("Nom"));
-                personne.setPrenom(resultSet.getString("Prenom"));
-                personne.setEmail(resultSet.getString("Email"));
-                personne.setPassword(resultSet.getString("Password"));
-
-                // Ajout de la personne à la liste
-                personnes.add(personne);
+                data.add(p);
             }
-        } finally {
-            // Fermeture des ressources
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            // Notez que nous n'avons pas besoin de fermer explicitement la connexion ici car elle est obtenue à partir de MyConnection.getInstance().getCnx(),
-            // et sa gestion de la connexion est gérée ailleurs (probablement dans MyConnection)
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            // Handle the exception here
         }
-
-        return personnes;
-    }
-
-    public void modifier(Personne t) throws SQLException {
-        String req = "Update utilisateur set Nom=?, Prenom=?, Email=?, Password=?,Age=? where id=?";
-        PreparedStatement stmt = cnx.prepareStatement(req);
-        stmt.setString(1, t.getNom());
-        stmt.setString(2, t.getPrenom());
-        stmt.setString(3, t.getEmail());
-        stmt.setInt(4, t.getId());
-
-        stmt.executeUpdate();
-
-        System.out.println(" modification établie!");
-    }
-
-    public void supprimer(Personne t) throws SQLException {
-        String req = "Delete from utilisateur where id=?";
-        PreparedStatement stmt = cnx.prepareStatement(req);
-        stmt.setInt(1, t.getId());
-        stmt.executeUpdate();
-        System.out.println(" suppression établie!");
+        return data;
     }
     public void generateAndStoreResetToken(String email, String resetToken) {
         try {
@@ -229,7 +136,7 @@ public class PersonneServices implements IServicesUser<Personne> {
             }
 
             // Mettez à jour le mot de passe correspondant à ce jeton
-            String sql = "UPDATE utilisateur SET Password = ? WHERE ResetToken = ?";
+            String sql = "UPDATE user SET Password = ? WHERE ResetToken = ?";
             PreparedStatement statement = cnx.prepareStatement(sql);
             statement.setString(1, newPassword);
             statement.setString(2, resetToken);
@@ -257,6 +164,17 @@ public class PersonneServices implements IServicesUser<Personne> {
         return true; // Placeholder pour la validation réussie
     }
 
+
+    public void supprimer(Personne t) throws SQLException {
+        String req = "Delete from utilisateur where id=?";
+        PreparedStatement stmt = cnx.prepareStatement(req);
+        stmt.setInt(1, t.getId());
+        stmt.executeUpdate();
+        System.out.println(" suppression établie!");
+    }
+
+
+
     public List<Personne> rechercherParNom(String nom) throws SQLException {
         List<Personne> users = new ArrayList<>();
         String req = "SELECT * FROM utilisateur WHERE (Nom LIKE '%" + nom + "%' OR Email LIKE '%" + nom + "%' OR Prenom LIKE '%" + nom + "%')";
@@ -270,6 +188,7 @@ public class PersonneServices implements IServicesUser<Personne> {
             p.setNom(rs.getString("Nom"));
             p.setPrenom(rs.getString("Prenom"));
             p.setPassword(rs.getString("Password"));
+            p.setRole(rs.getString("Role"));
 
             users.add(p);
         }
@@ -278,7 +197,7 @@ public class PersonneServices implements IServicesUser<Personne> {
 
     public List<Personne> recupererParPrenom(String prenom) throws SQLException {
         List<Personne> personnes = new ArrayList<>();
-        String query = "SELECT id, Nom, Prenom, Email, Password FROM utilisateur WHERE Prenom = ?";
+        String query = "SELECT id, Nom, Prenom, Email, Password,Role FROM utilisateur WHERE Prenom = ?";
         try (PreparedStatement statement = cnx.prepareStatement(query)) {
             statement.setString(1, prenom);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -289,33 +208,81 @@ public class PersonneServices implements IServicesUser<Personne> {
                     personne.setPrenom(resultSet.getString("Prenom"));
                     personne.setEmail(resultSet.getString("Email"));
                     personne.setPassword(resultSet.getString("Password"));
+                    personne.setRole(resultSet.getString("Role"));
                     personnes.add(personne);
                 }
             }
         }
         return personnes;
     }
-
-    @Override
-    public List<Personne> getAllData() {
-        List<Personne> data = new ArrayList<>();
-        String requete = "SELECT * FROM utilisateur ";
+    public static void resetPassword(String email, String newPassword) {
         try {
-            Statement st = MyConnection.getInstance().getCnx().createStatement();
-            ResultSet rs = st.executeQuery(requete);
-            while (rs.next()) {
-                Personne p = new Personne("Rebai", "Saber", "saberweldzakeya@gmail.com", "aloulou123", "20");
-                p.setId(rs.getInt(1));
-                p.setNom(rs.getString("Nom"));
-                p.setPrenom(rs.getString("Prenom"));
-                p.setEmail(rs.getString("Email"));
-                p.setPassword(rs.getString("Password"));
+            String sql = "UPDATE utilisateur SET Password=? WHERE Email=?";
+            PreparedStatement statement = cnx.prepareStatement(sql);
 
-                data.add(p);
+            // Set the new password and the email of the user
+            statement.setString(1, newPassword);
+            statement.setString(2, email);
+
+            // Execute the update
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("The password was updated successfully!");
+            } else {
+                System.out.println("The password update failed. No user with this email found.");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Error updating password: " + e.getMessage());
         }
-        return data;
+    }
+    public boolean checkTempPassword(String email, String hashedTempPassword) {
+        try {
+            String sql = "SELECT * FROM utilisateur WHERE Email=? AND Password=?";
+            PreparedStatement statement = cnx.prepareStatement(sql);
+
+            // Set the email and the hashed temporary password
+            statement.setString(1, email);
+            statement.setString(2, hashedTempPassword);
+
+            // Execute the query
+            ResultSet resultSet = statement.executeQuery();
+
+            // If the query returns a result, the hashed temporary password is valid
+            if (resultSet.next()) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error checking temporary password: " + e.getMessage());
+            return false;
+        }
+    }
+    public Personne getUserById(int userId) {
+        // Replace with your actual SQL query
+        String query = "SELECT * FROM utilisateur WHERE id = ?";
+
+        try (PreparedStatement statement = cnx.prepareStatement(query)) {
+            statement.setInt(1, userId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Replace with your actual column names
+                    int id = resultSet.getInt("id");
+                    String nom = resultSet.getString("nom");
+                    String prenom = resultSet.getString("prenom");
+                    String email = resultSet.getString("email");
+                    String password = resultSet.getString("password");
+                    int age = resultSet.getInt("age");
+                    String role = resultSet.getString("role");
+
+                    return new Personne(id, nom, prenom, email, password, age, role, null);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

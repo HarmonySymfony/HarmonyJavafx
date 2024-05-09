@@ -9,8 +9,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import services.PersonneServices;
+import org.mindrot.jbcrypt.BCrypt;
+import javafx.stage.FileChooser;
+import java.io.File;
 
 import java.io.IOException;
 
@@ -29,74 +34,95 @@ public class Personne {
 
     @FXML
     private TextField prenomTextField;
+    @FXML
+    private TextField roleTextField;
+    @FXML
+    private ImageView profilePictureImageView;
+    private String profilePicturePath;
+
+
+
 
     private PersonneServices personneServices = new PersonneServices();
 
-    // Constructor not needed if using FXML
-    // You can remove the constructor
+    private String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(13));
+    }
 
     @FXML
-    void ajouterPersonne(ActionEvent event) throws IOException {
+    void chooseFile(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select Profile Picture");
+        File file = fileChooser.showOpenDialog(null);
 
+        if (file != null) {
+            // Get the path of the selected file
+            profilePicturePath = file.getAbsolutePath();
 
-        // Create a new Personne object with the entered data
-        entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), passwordTextField.getText(), Integer.parseInt(ageTextField.getText()));
-        PersonneServices personneServices = new PersonneServices();
-        try {
-
-
-            if (emailTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
-
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("champ vide");
-                alert.setHeaderText(null);
-                alert.setContentText("remplir les champs vides!");
-                alert.show();
-            } else if (!emailTextField.getText().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Email non valide");
-                alert.setHeaderText(null);
-                alert.setContentText("format email non valide!");
-                alert.show();
-            } else if (!ageTextField.getText().matches("[1-99]")) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Age non valide");
-                alert.setHeaderText(null);
-                alert.setContentText("format AGE non valide!");
-                alert.show();
-            }
-            // Call the Ajouter method of PersonneServices to add the Personne to the database
-            else {
-                personneServices.Ajouter(p);
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setContentText("l'utilisateur a été ajouté avec succès");
-                alert.show();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
-                Parent root = null;
-                try {
-                    root = loader.load();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                Scene scene = new Scene(root);
-
-                Stage stage = new Stage();
-                stage.setTitle("Harmony");
-                stage.setScene(scene);
-                stage.show();
-            }
-
-            // Optionally, you can clear the text fields after adding the Personne
-            nomTextField.clear();
-            prenomTextField.clear();
-            emailTextField.clear();
-            passwordTextField.clear();
-            ageTextField.clear();
-        } catch (Exception e) { // Catch more general exception or handle specific exceptions thrown by Ajouter method
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText(e.getMessage());
-            alert.show();
+            // Load the image and display it in the ImageView
+            Image image = new Image(file.toURI().toString());
+            profilePictureImageView.setImage(image);
+        } else {
+            showAlert("Error", "No file selected");
         }
+    }
+    @FXML
+    void ajouterPersonne(ActionEvent event) throws IOException {
+        // Hash the password
+        String hashedPassword = hashPassword(passwordTextField.getText());
+
+        // Check if a file has been selected
+        if (profilePicturePath != null) {
+            // Create a new Personne object with the entered data and hashed password
+            entities.Personne p = new entities.Personne(nomTextField.getText(), prenomTextField.getText(), emailTextField.getText(), hashedPassword, Integer.parseInt(ageTextField.getText()),roleTextField.getText(), profilePicturePath);
+
+            // Save the Personne object to the database
+            personneServices.Ajouter(p);
+
+            try {
+                if (emailTextField.getText().isEmpty() || passwordTextField.getText().isEmpty()) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("champ vide");
+                    alert.setHeaderText(null);
+                    alert.setContentText("remplir les champs vides!");
+                    alert.show();
+                } else if (!emailTextField.getText().matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Email non valide");
+                    alert.setHeaderText(null);
+                    alert.setContentText("format email non valide!");
+                    alert.show();
+                } else if (!ageTextField.getText().matches("^([1-9]|[1-9][0-9])$")) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Age non valide");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Format AGE non valide! L'âge doit être compris entre 1 et 99.");
+                    alert.show();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setContentText("l'utilisateur a été ajouté avec succès");
+                    alert.show();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+
+                    Stage stage = new Stage();
+                    stage.setTitle("Harmony");
+                    stage.setScene(scene);
+                    stage.show();
+                }
+            } catch (Exception e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setContentText(e.getMessage());
+                alert.show();
+            }
+        } else {
+            showAlert("Error", "No profile picture selected");
+        }
+    }
+
+    private void showAlert(String error, String no_file_selected) {
+
     }
 
     @FXML
@@ -109,13 +135,12 @@ public class Personne {
             throw new RuntimeException(e);
         }
 
-        // Get the current stage (window)
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Set the new scene content
         Scene scene = new Scene(root);
         stage.setTitle("Harmony");
         stage.setScene(scene);
         stage.show();
     }
+
+
 }

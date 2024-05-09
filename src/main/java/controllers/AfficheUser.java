@@ -38,37 +38,34 @@ public class AfficheUser {
 
     private void afficherUtilisateurs() {
         // Récupérer les données des utilisateurs depuis le service
-        try {
-            List<Personne> utilisateurs = us.recuperer();
+        List<Personne> utilisateurs = us.getAllData();
 
-            // Parcourir la liste des utilisateurs et les ajouter à la GridPane
-            int row = 0;
-            for (Personne utilisateur : utilisateurs) {
-                // Créer des composants d'interface utilisateur pour afficher les détails de l'utilisateur
-                Label nomLabel = new Label(utilisateur.getNom());
-                Label prenomLabel = new Label(utilisateur.getPrenom());
-                Label emailLabel = new Label(utilisateur.getEmail());
-                Label ageLabel = new Label(String.valueOf(utilisateur.getAge())); // Convert age to String
+        // Parcourir la liste des utilisateurs et les ajouter à la GridPane
+        int row = 0;
+        for (Personne utilisateur : utilisateurs) {
+            // Créer des composants d'interface utilisateur pour afficher les détails de l'utilisateur
+            Label nomLabel = new Label("Nom: " + utilisateur.getNom());
+            Label prenomLabel = new Label("Prénom: " + utilisateur.getPrenom());
+            Label emailLabel = new Label("Email: " + utilisateur.getEmail());
+            Label ageLabel = new Label("Age: " + utilisateur.getAge()); // Convert age to String
+            Label roleLabel = new Label("Role: " + utilisateur.getRole());
 
-                Button supprimerButton = new Button("Supprimer");
-                supprimerButton.setOnAction(event -> supprimerUtilisateur(utilisateur));
-                Button editButton = new Button("Edit");
-                editButton.setOnAction(event -> editUtilisateur(utilisateur));
+            Button supprimerButton = new Button("Supprimer");
+            supprimerButton.setOnAction(event -> supprimerUtilisateur(utilisateur));
+            Button editButton = new Button("Edit");
+            editButton.setOnAction(event -> editUtilisateur(utilisateur));
 
-                // Ajouter les composants à la GridPane
-                grid.add(nomLabel, 0, row);
-                grid.add(prenomLabel, 1, row);
-                grid.add(emailLabel, 2, row);
-                grid.add(ageLabel, 3, row); // Add age label to the grid
-                grid.add(supprimerButton, 4, row);
-                grid.add(editButton, 5, row); // Adjust column index for edit button
+            // Ajouter les composants à la GridPane
+            grid.add(nomLabel, 0, row);
+            grid.add(prenomLabel, 1, row);
+            grid.add(emailLabel, 2, row);
+            grid.add(ageLabel, 3, row); // Add age label to the grid
+            grid.add(roleLabel, 4, row); // Add role label to the grid
+            grid.add(supprimerButton, 5, row);
+            grid.add(editButton, 6, row); // Adjust column index for edit button
 
-                // Incrémenter le numéro de ligne
-                row++;
-            }
-        } catch (SQLException e) {
-            // Gérer les exceptions SQL
-            e.printStackTrace();
+            // Incrémenter le numéro de ligne
+            row++;
         }
     }
 
@@ -101,7 +98,7 @@ public class AfficheUser {
             // Vérifier si le champ de texte est vide
             if (prenom.isEmpty()) {
                 // Si le champ de texte est vide, récupérer tous les utilisateurs
-                utilisateurs = us.recuperer();
+                utilisateurs = us.getAllData();
             } else {
                 // Sinon, appeler la méthode de service pour rechercher les utilisateurs par prénom
                 utilisateurs = us.recupererParPrenom(prenom);
