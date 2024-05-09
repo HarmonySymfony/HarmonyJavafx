@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="965.0" prefWidth="1359.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.detailsPostF">
+<AnchorPane prefHeight="965.0" prefWidth="1359.0" stylesheets="@javaa.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.detailsPostF">
     <children>
         <WebView fx:id="webView" />
         <!-- Labels for post details -->

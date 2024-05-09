@@ -25,8 +25,6 @@ import java.util.ResourceBundle;
 
 public class IndexPharmacie {
 
-    @FXML
-    private WebView webView;
 
     @FXML
     private ListView<pharmacie> listepharmacie;
@@ -51,19 +49,6 @@ public class IndexPharmacie {
         } else {
             System.err.println("searchField is null!");
         }
-        // Récupérer la taille de l'écran
-        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
-        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-
-        // Lier la taille de la WebView à la taille de l'écran
-        webView.setPrefWidth(screenWidth);
-        webView.setPrefHeight(screenHeight);
-
-        // Charger le fichier HTML avec le fond animé
-        WebEngine webEngine = webView.getEngine();
-
-        // Charger le fichier HTML contenant la carte Google Maps
-        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());
 
     }
 

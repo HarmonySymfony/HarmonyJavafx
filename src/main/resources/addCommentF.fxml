@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.addCommentF">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@javaa.css" fx:controller="controllers.addCommentF">
     <children>
         <WebView fx:id="webView" />
         <Label layoutX="670.0" layoutY="425.0" prefHeight="36.0" prefWidth="119.0" text="Contenu :">

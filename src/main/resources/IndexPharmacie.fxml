@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="670.0" prefWidth="812.0" styleClass="background" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexPharmacie">
+<AnchorPane prefHeight="670.0" prefWidth="812.0" stylesheets="@java.css" styleClass="background" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexPharmacie">
     <children>
         <WebView fx:id="webView" />
 

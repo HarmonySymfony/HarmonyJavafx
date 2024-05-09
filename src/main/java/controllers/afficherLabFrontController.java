@@ -1,9 +1,15 @@
 package controllers;
 
 import entities.Laboratoire;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.DropShadow;
@@ -13,8 +19,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 import services.LaboratoireService;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,7 +34,8 @@ import java.util.ResourceBundle;
 public class afficherLabFrontController implements Initializable {
     @javafx.fxml.FXML
     private ScrollPane scrollPane;
-
+    @FXML
+    private WebView webView;
     private LaboratoireService laboratoireService = new LaboratoireService();
 
 
@@ -35,7 +47,7 @@ public class afficherLabFrontController implements Initializable {
         vBox.setAlignment(Pos.TOP_CENTER);
         vBox.setSpacing(20);
         vBox.setStyle("-fx-background-image: url(/back.jpg) ;");
-        vBox.setPrefHeight(500);
+        vBox.setPrefHeight(900);
 
         HBox hBox = new HBox();
         hBox.setAlignment(Pos.CENTER);
@@ -67,6 +79,8 @@ public class afficherLabFrontController implements Initializable {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
     }
 
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -78,7 +92,18 @@ public class afficherLabFrontController implements Initializable {
         }
         afficherLabs(laboratoires);
 
-    }
+            double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+            double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+            // Lier la taille de la WebView à la taille de l'écran
+            webView.setPrefWidth(screenWidth);
+            webView.setPrefHeight(screenHeight);
+
+            // Charger le fichier HTML avec le fond animé
+            WebEngine webEngine = webView.getEngine();
+
+            // Charger le fichier HTML contenant la carte Google Maps
+            webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
 
     private VBox LaboratoireCard(Laboratoire laboratoire) {
         VBox box = new VBox();
@@ -107,5 +132,19 @@ public class afficherLabFrontController implements Initializable {
 
         box.getChildren().addAll(nom, emp);
         return box;
+    }
+    @FXML
+    void retourfront(ActionEvent event) {
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/Homepage.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        Scene scene = new Scene(root);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
     }
 }
