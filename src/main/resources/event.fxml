@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane prefHeight="727.0" prefWidth="1362.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EvenementController">
+    <children>
+      <HBox prefHeight="26.0" prefWidth="952.0" spacing="20.0">
+         <children>
+            <Label alignment="TOP_CENTER" prefHeight="38.0" prefWidth="206.0" text="My Event Table " textFill="#1f23ff">
+               <font>
+                  <Font name="Edwardian Script ITC" size="28.0" />
+               </font>
+            </Label>
+            <Separator orientation="VERTICAL" prefHeight="34.0" prefWidth="0.0" />
+            <HBox alignment="CENTER" maxHeight="-Infinity" prefHeight="34.0" prefWidth="310.0">
+               <children>
+                  <TextField prefHeight="30.0" prefWidth="265.0" promptText="Search ...">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@1.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </HBox>
+            <Pane prefHeight="40.0" prefWidth="187.0" />
+         </children>
+      </HBox>
+        <TableView fx:id="evenementTableView" layoutX="17.0" layoutY="43.0" onMouseClicked="#handleEvenementSelection" prefHeight="243.0" prefWidth="1315.0">
+            <columns>
+                <TableColumn fx:id="columnNom" prefWidth="126.39999103546143" text="Nom" />
+                <TableColumn fx:id="columnDescription" prefWidth="208.8000030517578" text="Description" />
+                <TableColumn fx:id="columnPrix" prefWidth="144.800048828125" text="Prix" />
+                <TableColumn fx:id="columnPlaceDispo" prefWidth="164.0" text="Place Dispo" />
+                <TableColumn fx:id="columnAdresse" prefWidth="124.79998779296875" text="Adresse" />
+                <TableColumn fx:id="columnDate" prefWidth="180.00006103515625" text="Date" />
+
+            </columns>
+        </TableView>
+        <VBox spacing="10" />
+        <VBox layoutX="15.0" layoutY="292.0" prefHeight="410.0" prefWidth="278.0" spacing="10.0">
+            <children>
+                <Label style="-fx-font-weight: bold;" text="Nom:" />
+                <TextField fx:id="NomField" promptText="Enter full name" />
+                <Label style="-fx-font-weight: bold;" text="Description:" />
+                <TextField fx:id="DescriptionField" promptText="Enter Description" />
+                <Label style="-fx-font-weight: bold;" text="Prix:" />
+                <TextField fx:id="PrixField" promptText="Enter price in TND" />
+                <Label style="-fx-font-weight: bold;" text="Place Dispo :" />
+                <TextField fx:id="PlaceDispoField" promptText="Enter available seats" />
+                <Label style="-fx-font-weight: bold;" text="Adresse:" />
+                <TextField fx:id="AdresseField" promptText="Street, City, Postal Code" />
+                <Label style="-fx-font-weight: bold;" text="Date:" />
+                <DatePicker fx:id="dateproPicker" prefHeight="26.0" prefWidth="260.0" promptText="Salect Event date" />
+
+                <HBox alignment="BASELINE_LEFT" prefHeight="33.0" prefWidth="217.0" spacing="10.0">
+                    <children>
+                        <Button fx:id="addButton" onAction="#addEvenement" prefHeight="26.0" prefWidth="58.0" style="-fx-background-color: #1a73e8; -fx-text-fill: white;" text="Add" />
+                        <Button fx:id="updateButton" onAction="#updateEvent" style="-fx-background-color: #34a853; -fx-text-fill: white;" text="Update" />
+                        <Button fx:id="deleteButton" onAction="#deleteEvenement" prefHeight="26.0" prefWidth="52.0" style="-fx-background-color: #ea4335; -fx-text-fill: white;" text="Delete" />
+                        <Button fx:id="clearButton" onAction="#clearForm" prefHeight="26.0" prefWidth="58.0" style="-fx-background-color: #fbbc05; -fx-text-fill: white;" text="Clear" />
+
+
+                    </children>
+                </HBox>
+
+            </children>
+        </VBox>
+        <Button fx:id="clearButton1" layoutX="1256.0" layoutY="674.0" onAction="#Back" prefHeight="32.0" prefWidth="91.0" style="-fx-background-color: #808080; -fx-text-fill: white;" text="Back" />
+        <BarChart fx:id="statsBarChart" layoutX="578.0" layoutY="292.0" prefHeight="426.0" prefWidth="668.0" title="Event Statistics">
+            <xAxis>
+                <CategoryAxis label="." />
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="Number of Participants" />
+            </yAxis>
+        </BarChart>
+        <Button fx:id="generatePdfButton" layoutX="1257.0" layoutY="303.0" onAction="#generatePDFReport" prefHeight="80.0" prefWidth="90.0" style="-fx-background-color: #FFB6C1; -fx-text-fill: white;" text="Generate PDF" />
+       <WebView fx:id="mapView" layoutX="315.0" layoutY="328.0" prefHeight="338.0" prefWidth="278.0" />
+      <HBox layoutX="1065.0" prefHeight="40.0" prefWidth="266.0">
+         <children>
+            <Label alignment="BOTTOM_LEFT" prefHeight="34.0" prefWidth="128.0" text="Raed Amri " textFill="#1f23ff">
+               <font>
+                  <Font name="Edwardian Script ITC" size="24.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="40.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@me.jpg" />
+               </image>
+            </ImageView>
+         </children>
+          <TextField fx:id="latTextField" layoutX="409.0" layoutY="574.0" prefHeight="26.0" prefWidth="47.0" visible="false" />
+          <TextField fx:id="lonTextField" layoutX="467.0" layoutY="575.0" prefHeight="26.0" prefWidth="34.0" visible="false" />
+      </HBox>
+       <Button fx:id="updateLocationButtonClicked" layoutX="315.0" layoutY="673.0" mnemonicParsing="false" onAction="#updateLocationButtonClicked" prefHeight="34.0" prefWidth="277.0" style="-fx-background-color: #7B68EE; -fx-text-fill: white;" text="Update Location" />
+
+
+    </children>
+</AnchorPane>

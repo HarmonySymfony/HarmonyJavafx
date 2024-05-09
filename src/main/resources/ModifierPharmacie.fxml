@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.ModifierPharmacie"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@java.css">   <children>
+      <Text layoutX="21.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Modifier pharmacie">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+      <Label layoutX="39.0" layoutY="120.0" text="Nom :">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="39.0" layoutY="247.0" text="Type :">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Label layoutX="39.0" layoutY="184.0" text="Adress :">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <TextField fx:id="NomPharmacie" layoutX="130.0" layoutY="124.0" />
+      <TextField fx:id="AdressPharmacie" layoutX="130.0" layoutY="188.0" />
+      <TextField fx:id="TypePharmacie" layoutX="130.0" layoutY="251.0" />
+      <Button layoutX="51.0" layoutY="329.0" mnemonicParsing="false" onAction="#BackToListeUpdate" prefHeight="45.0" prefWidth="126.0" text="Back To Liste" />
+      <Button layoutX="303.0" layoutY="329.0" mnemonicParsing="false" onAction="#SubmitButtonUpdate" prefHeight="45.0" prefWidth="126.0" text="Submit" />
+   </children>
+</AnchorPane>

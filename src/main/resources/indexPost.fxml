@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefHeight="834.0" prefWidth="1207.0" style="-fx-background-image: url('background.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.indexPost">
+    <children>
+        <VBox layoutX="30.0" layoutY="100.0" spacing="10.0">
+            <HBox alignment="CENTER_RIGHT" spacing="10">
+                <Button fx:id="addPostButton" onAction="#handleAddPost" text="Créer nouvelle publication" />
+                <Button onAction="#RetourBack" text="Retour" />
+            </HBox>
+            <Label text="Liste des publications" style="-fx-font-size: 24;">
+                <font>
+                    <Font size="24.0" />
+                </font>
+            </Label>
+            <TableView fx:id="postTableView" prefHeight="400.0" prefWidth="1200.0" fixedCellSize="37.3">
+                <columns>
+                <TableColumn fx:id="idCol" prefWidth="100" text="ID publication" />
+                <TableColumn fx:id="postedAsCol" prefWidth="100" text="Publié en tant que" />
+                <TableColumn fx:id="contenuCol" prefWidth="400" text="Contenu de la publication" />
+                <TableColumn fx:id="dateCreationCol" prefWidth="175.0" text="Date de publication" />
+                <TableColumn fx:id="lastModificationCol" prefWidth="175.0" text="Date de dernière modification" />
+                <TableColumn fx:id="actionsCol" prefWidth="233.0" text="Actions" />
+                </columns>
+            </TableView>
+            <HBox spacing="10" alignment="CENTER">
+                <Button fx:id="prevButton" onAction="#handlePrevPage" text="Précédent" />
+                <Label fx:id="pageLabel" text="Page 1" />
+                <Button fx:id="nextButton" onAction="#handleNextPage" text="Suivant" />
+            </HBox>
+        </VBox>
+        <Circle fill="#0edddd" layoutX="1112.0" layoutY="61.0" radius="34.0" stroke="WHITE" strokeType="INSIDE" />
+        <Text fill="WHITE" layoutX="1079.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="صحتك">
+            <font>
+                <Font name="System Bold Italic" size="24.0" />
+            </font>
+        </Text>
+    </children>
+</AnchorPane>
+

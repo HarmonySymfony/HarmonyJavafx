@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventFrontController">
+    <WebView fx:id="webView" />
+    <HBox layoutX="25.0" layoutY="14.0" prefHeight="72.0" prefWidth="1000.0">
+      <children>
+
+             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des Evénements :" wrappingWidth="638.9366626739502">
+                 <font>
+                     <Font name="Cambria" size="36.0" />
+                 </font>
+             </Text>
+           <TextField fx:id="searchField" alignment="CENTER" prefHeight="40.0" prefWidth="291.0" promptText="Search Event ..." style="-fx-font-weight: bold; -fx-text-fill: navy;">
+               <font>
+                   <Font name="Arial Nova" size="18.0" />
+               </font>
+           </TextField>
+         <Pane prefHeight="72.0" prefWidth="7.0" />
+         <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@1.png" />
+            </image>
+         </ImageView>
+      </children>
+   </HBox>
+    <AnchorPane layoutX="300.0" layoutY="160.0" prefHeight="600.0" prefWidth="1000.0" style="-fx-background-image: url('ko.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+
+        <TilePane fx:id="cardContainer" hgap="5" layoutX="7.0" layoutY="14.0" prefColumns="2" prefHeight="20.0" prefWidth="80.0" vgap="20">
+            <padding>
+                <Insets bottom="10" left="10" right="10" top="10" />
+            </padding>
+            <opaqueInsets>
+                <Insets right="6000.0" top="50.0" />
+            </opaqueInsets>
+            <!-- Cards will be dynamically added here -->
+        </TilePane>
+    </AnchorPane>
+</AnchorPane>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+<?import org.controlsfx.control.Rating?>
+
+<AnchorPane prefHeight="507.0" prefWidth="687.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.EventDetailController">
+    <children>
+        <VBox layoutX="3.0" layoutY="3.0" prefHeight="796.0" prefWidth="890.0" spacing="10">
+            <children>
+                <Label fx:id="nameLabel" text="Name : " textFill="DarkCyan">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font></Label>
+                <Label fx:id="descriptionLabel" text="Description : " textFill="DarkCyan">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font></Label>
+                <Label fx:id="priceLabel" text="Price: " textFill="DarkCyan">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font></Label>
+                <Label fx:id="placesLabel" text="Places Available : " textFill="DarkCyan">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font></Label>
+                <Label fx:id="addressLabel" text="Address : " textFill="DarkCyan">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font></Label>
+                <Label fx:id="weatherLabel" text="Weather : " textFill="#1e453e">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
+                <Label text="Enter number of places to reserve :" textFill="DarkCyan">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font></Label>
+                <TextField fx:id="reservationPlacesField" prefHeight="30.0" prefWidth="798.0" promptText="Number of places" />
+                    <VBox>
+   <!--                    <font>-->
+   <!--                        <Font size="14.0" />-->
+   <!--                    </font></TextField>-->
+                   <Button onAction="#handleReserveAction" prefHeight="30.0" prefWidth="111.0" style="-fx-background-color: #1a73e8; -fx-text-fill: white;" text="Reserve">
+                       <font>
+                           <Font size="14.0" />
+                       </font>
+                   </Button>
+               <VBox prefHeight="29.0" prefWidth="890.0" />
+                        <WebView fx:id="mapView" layoutX="203.0" layoutY="283.0" prefHeight="167.0" prefWidth="436.0" />
+               <Pane prefHeight="24.0" prefWidth="890.0" />
+               <VBox prefHeight="66.0" prefWidth="840.0">
+                  <children>
+                              <!-- Other components -->
+                              <Label text="Rate this event:" textFill="#0000CD">
+                        <font>
+                           <Font name="System Bold" size="14.0" />
+                        </font>
+                     </Label>
+                     <Pane prefHeight="8.0" prefWidth="890.0" />
+                              <Rating fx:id="eventRating" max="5" partialRating="true" rating="0.0">
+                        <effect>
+                           <DropShadow spread="0.46">
+                              <color>
+                                 <Color red="1.0" green="1.0" blue="1.0" />
+                              </color>
+                           </DropShadow>
+                        </effect>
+                     </Rating>
+                  </children></VBox>
+                        <!-- Ensure other components are properly closed -->
+                    </VBox>
+                <Label fx:id="messageLabel" text="" textFill="#FF4500" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+
+
+
+
+
+
+                <Label text="Your Comment : " textFill="0000CD">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Label>
+                <TextArea fx:id="commentTextArea" prefHeight="58.0" prefWidth="826.0" />
+                <Button onAction="#handleCommentSubmit" prefHeight="32.0" prefWidth="113.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Submit Comment" />
+                <Label text="Comments :" textFill="0000CD">
+                    <font>
+                        <Font name="System Bold" size="14.0" />
+                    </font></Label>
+                <ListView fx:id="commentListView" prefHeight="75.0" prefWidth="890.0" />
+                <Label fx:id="messageLabels" prefWidth="162.0" wrapText="true" />
+
+
+            </children>
+        </VBox>
+
+    </children>
+</AnchorPane>

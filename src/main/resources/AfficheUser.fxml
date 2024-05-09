@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane prefHeight="834.0" prefWidth="1207.0" styleClass="affiche-user-root" stylesheets="@javaa.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AfficheUser">
+    <children>
+
+        <!-- GridPane for Users -->
+        <GridPane fx:id="grid" gridLinesVisible="true" layoutX="80.0" layoutY="234.0" prefHeight="455.0" prefWidth="999.0" style="-fx-background-color: white;">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+        </GridPane>
+
+        <!-- Title Label -->
+        <Label layoutX="20.0" layoutY="160.0" text="Liste des Utilisateurs">
+            <font>
+                <Font name="System Bold" size="41.0" />
+            </font>
+        </Label>
+
+        <!-- Delete All Button -->
+        <Button layoutX="460.0" layoutY="173.0" mnemonicParsing="false" onAction="#Supprimer" text="Effacer tout">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Button>
+
+        <!-- Return Button -->
+        <Button layoutX="587.0" layoutY="174.0" mnemonicParsing="false" onAction="#retourHome" text="Retour">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Button>
+
+        <!-- Search TextField -->
+        <TextField fx:id="cher" layoutX="770.0" layoutY="176.0" />
+
+        <!-- Search Button -->
+        <Button layoutX="678.0" layoutY="173.0" mnemonicParsing="false" onAction="#chercherkey" text="Rechercher">
+            <font>
+                <Font name="System Bold" size="15.0" />
+            </font>
+        </Button>
+
+        <!-- Logo Circle -->
+        <Circle fill="#0edddd" layoutX="1112.0" layoutY="61.0" radius="34.0" stroke="WHITE" strokeType="INSIDE" />
+
+        <!-- Logo Text -->
+        <Text fill="WHITE" layoutX="1079.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="صحتك">
+            <font>
+                <Font name="System Bold Italic" size="24.0" />
+            </font>
+        </Text>
+
+        <!-- Partner Buttons -->
+        <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#Forum" text="Forum" />
+        <Button layoutX="90.0" layoutY="20.0" mnemonicParsing="false" text="Laboratoires" onAction="#laboratoires" />
+        <Button layoutX="200.0" layoutY="20.0" mnemonicParsing="false" text="Cabinets" />
+        <Button layoutX="300.0" layoutY="20.0" mnemonicParsing="false" onAction="#evenement" text="Événements" />
+        <Button layoutX="400.0" layoutY="20.0" mnemonicParsing="false" onAction="#ListePharmacie" text="Pharmacies" />
+    </children>
+</Pane>
