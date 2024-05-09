@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import services.PostsServices;
 
@@ -233,6 +234,25 @@ public class indexPost {
         Stage stage = (Stage) postTableView.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+    @FXML
+    private void openStatisticsWindow() {
+        try {
+            // Load the statistics view FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/forumStats.fxml"));
+            Parent statisticsView = loader.load();
+
+            // Create a new stage for the statistics window
+            Stage statisticsStage = new Stage();
+            statisticsStage.setTitle("Post Comment Statistics");
+            statisticsStage.setScene(new Scene(statisticsView));
+            statisticsStage.initModality(Modality.NONE); // This allows interaction with other windows
+            statisticsStage.initOwner(postTableView.getScene().getWindow()); // Optional: set owner
+            statisticsStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to open the statistics window.");
+        }
     }
 
     private void showAlert(String title, String message) {
