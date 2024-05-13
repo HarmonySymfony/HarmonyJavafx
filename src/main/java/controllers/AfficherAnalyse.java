@@ -152,7 +152,7 @@ public class AfficherAnalyse {
 
         try {
             // Spécifiez le chemin et le nom du fichier PDF à générer
-            String filePath = "C:/Users/bilel/Desktop/Bilel/fichier.pdf";
+            String filePath = "fichier.pdf";
 
             // Initialize a PdfWriter object to write the content to the PDF file
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
