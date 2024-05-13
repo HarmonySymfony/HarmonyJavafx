@@ -5,8 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
-import at.favre.lib.crypto.bcrypt.BCrypt;
-
+import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
 import java.util.Base64;
 
@@ -72,8 +71,9 @@ public class EditUserController {
                     user.setEmail(emailField.getText());
 
                     // Hash the new password before setting it
-                    String hashedPassword = BCrypt.withDefaults().hashToString(12, passwordField.getText().toCharArray());
+                    String hashedPassword = BCrypt.hashpw(passwordField.getText(), BCrypt.gensalt());
                     user.setPassword(hashedPassword);
+
                     user.setAge(age);
                     user.setRole(roleField.getText());
 

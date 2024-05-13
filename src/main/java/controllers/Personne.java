@@ -17,7 +17,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import services.PersonneServices;
-import at.favre.lib.crypto.bcrypt.BCrypt;
+import org.mindrot.jbcrypt.BCrypt;
 import javafx.stage.FileChooser;
 import java.io.File;
 
@@ -54,7 +54,7 @@ public class Personne {
     private PersonneServices personneServices = new PersonneServices();
 
     private String hashPassword(String password) {
-        return BCrypt.withDefaults().hashToString(12, password.toCharArray());
+        return BCrypt.hashpw(password, BCrypt.gensalt(13));
     }
 
     @FXML

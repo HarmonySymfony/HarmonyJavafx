@@ -9,8 +9,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import at.favre.lib.crypto.bcrypt.BCrypt;
-
+import org.mindrot.jbcrypt.BCrypt;
 import services.PersonneServices;
 
 import static controllers.Home.email;
@@ -63,8 +62,9 @@ public class ResetPasswordDialog {
         dialogStage.close();
     }
     private String hashPassword(String password) {
-        return BCrypt.withDefaults().hashToString(12, password.toCharArray());
+        return BCrypt.hashpw(password, BCrypt.gensalt(13));
     }
+
 
 
     private void showAlert(String title, String content) {
