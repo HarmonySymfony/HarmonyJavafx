@@ -16,7 +16,9 @@ import services.PostsServices;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class addComment {
 
@@ -62,6 +64,17 @@ public class addComment {
 
     private TableView<Comments> commentTableView;
 
+    private final List<String> forbiddenWordsEnglish = Arrays.asList(
+            "fuck", "shit", "asshole", "bitch", "cunt",
+            "dick", "bastard", "motherfucker", "ass", "cock"
+    );
+
+    // Define the list of forbidden words in French
+    private final List<String> forbiddenWordsFrench = Arrays.asList(
+            "putain", "merde", "connard", "salope", "enculé",
+            "bite", "enculée", "con", "bordel", "chier"
+    );
+
 
     // Initialize postsList
     private ObservableList<Comments> CommentList = FXCollections.observableArrayList();
@@ -100,6 +113,12 @@ public class addComment {
             return;
         }
 
+        // Check if the content contains any forbidden words
+        if (containsForbiddenWord(contenu)) {
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Le contenu contient des mots interdits.");
+            return;
+        }
+
         // Determine the commentedAs value based on the selected RadioButton
         String commentedAs = comment_commentedAs_anonyme.isSelected() ? "Anonyme" : "Username";
 
@@ -124,7 +143,27 @@ public class addComment {
         stage.close();
     }
 
+    // Method to check if the content contains any forbidden words
+    private boolean containsForbiddenWord(String content) {
+        // Convert the content to lowercase for case-insensitive comparison
+        String lowercaseContent = content.toLowerCase();
 
+        // Check if any forbidden word is present in the content
+        for (String word : forbiddenWordsEnglish) {
+            if (lowercaseContent.contains(word)) {
+                return true;
+            }
+        }
+
+        for (String word : forbiddenWordsFrench) {
+            if (lowercaseContent.contains(word)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     // Method to show an alert dialog
     @FXML
     private void showAlert(Alert.AlertType type, String title, String content) {

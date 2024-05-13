@@ -139,6 +139,7 @@ public class addCommentF {
             return;
         }
 
+        // Check if the content contains any forbidden words
         if (containsForbiddenWord(contenu)) {
             showAlert(Alert.AlertType.ERROR, "Erreur", "Le contenu contient des mots interdits.");
             return;
@@ -204,4 +205,6 @@ public class addCommentF {
         Stage stage = (Stage) annulerButton.getScene().getWindow();
         stage.close();
     }
+
+
 }

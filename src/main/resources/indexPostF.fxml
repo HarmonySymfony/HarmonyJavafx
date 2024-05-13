@@ -12,6 +12,10 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.web.WebView?>
 
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.TextField?>
+<?import java.lang.String?>
 <AnchorPane prefHeight="834.0" prefWidth="1207.0" stylesheets="@javaa.css" style="-fx-background-image: url('background.jpg'); -fx-background-size: 100% 100%;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.indexPostF">
     <children>
         <WebView fx:id="webView" />
@@ -25,6 +29,20 @@
                     <Font size="24.0" />
                 </font>
             </Label>
+            <!-- Add label for search type -->
+            <Label text="Recherché par :" />
+            <ComboBox fx:id="searchTypeComboBox" prefWidth="150">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="ID"/>
+                        <String fx:value="Content"/>
+                        <String fx:value="Posted As"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+            <TextField fx:id="searchField" promptText="Enter search keyword..."/>
+
+
             <TableView fx:id="postTableView" fixedCellSize="37.3" prefHeight="400.0" prefWidth="1200.0">
                 <columns>
                 <TableColumn fx:id="idCol" prefWidth="100" text="ID publication" />

@@ -19,11 +19,15 @@ import javafx.stage.Stage;
 import services.PostsServices;
 
 import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class indexPostF {
 
+    public TextField searchField;
+    @FXML
+    private ComboBox<String> searchTypeComboBox;
     @FXML
     private Button addPostButton, nextButton, prevButton;
 
@@ -67,7 +71,6 @@ public class indexPostF {
         contenuCol.setCellValueFactory(new PropertyValueFactory<>("contenu"));
         dateCreationCol.setCellValueFactory(new PropertyValueFactory<>("dateCreation"));
         lastModificationCol.setCellValueFactory(new PropertyValueFactory<>("lastModification"));
-
         actionsCol.setCellValueFactory(param -> new SimpleObjectProperty<>(createButtonBox(param.getValue())));
         try {
             PostsServices postsServices = new PostsServices();
@@ -77,18 +80,22 @@ public class indexPostF {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        // Ensure components are injected correctly
+        assert searchField != null : "fx:id 'searchField' was not injected!";
+        assert searchTypeComboBox != null : "fx:id 'searchTypeComboBox' was not injected!";
+
+        // Setup dynamic search filtering
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> updateTable());
+        searchTypeComboBox.valueProperty().addListener((obs, oldVal, newVal) -> updateTable());
+
         double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
         double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
-
-        // Lier la taille de la WebView à la taille de l'écran
         webView.setPrefWidth(screenWidth);
         webView.setPrefHeight(screenHeight);
-
-        // Charger le fichier HTML avec le fond animé
         WebEngine webEngine = webView.getEngine();
-
-        // Charger le fichier HTML contenant la carte Google Maps
-        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
+        webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());
+    }
 
 
 
@@ -96,20 +103,50 @@ public class indexPostF {
     @FXML
     private void updateTable() {
         try {
-            int offset = (currentPage - 1) * rowsPerPage;
             PostsServices postsServices = new PostsServices();
+            String searchText = searchField.getText().trim();
+            String searchType = searchTypeComboBox.getValue() != null ? searchTypeComboBox.getValue() : "All";
+
+            // Calculate the total number of posts based on the search criteria
+            int totalFilteredPosts = searchText.isEmpty() ? postsServices.countPosts() : postsServices.countFilteredPosts(searchType, searchText);
+
+            // Calculate the total number of pages
+            totalPages = (int) Math.ceil((double) totalFilteredPosts / rowsPerPage);
+
+            // Update the current page if it exceeds the total pages
+            if (currentPage > totalPages) {
+                currentPage = totalPages;
+            }
+
+            // Calculate the offset based on the current page
+            int offset = Math.max((currentPage - 1) * rowsPerPage, 0); // Adjusted offset calculation
+
+            // Fetch the posts based on the search criteria and pagination
+            List<Posts> fetchedPosts = searchText.isEmpty() ? postsServices.getPosts(rowsPerPage, offset, "All", "") :
+                    postsServices.getPosts(rowsPerPage, offset, searchType, searchText);
+
+            // Update the posts list
             postsList.clear();
-            postsList.addAll(postsServices.getPosts(rowsPerPage, offset));
+            postsList.addAll(fetchedPosts);
+
+            // Update the TableView with the fetched posts
             postTableView.setItems(postsList);
+
+            // Update the page label
             pageLabel.setText("Page " + currentPage + " of " + totalPages);
 
-            // Button controls
+            // Enable/disable pagination buttons based on the current page
             prevButton.setDisable(currentPage <= 1);
             nextButton.setDisable(currentPage >= totalPages);
         } catch (SQLException e) {
             e.printStackTrace();
+            showAlert("Error", "Failed to update table: " + e.getMessage());
         }
     }
+
+
+
+
 
 
     @FXML
@@ -264,4 +301,5 @@ public class indexPostF {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
 }
