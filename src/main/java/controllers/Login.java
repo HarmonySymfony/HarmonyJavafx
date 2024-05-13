@@ -16,7 +16,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import org.mindrot.jbcrypt.BCrypt;
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import services.PersonneServices;
 
 import javax.mail.*;
@@ -39,9 +39,8 @@ public class Login {
     @FXML
     private PasswordField passwordtextfield2;
     private String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt(13));
-    }
-    @FXML
+        return BCrypt.withDefaults().hashToString(12, password.toCharArray());
+    }    @FXML
     private WebView webView;
 
     @FXML
@@ -75,7 +74,7 @@ public class Login {
             List<entities.Personne> users = us.getAllData();
 
             for (entities.Personne user : users) {
-                if (user.getEmail().equals(emailtextfield2.getText()) && BCrypt.checkpw(passwordtextfield2.getText(), user.getPassword())) {
+                if (user.getEmail().equals(emailtextfield2.getText()) && BCrypt.verifyer().verify(passwordtextfield2.getText().toCharArray(), user.getPassword()).verified) {
                     UserConnected = user;
                     verif = true;
                     break;
