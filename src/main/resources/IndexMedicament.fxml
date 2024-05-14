@@ -5,16 +5,73 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@java.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="controllers.IndexMedicament">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@java.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IndexMedicament">
    <children>
-      <Text layoutX="57.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste Medicaments">
+      <WebView fx:id="webView" />
+      <Text fill="WHITE" layoutX="292.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Liste des Medicaments" wrappingWidth="1016.376953125">
          <font>
-            <Font size="46.0" />
+            <Font size="64.0" />
          </font>
       </Text>
-      <Button layoutX="37.0" layoutY="682.0" mnemonicParsing="false" onAction="#retourBack" prefHeight="31.0" prefWidth="88.0" text="Retour" />
-      <Button layoutX="909.0" layoutY="135.0" mnemonicParsing="false" onAction="#ajoutmedicament" prefHeight="31.0" prefWidth="88.0" text="Ajouter" />
-      <ListView fx:id="listemedicament" layoutX="55.0" layoutY="187.0" prefHeight="460.0" prefWidth="888.0" />
+      <Button layoutX="577.0" layoutY="727.0" mnemonicParsing="false" onAction="#retourBack" prefHeight="31.0" prefWidth="88.0" text="Retour" />
+      <Button layoutX="1377.0" layoutY="191.0" mnemonicParsing="false" onAction="#ajoutmedicament" prefHeight="31.0" prefWidth="88.0" text="Ajouter" />
+      <ListView fx:id="listemedicament" layoutX="577.0" layoutY="243.0" prefHeight="460.0" prefWidth="888.0" />
+      <Text fill="WHITE" layoutX="51.0" layoutY="120.0" strokeType="OUTSIDE" strokeWidth="0.0" text="صحتك">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutY="54.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard">
+         <font>
+            <Font size="50.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="84.0" layoutY="208.0" onMouseClicked="#UsersTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Users">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="84.0" layoutY="286.0" onMouseClicked="#PostsTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Posts">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="84.0" layoutY="363.0" onMouseClicked="#CabinetTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Medecin">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="83.0" layoutY="441.0" onMouseClicked="#PharmacieTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Pharmacie">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="83.0" layoutY="517.0" onMouseClicked="#MedicTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Medicament">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="83.0" layoutY="588.0" onMouseClicked="#LaboratoireTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Laboratoire">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="83.0" layoutY="666.0" onMouseClicked="#AnalyseTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Analyse">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="83.0" layoutY="744.0" onMouseClicked="#EventTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Evenement">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
+      <Text fill="WHITE" layoutX="83.0" layoutY="811.0" onMouseClicked="#LoginTable" strokeType="OUTSIDE" strokeWidth="0.0" text="Logout">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

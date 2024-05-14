@@ -121,8 +121,7 @@ body {
     -fx-background-size: cover;
 }
 .affiche-user-root {
-    -fx-background-image: url('background.jpg');
-    -fx-background-size: cover;
+    background-color:  #93d593; /* Couleur de fond pour affiche-user-root */
 }
 .button{
     -fx-background-color: #0351cb;

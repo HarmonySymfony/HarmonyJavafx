@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>wavy banner effects</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Ajout de Font Awesome -->
+</head>
+<body>
+<section class="dashboard">
+  <i class="fas fa-fw fa-table"></i>
+  <i class="fas fa-fw fa-newspaper"></i>
+  <i class="fas fa-fw fa-user-md"></i>
+  <i class="fas fa-fw fa-hospital"></i>
+  <i class="fas fa-fw fa-pills"></i>
+  <i class="fas fa-fw fa-flask"></i>
+  <i class="fas fa-fw fa-table"></i>
+  <i class="fas fa-fw fa-calendar-alt"></i>
+  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+</section>
+
+<section class="content">
+  <div class="wave-container">
+    <div class="wave wave1"></div>
+    <div class="wave wave2"></div>
+    <div class="wave wave3"></div>
+    <div class="wave wave4"></div>
+  </div>
+</section>
+</body>
+<style>
+  /* Réinitialisation des marges et des rembourrages */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  /* Style du tableau de bord */
+  .dashboard {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Largeur fixe du tableau de bord */
+    height: 100vh;
+    background-color: #228B22; /* Couleur de fond du tableau de bord */
+    z-index: 1001; /* Assure que le tableau de bord est au-dessus des vagues */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Centrer verticalement */
+    justify-content: center; /* Centrer horizontalement */
+    padding-top: 20px; /* Espacement en haut */
+    padding-left: 20px; /* Espacement à gauche */
+  }
+
+  /* Style de chaque icône */
+  .dashboard i {
+    margin-bottom: 60px; /* Espacement entre chaque icône */
+    color: white; /* Couleur des icônes en blanc */
+  }
+
+  /* Style de la section principale */
+  .content {
+    position: fixed;
+    top: 0;
+    left: 100px; /* Largeur du tableau de bord */
+    width: calc(100% - 100px); /* La largeur est la largeur totale moins la largeur de la dashboard */
+    height: 100vh; /* Hauteur de l'écran */
+    background-color: #93d593; /* Couleur de fond */
+    overflow: hidden;
+  }
+
+
+  /* Style des vagues */
+  .content .wave-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .content .wave {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px; /* Augmentation de la hauteur des vagues */
+    background-image: url("wave1.png"); /* Image de fond */
+    background-size: 1000px 100px; /* Taille de l'image de fond */
+  }
+
+  /* Style des différentes vagues */
+  .content .wave.wave1 {
+    animation: animate 30s linear infinite;
+    z-index: 1000;
+    opacity: 1;
+    animation-delay: 0s;
+  }
+
+  .content .wave.wave2 {
+    animation: animate2 15s linear infinite;
+    z-index: 999;
+    opacity: 0.5;
+    animation-delay: -5s;
+  }
+
+  .content .wave.wave3 {
+    animation: animate 30s linear infinite;
+    z-index: 998;
+    opacity: 0.2;
+    animation-delay: -2s;
+  }
+
+  .content .wave.wave4 {
+    animation: animate2 5s linear infinite;
+    z-index: 997;
+    opacity: 0.7;
+    animation-delay: -5s;
+  }
+
+  /* Définition des animations */
+  @keyframes animate {
+    0% {
+      background-position: 0;
+    }
+    100% {
+      background-position-x: 1000px;
+    }
+  }
+
+  @keyframes animate2 {
+    0% {
+      background-position: 0;
+    }
+    100% {
+      background-position-x: -1000px;
+    }
+  }
+</style>
+</html>
