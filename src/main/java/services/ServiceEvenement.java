@@ -22,14 +22,14 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
 
     @Override
     public void Add(Evenement Evenement) throws SQLException {
-        String sql = "INSERT INTO evenement(nom, description, prix, placeDispo,adresse,date,latitude,longitude) VALUES (?, ? , ? , ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO evenement(nom, description, prix, place_dispo,adresse,date_event,latitude,longitude) VALUES (?, ? , ? , ?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, Evenement.getNom());
         statement.setString(2, Evenement.getDescription());
         statement.setFloat(3, Evenement.getPrix());
-        statement.setInt(4, Evenement.getPlaceDispo());
+        statement.setInt(4, Evenement.getPlace_dispo());
         statement.setString(5, Evenement.getAdresse());
-        statement.setDate(6, Evenement.getDate());
+        statement.setDate(6, Evenement.getDate_event());
         statement.setDouble(7,Evenement.getLatitude());
         statement.setDouble(8,Evenement.getLongitude());
         statement.executeUpdate();
@@ -38,14 +38,14 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
 
     @Override
     public void modifyEvent(Evenement Evenement) throws SQLException {
-        String req = "UPDATE evenement SET nom=?, description=?, adresse=?, placeDispo=?,prix=?, date=? WHERE id=?";
+        String req = "UPDATE evenement SET nom=?, description=?, adresse=?, place_dispo=?,prix=?, date_event=? WHERE id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(req);
         preparedStatement.setString(1, Evenement.getNom());
         preparedStatement.setString(2, Evenement.getDescription());
         preparedStatement.setString(3, Evenement.getAdresse());
-        preparedStatement.setInt(4, Evenement.getPlaceDispo());
+        preparedStatement.setInt(4, Evenement.getPlace_dispo());
         preparedStatement.setFloat(5, Evenement.getPrix());
-        preparedStatement.setDate(6, Evenement.getDate());
+        preparedStatement.setDate(6, Evenement.getDate_event());
 
         preparedStatement.setInt(7, Evenement.getId());
 
@@ -61,7 +61,7 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
         connection.setAutoCommit(false);
 
         try {
-            String deleteReservations = "DELETE FROM reservation WHERE event_id=?";
+            String deleteReservations = "DELETE FROM reservation WHERE idevent=?";
             PreparedStatement psReservations = connection.prepareStatement(deleteReservations);
             psReservations.setInt(1, id);
             psReservations.executeUpdate();
@@ -85,7 +85,7 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
     @Override
     public List<Evenement> afficher() throws SQLException {
         List<Evenement> evenements= new ArrayList<>();
-        String query = "SELECT id, nom, description, prix,  placeDispo, adresse, date FROM evenement";
+        String query = "SELECT id, nom, description, prix,  place_dispo, adresse, date_event FROM evenement";
         try (Statement stmt = connection.createStatement();
              ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
@@ -94,9 +94,9 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
                         rs.getString("nom"),
                         rs.getString("description"),
                         rs.getFloat("prix"),
-                        rs.getInt("placeDispo"),
+                        rs.getInt("place_dispo"),
                         rs.getString("adresse"),
-                        rs.getDate("Date")
+                        rs.getDate("date_event")
                 );
                 evenements.add(evenement);
             }
@@ -110,25 +110,29 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
         Savepoint savepoint = connection.setSavepoint("BeforeAddingReservation");
 
         try {
-            if (reservation.getNbrPlace() > reservation.getEvenement().getPlaceDispo()) {
+            if (reservation.getNbrPlace() > reservation.getEvenement().getPlace_dispo()) {
                 throw new SQLException("Not enough places available.");
             }
 
-            System.out.println("Places available before reservation: " + reservation.getEvenement().getPlaceDispo());
+            System.out.println("Places available before reservation: " + reservation.getEvenement().getPlace_dispo());
 
             Evenement evenement = reservation.getEvenement();
-            evenement.setPlaceDispo(evenement.getPlaceDispo() - reservation.getNbrPlace());
-            String updateEventSQL = "UPDATE evenement SET placeDispo = ? WHERE id = ?";
-            try (PreparedStatement updateEventStmt = connection.prepareStatement(updateEventSQL)) {
-                updateEventStmt.setInt(1, evenement.getPlaceDispo());
-                updateEventStmt.setInt(2, evenement.getId());
-                updateEventStmt.executeUpdate();
+            evenement.setPlace_dispo(evenement.getPlace_dispo() - reservation.getNbrPlace());
+            String update_eventEventSQL = "UPDATE evenement SET place_dispo = ? WHERE id = ?";
+            try (PreparedStatement update_eventEventStmt = connection.prepareStatement(update_eventEventSQL)) {
+                update_eventEventStmt.setInt(1, evenement.getPlace_dispo());
+                update_eventEventStmt.setInt(2, evenement.getId());
+
+                update_eventEventStmt.executeUpdate();
             }
 
-            String insertReservationSQL = "INSERT INTO reservation (nbrPlace, event_id) VALUES (?, ?)";
+            String insertReservationSQL = "INSERT INTO reservation (nbrPlace, idevent, approuve) VALUES (?, ?, ?)";
             try (PreparedStatement insertReservationStmt = connection.prepareStatement(insertReservationSQL)) {
                 insertReservationStmt.setInt(1, reservation.getNbrPlace());
+
                 insertReservationStmt.setInt(2, evenement.getId());
+                insertReservationStmt.setInt(3, reservation.getApprouve());
+
                 insertReservationStmt.executeUpdate();
             }
 
@@ -144,7 +148,7 @@ public class ServiceEvenement implements IServicesEvenement<Evenement> {
     }
 
     public int getReservedPlacesForEvent(int eventId) throws SQLException {
-        String query = "SELECT SUM(nbrPlace) AS totalReserved FROM reservation WHERE event_id = ?";
+        String query = "SELECT SUM(nbrPlace) AS totalReserved FROM reservation WHERE idevent = ?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setInt(1, eventId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
