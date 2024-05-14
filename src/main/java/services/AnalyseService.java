@@ -20,7 +20,7 @@ public class AnalyseService implements IServiceLabo<Analyse>{
 
     @Override
     public void add(Analyse analyse, int laboratoireId) throws SQLException {
-        String query = "INSERT INTO Analyses (prix, type,laboratoireId) VALUES (?,?,?)";
+        String query = "INSERT INTO Analyse (prix, type,laboratoire_id) VALUES (?,?,?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setFloat(1, analyse.getPrix());
             statement.setString(2, analyse.getType());
@@ -31,7 +31,7 @@ public class AnalyseService implements IServiceLabo<Analyse>{
 
     @Override
     public void update(Analyse analyse) throws SQLException {
-        String request = "UPDATE analyses SET prix=?, type=? WHERE id=?";
+        String request = "UPDATE analyse SET prix=?, type=? WHERE id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setFloat(1, analyse.getPrix());
         preparedStatement.setString(2, analyse.getType());
@@ -42,7 +42,7 @@ public class AnalyseService implements IServiceLabo<Analyse>{
 
     @Override
     public void delete(Analyse analyse) throws SQLException {
-        String request = "DELETE FROM analyses WHERE id = ?";
+        String request = "DELETE FROM analyse WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setInt(1, analyse.getId());
         preparedStatement.executeUpdate();
@@ -51,7 +51,7 @@ public class AnalyseService implements IServiceLabo<Analyse>{
 
     public List<Analyse> Display() throws SQLException{
         List<Analyse> analyseList = new ArrayList<>();
-        String request = "SELECT * FROM analyses";
+        String request = "SELECT * FROM analyse";
         Statement statement = connection.createStatement();
         ResultSet resultSet = null;
         try {
@@ -72,7 +72,7 @@ public class AnalyseService implements IServiceLabo<Analyse>{
     public List<Pair<Laboratoire, Integer>> getStatistiquesNombreAnalysesParLaboratoire() throws SQLException {
         List<Pair<Laboratoire, Integer>> statistiques = new ArrayList<>();
         LaboratoireService laboratoireService = new LaboratoireService(); // Créez une instance de LaboratoireService
-        String query = "SELECT laboratoireId, COUNT(*) AS nbAnalyses FROM Analyses GROUP BY laboratoireId";
+        String query = "SELECT laboratoire_id, COUNT(*) AS nbAnalyses FROM Analyse GROUP BY laboratoireId";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {

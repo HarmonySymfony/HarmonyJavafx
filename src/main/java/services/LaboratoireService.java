@@ -16,7 +16,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
 
     @Override
     public void add(Laboratoire laboratoire) throws SQLException {
-        String request ="insert into laboratoire ( nom,emplacement)"+
+        String request ="insert into laboratoires ( nom,emplacement)"+
                 "values('"+ laboratoire.getNom()+
                 "','"+laboratoire.getEmplacement()+"')"
                 ;
@@ -31,7 +31,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
 
     @Override
     public void update(Laboratoire laboratoire) throws SQLException {
-        String request = "UPDATE laboratoire SET nom=?, emplacement=? WHERE id=?";
+        String request = "UPDATE laboratoires SET nom=?, emplacement=? WHERE id=?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setString(1, laboratoire.getNom());
         preparedStatement.setString(2, laboratoire.getEmplacement());
@@ -42,7 +42,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
 
     @Override
     public void delete(Laboratoire laboratoire) throws SQLException {
-        String request = "DELETE FROM laboratoire WHERE id = ?";
+        String request = "DELETE FROM laboratoires WHERE id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setInt(1, laboratoire.getId());
         preparedStatement.executeUpdate();
@@ -51,7 +51,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
     @Override
     public List<Laboratoire> Display() throws SQLException {
         List<Laboratoire> laboratoireList = new ArrayList<>();
-        String request = "SELECT * FROM laboratoire";
+        String request = "SELECT * FROM laboratoires";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(request);
         while (resultSet.next()) {
@@ -68,7 +68,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
     public Set<Analyse> getAnalysesForLaboratoire(Laboratoire laboratoire) throws SQLException {
         Set<Analyse> analyses = new HashSet<>();
 
-        String request = "SELECT * FROM analyses WHERE laboratoireId = ?";
+        String request = "SELECT * FROM analyse WHERE laboratoire_id = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setInt(1, laboratoire.getId());
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -90,7 +90,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
         return analyses;
     }
     public boolean existeNom(String nom) throws SQLException {
-        String request = "SELECT COUNT(*) AS count FROM laboratoire WHERE nom = ?";
+        String request = "SELECT COUNT(*) AS count FROM laboratoires WHERE nom = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setString(1, nom);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -102,7 +102,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
     }
 
     public boolean existeEmplacement(String emplacement) throws SQLException {
-        String request = "SELECT COUNT(*) AS count FROM laboratoire WHERE emplacement = ?";
+        String request = "SELECT COUNT(*) AS count FROM laboratoires WHERE emplacement = ?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setString(1, emplacement);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -114,7 +114,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
     }
     public List<Laboratoire> rechercherParNom(String nom) throws SQLException {
         List<Laboratoire> laboratoireList = new ArrayList<>();
-        String request = "SELECT * FROM laboratoire WHERE nom LIKE ?";
+        String request = "SELECT * FROM laboratoires WHERE nom LIKE ?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setString(1, "%" + nom + "%");
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -131,7 +131,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
 
     public List<Laboratoire> rechercherParEmplacement(String emplacement) throws SQLException {
         List<Laboratoire> laboratoireList = new ArrayList<>();
-        String request = "SELECT * FROM laboratoire WHERE emplacement LIKE ?";
+        String request = "SELECT * FROM laboratoires WHERE emplacement LIKE ?";
         PreparedStatement preparedStatement = connection.prepareStatement(request);
         preparedStatement.setString(1, "%" + emplacement + "%");
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -146,7 +146,7 @@ public class LaboratoireService implements IServiceLabo<Laboratoire>{
         return laboratoireList;
     }
     public Laboratoire getById(int id) throws SQLException {
-        String query = "SELECT * FROM laboratoire WHERE id = ?";
+        String query = "SELECT * FROM laboratoires WHERE id = ?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
