@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
@@ -32,7 +33,8 @@ public class IndexPharmacie {
     @FXML
     private TextField searchField;
     private PharmacieServices pharmacieServices;
-
+    @FXML
+    private WebView webView;
     @FXML
     public void initialize() {
         pharmacieServices = new PharmacieServices();
@@ -48,7 +50,21 @@ public class IndexPharmacie {
             });
         } else {
             System.err.println("searchField is null!");
+
         }
+        // Récupérer la taille de l'écran
+        double screenWidth = Screen.getPrimary().getVisualBounds().getWidth();
+        double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+
+        // Lier la taille de la WebView à la taille de l'écran
+        webView.setPrefWidth(screenWidth);
+        webView.setPrefHeight(screenHeight);
+
+        // Charger le fichier HTML avec le fond animé
+        WebEngine webEngine = webView.getEngine();
+
+        // Charger le fichier HTML contenant la carte Google Maps
+        webEngine.load(getClass().getResource("/HTML/indexBACK.html").toExternalForm());
 
     }
 
@@ -197,6 +213,222 @@ public class IndexPharmacie {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+
+    }
+
+    @FXML
+    void AnalyseTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/afficherAnalyse.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @FXML
+    void CabinetTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/SAHTEK.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @FXML
+    void EventTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/event.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @FXML
+    void LaboratoireTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/AfiicherLaboratoire.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @FXML
+    void LoginTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/Login.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @FXML
+    void MedicTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/IndexMedicament.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @FXML
+    void PharmacieTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/IndexPharmacie.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @FXML
+    void PostsTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/indexPost.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @FXML
+    void UsersTable(MouseEvent event) {
+        try {
+            // Charger le fichier FXML AfficheUser.fxml
+            Parent root = FXMLLoader.load(getClass().getResource("/AfficheUser.fxml"));
+
+            // Créer une nouvelle scène avec le contenu chargé
+            Scene scene = new Scene(root);
+
+            // Obtenir la fenêtre actuelle
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            // Mettre la nouvelle scène dans la fenêtre
+            stage.setScene(scene);
+
+            // Afficher la fenêtre
+            stage.show();
+        } catch (IOException e) {
+            // Gérer les erreurs de chargement du fichier FXML
+            throw new RuntimeException(e);
+        }
 
     }
 

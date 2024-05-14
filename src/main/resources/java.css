@@ -232,7 +232,7 @@ and open the template in the editor.
     -fx-background-color:#008000;
 }
 .button{
-    -fx-background-color: #0351cb;
+    -fx-background-color: #228B22;
     -fx-background-radius:8px;
     -fx-text-fill:#fff;
     -fx-font-size:14px;
@@ -278,6 +278,5 @@ and open the template in the editor.
     -fx-background-size: cover;
 }
 .affiche-user-root {
-    -fx-background-image: url('background.jpg');
-    -fx-background-size: cover;
+    background-color:  #93d593; /* Couleur de fond pour affiche-user-root */
 }
