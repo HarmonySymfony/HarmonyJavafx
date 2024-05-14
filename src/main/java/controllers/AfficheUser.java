@@ -255,7 +255,7 @@ public class AfficheUser {
     void laboratoires(ActionEvent event) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("/afiicherLaboratoire.fxml"));
+            root = FXMLLoader.load(getClass().getResource("/AfiicherLaboratoire.fxml"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -343,7 +343,7 @@ public class AfficheUser {
     void LaboratoireTable(MouseEvent event) {
         try {
             // Charger le fichier FXML AfficheUser.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("/afiicherLaboratoire.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/AfiicherLaboratoire.fxml"));
 
             // Créer une nouvelle scène avec le contenu chargé
             Scene scene = new Scene(root);

@@ -175,7 +175,7 @@ public class ModifierMedicament {
     void LaboratoireTable(MouseEvent event) {
         try {
             // Charger le fichier FXML AfficheUser.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("/afiicherLaboratoire.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/AfiicherLaboratoire.fxml"));
 
             // Créer une nouvelle scène avec le contenu chargé
             Scene scene = new Scene(root);
