@@ -40,15 +40,38 @@ public class AfficheUser {
         // Récupérer les données des utilisateurs depuis le service
         List<Personne> utilisateurs = us.getAllData();
 
+        // Create column headers
+        // Create column headers
+        Label nomHeader = new Label("Nom");
+        nomHeader.setStyle("-fx-font-weight: bold;"); // Set font weight to bold
+        Label prenomHeader = new Label("Prénom");
+        prenomHeader.setStyle("-fx-font-weight: bold;"); // Set font weight to bold
+        Label emailHeader = new Label("Email");
+        emailHeader.setStyle("-fx-font-weight: bold;"); // Set font weight to bold
+        Label ageHeader = new Label("Age");
+        ageHeader.setStyle("-fx-font-weight: bold;"); // Set font weight to bold
+        Label roleHeader = new Label("Role");
+        roleHeader.setStyle("-fx-font-weight: bold;"); // Set font weight to bold
+        Label actionHeader = new Label("Actions");
+        actionHeader.setStyle("-fx-font-weight: bold;"); // Set font weight to bold
+
+        // Add column headers to the GridPane
+        grid.add(nomHeader, 0, 0);
+        grid.add(prenomHeader, 1, 0);
+        grid.add(emailHeader, 2, 0);
+        grid.add(ageHeader, 3, 0);
+        grid.add(roleHeader, 4, 0);
+        grid.add(actionHeader, 5, 0);
+
         // Parcourir la liste des utilisateurs et les ajouter à la GridPane
-        int row = 0;
+        int row = 1; // Start from the second row because the first row is now used for headers
         for (Personne utilisateur : utilisateurs) {
             // Créer des composants d'interface utilisateur pour afficher les détails de l'utilisateur
-            Label nomLabel = new Label("Nom: " + utilisateur.getNom());
-            Label prenomLabel = new Label("Prénom: " + utilisateur.getPrenom());
-            Label emailLabel = new Label("Email: " + utilisateur.getEmail());
-            Label ageLabel = new Label("Age: " + utilisateur.getAge()); // Convert age to String
-            Label roleLabel = new Label("Role: " + utilisateur.getRole());
+            Label nomLabel = new Label(utilisateur.getNom());
+            Label prenomLabel = new Label(utilisateur.getPrenom());
+            Label emailLabel = new Label(utilisateur.getEmail());
+            Label ageLabel = new Label(String.valueOf(utilisateur.getAge()));
+            Label roleLabel = new Label(utilisateur.getRole());
 
             Button supprimerButton = new Button("Supprimer");
             supprimerButton.setOnAction(event -> supprimerUtilisateur(utilisateur));
@@ -59,10 +82,10 @@ public class AfficheUser {
             grid.add(nomLabel, 0, row);
             grid.add(prenomLabel, 1, row);
             grid.add(emailLabel, 2, row);
-            grid.add(ageLabel, 3, row); // Add age label to the grid
-            grid.add(roleLabel, 4, row); // Add role label to the grid
+            grid.add(ageLabel, 3, row);
+            grid.add(roleLabel, 4, row);
             grid.add(supprimerButton, 5, row);
-            grid.add(editButton, 6, row); // Adjust column index for edit button
+            grid.add(editButton, 6, row);
 
             // Incrémenter le numéro de ligne
             row++;
@@ -114,6 +137,9 @@ public class AfficheUser {
                 Label nomLabel = new Label(utilisateur.getNom());
                 Label prenomLabel = new Label(utilisateur.getPrenom());
                 Label emailLabel = new Label(utilisateur.getEmail());
+                Label ageLabel = new Label(String.valueOf(utilisateur.getAge()));
+                Label roleLabel = new Label(utilisateur.getRole());
+
 
                 Button supprimerButton = new Button("Supprimer");
                 supprimerButton.setOnAction(e -> supprimerUtilisateur(utilisateur));
@@ -122,7 +148,9 @@ public class AfficheUser {
                 grid.add(nomLabel, 0, row);
                 grid.add(prenomLabel, 1, row);
                 grid.add(emailLabel, 2, row);
-                grid.add(supprimerButton, 3, row);
+                grid.add(ageLabel, 3, row);
+                grid.add(roleLabel, 4, row);
+                grid.add(supprimerButton, 5, row);
 
                 // Incrémenter le numéro de ligne
                 row++;
