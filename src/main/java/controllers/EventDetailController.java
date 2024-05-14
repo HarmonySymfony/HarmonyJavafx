@@ -70,7 +70,7 @@ public class EventDetailController {
         nameLabel.setText("Name :    " + evenement.getNom());
         descriptionLabel.setText("Description :    " + evenement.getDescription());
         priceLabel.setText("Price :   " + evenement.getPrix() + " DT");
-        placesLabel.setText("Available Places :   " + evenement.getPlaceDispo());
+        placesLabel.setText("Available Places :   " + evenement.getPlace_dispo());
         addressLabel.setText("Address :   " + evenement.getAdresse());
         eventLatitude = evenement.getLongitude();
         eventLongitude = evenement.getLatitude();
@@ -94,7 +94,7 @@ public class EventDetailController {
 
         try {
             int requestedPlaces = Integer.parseInt(reservationPlacesField.getText());
-            if (requestedPlaces > evenement.getPlaceDispo()) {
+            if (requestedPlaces > evenement.getPlace_dispo()) {
                 messageLabel.setText("Error: Not enough places available.");
                 return;
             }
@@ -102,7 +102,7 @@ public class EventDetailController {
             Reservation reservation = new Reservation(0, requestedPlaces, evenement);
             serviceEvenement.addReservation(reservation);
 
-            placesLabel.setText("Available Places: " + evenement.getPlaceDispo());
+            placesLabel.setText("Available Places: " + evenement.getPlace_dispo());
             messageLabel.setText("Success: Reservation made.");
             reservationPlacesField.clear();
             showConfirmation("Event reserved successfully.");

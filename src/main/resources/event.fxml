@@ -51,9 +51,9 @@
                 <TableColumn fx:id="columnNom" prefWidth="126.39999103546143" text="Nom" />
                 <TableColumn fx:id="columnDescription" prefWidth="208.8000030517578" text="Description" />
                 <TableColumn fx:id="columnPrix" prefWidth="144.800048828125" text="Prix" />
-                <TableColumn fx:id="columnPlaceDispo" prefWidth="164.0" text="Place Dispo" />
+                <TableColumn fx:id="columnplace_dispo" prefWidth="164.0" text="Place Dispo" />
                 <TableColumn fx:id="columnAdresse" prefWidth="124.79998779296875" text="Adresse" />
-                <TableColumn fx:id="columnDate" prefWidth="180.00006103515625" text="Date" />
+                <TableColumn fx:id="columndate_event" prefWidth="180.00006103515625" text="Date" />
 
             </columns>
         </TableView>
@@ -67,7 +67,7 @@
                 <Label style="-fx-font-weight: bold;" text="Prix:" />
                 <TextField fx:id="PrixField" promptText="Enter price in TND" />
                 <Label style="-fx-font-weight: bold;" text="Place Dispo :" />
-                <TextField fx:id="PlaceDispoField" promptText="Enter available seats" />
+                <TextField fx:id="place_dispoField" promptText="Enter available seats" />
                 <Label style="-fx-font-weight: bold;" text="Adresse:" />
                 <TextField fx:id="AdresseField" promptText="Street, City, Postal Code" />
                 <Label style="-fx-font-weight: bold;" text="Date:" />

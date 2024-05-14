@@ -73,11 +73,11 @@ public class EvenementController {
     @FXML
     private TextField PrixField;
     @FXML
-    private TextField PlaceDispoField;
+    private TextField place_dispoField;
     @FXML
     private TextField AdresseField;
     @FXML
-    private TextField DateField;
+    private TextField date_eventField;
     @FXML
     private DatePicker dateproPicker;
 
@@ -86,7 +86,7 @@ public class EvenementController {
     @FXML
     private Button addButton;
     @FXML
-    private Button updateButton;
+    private Button update_eventButton;
     @FXML
     private Button deleteButton;
     @FXML
@@ -104,11 +104,11 @@ public class EvenementController {
     @FXML
     private TableColumn<Evenement, Integer> columnPrix;
     @FXML
-    private TableColumn<Evenement, Integer> columnPlaceDispo;
+    private TableColumn<Evenement, Integer> columnplace_dispo;
     @FXML
     private TableColumn<Evenement, String> columnAdresse;
     @FXML
-    private TableColumn<Evenement, Date> columnDate;
+    private TableColumn<Evenement, Date> columndate_event;
 
     @FXML
     private BarChart<String, Number> statsBarChart;
@@ -120,7 +120,7 @@ public class EvenementController {
     @FXML
     private TextField lonTextField;
     @FXML
-    private Button updateLocationButton;
+    private Button update_eventLocationButton;
 
     private ServiceEvenement serviceEvenement;
 
@@ -142,9 +142,9 @@ public class EvenementController {
         columnNom.setCellValueFactory(new PropertyValueFactory<>("Nom"));
         columnDescription.setCellValueFactory(new PropertyValueFactory<>("Description"));
         columnPrix.setCellValueFactory(new PropertyValueFactory<>("Prix"));
-        columnPlaceDispo.setCellValueFactory(new PropertyValueFactory<>("PlaceDispo"));
+        columnplace_dispo.setCellValueFactory(new PropertyValueFactory<>("place_dispo"));
         columnAdresse.setCellValueFactory(new PropertyValueFactory<>("Adresse"));
-        columnDate.setCellValueFactory(new PropertyValueFactory<>("Date"));
+        columndate_event.setCellValueFactory(new PropertyValueFactory<>("date_event"));
         serviceEvenement = new ServiceEvenement();
         initializeStatsChart();
         loadEvenementData();
@@ -153,7 +153,7 @@ public class EvenementController {
 
     private void loadMap() {
         WebEngine webEngine = mapView.getEngine();
-        webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
+//        webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
 
         String javascriptCode = "function getSelectedLatitude() {" +
                 "    return selectedLatitude;" +
@@ -186,7 +186,7 @@ public class EvenementController {
             lonTextField.setText(longitude.toString());
             latTextField.setText(latitude.toString());
 //            AdresseField.textProperty().addListener((observable, oldValue, newValue) -> {
-//                updateCityComboBox();
+//                update_eventCityComboBox();
 //            });
         } else {
             showAlert(Alert.AlertType.ERROR, "Unable to retrieve location from the map.", "error");
@@ -213,7 +213,7 @@ public class EvenementController {
         NomField.clear();
         DescriptionField.clear();
         PrixField.clear();
-        PlaceDispoField.clear();
+        place_dispoField.clear();
         AdresseField.clear();
         dateproPicker.setValue(null);
         evenementTableView.getSelectionModel().clearSelection();
@@ -230,12 +230,12 @@ public class EvenementController {
             NomField.setText(selectedEvenement.getNom());
             DescriptionField.setText(selectedEvenement.getDescription());
             PrixField.setText(String.valueOf(selectedEvenement.getPrix()));
-            PlaceDispoField.setText((String.valueOf(selectedEvenement.getPlaceDispo())));
+            place_dispoField.setText((String.valueOf(selectedEvenement.getPlace_dispo())));
             AdresseField.setText(selectedEvenement.getAdresse());
-            dateproPicker.setValue(selectedEvenement.getDate().toLocalDate());
+            dateproPicker.setValue(selectedEvenement.getDate_event().toLocalDate());
             try {
                 int reservedPlaces = serviceEvenement.getReservedPlacesForEvent(selectedEvenement.getId());
-                updateChartWithSelectedEvent(selectedEvenement.getPlaceDispo(), reservedPlaces);
+                update_eventChartWithSelectedEvent(selectedEvenement.getPlace_dispo(), reservedPlaces);
             } catch (SQLException e) {
                 showError("Error retrieving reservation data: " + e.getMessage());
             }
@@ -246,7 +246,7 @@ public class EvenementController {
 
     @FXML
     public void addEvenement() {
-        if (!validateNom() || !validateDescription() || !validatePrix() || !validatePlaceDispo() || !validateAdresse() || !validateDate()) {
+        if (!validate_eventNom() || !validate_eventDescription() || !validate_eventPrix() || !validate_eventplace_dispo() || !validate_eventAdresse() || !validate_eventdate_event()) {
             return;
         }
         try {
@@ -257,7 +257,7 @@ public class EvenementController {
                     Float.parseFloat(PrixField.getText()),
 
 
-                    Integer.parseInt(PlaceDispoField.getText()),
+                    Integer.parseInt(place_dispoField.getText()),
 
                     AdresseField.getText(),
                     Date.valueOf(dateproPicker.getValue()),
@@ -285,7 +285,7 @@ public class EvenementController {
 
     @FXML
     public void updateEvent() {
-        if (!validateNom() || !validateDescription() || !validatePrix() || !validatePlaceDispo() || !validateAdresse() || !validateDate()) {
+        if (!validate_eventNom() || !validate_eventDescription() || !validate_eventPrix() || !validate_eventplace_dispo() || !validate_eventAdresse() || !validate_eventdate_event()) {
             return;
         }
         try {
@@ -294,7 +294,7 @@ public class EvenementController {
                     NomField.getText(),
                     DescriptionField.getText(),
                     Float.parseFloat(PrixField.getText()),
-                    Integer.parseInt(PlaceDispoField.getText()),
+                    Integer.parseInt(place_dispoField.getText()),
                     AdresseField.getText(),
                     java.sql.Date.valueOf(dateproPicker.getValue())
 
@@ -302,11 +302,11 @@ public class EvenementController {
             );
             serviceEvenement.modifyEvent(evenement);
             loadEvenementData();
-            TwilioSMS.sendCustomMessage("21620515171", "Event updated successfully !");
+            TwilioSMS.sendCustomMessage("21620515171", "Event update_eventd successfully !");
             clearForm();
-            showConfirmation("Event updated successfully.");
+            showConfirmation("Event update_eventd successfully.");
             Notifications notifications = Notifications.create();
-            notifications.text("Event updated successfully !");
+            notifications.text("Event update_eventd successfully !");
             notifications.title("Successful");
             notifications.hideAfter(Duration.seconds(6));
             notifications.show();
@@ -352,7 +352,7 @@ public class EvenementController {
     }
 
 
-    private boolean validateNom() {
+    private boolean validate_eventNom() {
         String title = NomField.getText().trim();
         if (title.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Validation Error", "Nom cannot be empty.");
@@ -365,7 +365,7 @@ public class EvenementController {
         return true;
     }
 
-    private boolean validateDescription() {
+    private boolean validate_eventDescription() {
         String Description = DescriptionField.getText().trim();
         if (Description.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Validation Error", "Description cannot be empty.");
@@ -374,8 +374,8 @@ public class EvenementController {
         return true;
     }
 
-    private boolean validatePlaceDispo() {
-        String availablePlaces = PlaceDispoField.getText().trim();
+    private boolean validate_eventplace_dispo() {
+        String availablePlaces = place_dispoField.getText().trim();
         try {
             int places = Integer.parseInt(availablePlaces);
             if (places <= 0) {
@@ -389,7 +389,7 @@ public class EvenementController {
         return true;
     }
 
-    private boolean validatePrix() {
+    private boolean validate_eventPrix() {
         String prix = PrixField.getText().trim();
         try {
             double price = Double.parseDouble(prix);
@@ -404,7 +404,7 @@ public class EvenementController {
         return true;
     }
 
-    private boolean validateAdresse() {
+    private boolean validate_eventAdresse() {
         String adresse = AdresseField.getText().trim();
         if (adresse.isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Validation Error", "Nom cannot be empty.");
@@ -413,13 +413,13 @@ public class EvenementController {
         return true;
     }
 
-    private boolean validateDate() {
+    private boolean validate_eventdate_event() {
         if (dateproPicker.getValue() == null) {
-            showAlert(Alert.AlertType.ERROR, "validation error", "please select a date !");
+            showAlert(Alert.AlertType.ERROR, "validation error", "please select a date_event !");
             return false;
         }
         if (dateproPicker.getValue().isBefore(LocalDate.now())) {
-            showAlert(Alert.AlertType.ERROR, "validation error", "the date cannopt be in the past !");
+            showAlert(Alert.AlertType.ERROR, "validation error", "the date_event cannopt be in the past !");
             return false;
         }
         return true;
@@ -449,7 +449,7 @@ public class EvenementController {
     }
 
 
-    private void updateChartWithSelectedEvent(int availablePlaces, int reservedPlaces) {
+    private void update_eventChartWithSelectedEvent(int availablePlaces, int reservedPlaces) {
         XYChart.Series<String, Number> seriesAvailable = new XYChart.Series<>();
         seriesAvailable.setName("Available Places");
         seriesAvailable.getData().add(new XYChart.Data<>("Available", availablePlaces));
@@ -476,7 +476,7 @@ public class EvenementController {
             htmlBuilder.append("<tr>");
             htmlBuilder.append("<td>").append(event.getNom()).append("</td>");
             htmlBuilder.append("<td>").append(event.getAdresse()).append("</td>");
-            htmlBuilder.append("<td>").append(event.getPlaceDispo()).append("</td>");
+            htmlBuilder.append("<td>").append(event.getPlace_dispo()).append("</td>");
             htmlBuilder.append("<td>").append(event.getDescription().toString()).append("</td>");
             htmlBuilder.append("</tr>");
         }

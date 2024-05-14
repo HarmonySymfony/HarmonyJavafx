@@ -13,10 +13,11 @@ public class Evenement {
 
     private float prix;
 
-    private int placeDispo;
+    private int place_dispo;
 
     private String adresse;
-    private Date date;
+
+    private Date date_event;
 
     private double latitude ;
     private double longitude ;
@@ -28,24 +29,24 @@ public class Evenement {
 
     }
 
-    public Evenement (int id , String nom , String description , float prix , int placeDispo , String adresse, Date date){
+    public Evenement (int id , String nom , String description , float prix , int place_dispo , String adresse,Date date_event){
         this.id = id;
         this.nom = nom;
         this.description = description;
         this.prix = prix;
-        this.placeDispo = placeDispo;
+        this.place_dispo = place_dispo;
         this.adresse = adresse;
-        this.date = date;
+        this.date_event = date_event;
     }
 
-    public Evenement(int id, String nom, String description, float prix, int placeDispo, String adresse, Date date, double latitude, double longitude) {
+    public Evenement(int id, String nom, String description, float prix, int place_dispo, String adresse, Date date_event, double latitude, double longitude) {
         this.id = id;
         this.nom = nom;
         this.description = description;
         this.prix = prix;
-        this.placeDispo = placeDispo;
+        this.place_dispo = place_dispo;
         this.adresse = adresse;
-        this.date = date;
+        this.date_event = date_event;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -82,12 +83,13 @@ public class Evenement {
         this.prix = prix;
     }
 
-    public int getPlaceDispo() {
-        return placeDispo;
+
+    public int getPlace_dispo() {
+        return place_dispo;
     }
 
-    public void setPlaceDispo(int placeDispo) {
-        this.placeDispo = placeDispo;
+    public void setPlace_dispo(int place_dispo) {
+        this.place_dispo = place_dispo;
     }
 
     public String getAdresse() {
@@ -98,12 +100,13 @@ public class Evenement {
         this.adresse = adresse;
     }
 
-    public java.sql.Date getDate() {
-        return (java.sql.Date) date;
+
+    public java.sql.Date getDate_event() {
+        return (java.sql.Date) date_event;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate_event(Date date_event) {
+        this.date_event = date_event;
     }
 
     public double getLatitude() {
@@ -129,9 +132,9 @@ public class Evenement {
                 ", nom='" + nom + '\'' +
                 ", description='" + description + '\'' +
                 ", prix=" + prix +
-                ", placeDispo=" + placeDispo +
+                ", place_dispo=" + place_dispo +
                 ", adresse='" + adresse + '\'' +
-                ", date=" + date +
+                ", date_event=" + date_event +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
