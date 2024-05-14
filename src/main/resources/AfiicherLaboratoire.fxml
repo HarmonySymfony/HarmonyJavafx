@@ -48,4 +48,5 @@
     <Button layoutX="779.0" layoutY="46.0" mnemonicParsing="false" onAction="#searchLaboratoire" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #56d759; -fx-text-fill: white;" text="Rechercher" />
     <Button layoutX="871.0" layoutY="47.0" mnemonicParsing="false" onAction="#handleAfficherStatistiquesButton" style="-fx-background-color: #56d759; -fx-text-fill: white;" text="Voir Statistiques" />
     <TextField fx:id="keyword" layoutX="190.0" layoutY="46.0" prefHeight="26.0" prefWidth="562.0" promptText="Recherche" styleClass="progress" />
+   <Button layoutX="938.0" layoutY="671.0" mnemonicParsing="false" text="Retour" />
 </AnchorPane>
