@@ -153,7 +153,7 @@ public class EvenementController {
 
     private void loadMap() {
         WebEngine webEngine = mapView.getEngine();
-//        webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
+        webEngine.load(getClass().getResource("/maptest.html").toExternalForm());
 
         String javascriptCode = "function getSelectedLatitude() {" +
                 "    return selectedLatitude;" +
