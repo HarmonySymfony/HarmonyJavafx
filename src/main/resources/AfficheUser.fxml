@@ -43,7 +43,7 @@
         </Button>
 
         <!-- Return Button -->
-        <Button layoutX="587.0" layoutY="174.0" mnemonicParsing="false" onAction="#retourHome" text="Retour">
+        <Button layoutX="1100.0" layoutY="20.0" mnemonicParsing="false" onAction="#retourHome" text="Logout">
             <font>
                 <Font name="System Bold" size="14.0" />
             </font>

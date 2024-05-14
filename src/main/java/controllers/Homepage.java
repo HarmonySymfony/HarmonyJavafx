@@ -16,6 +16,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import services.PersonneServices;
+import javafx.scene.text.Font;
 
 
 
@@ -68,10 +69,16 @@ public class Homepage {
         webEngine.load(getClass().getResource("/HTML/index.html").toExternalForm());}
 
     public void setUser(int userId) {
+        welcomeText.setFont(new Font(40)); // Set font size to 20
+        nameLabel.setFont(new Font(20)); // Set font size to 20
+        surnameLabel.setFont(new Font(20)); // Set font size to 20
+        emailLabel.setFont(new Font(20)); // Set font size to 20
+        roleLabel.setFont(new Font(20)); // Set font size to 20
+        ageLabel.setFont(new Font(20));
         Personne user = personneServices.getUserById(userId);
-        welcomeText.setText("Welcome to our app " + user.getNom());
-        nameLabel.setText("Name: " + user.getNom());
-        surnameLabel.setText("Prenom: " + user.getPrenom());
+        welcomeText.setText("Welcome to our app " + user.getPrenom());
+        nameLabel.setText("Name: " + user.getPrenom());
+        surnameLabel.setText("Prenom: " + user.getNom());
         emailLabel.setText("Email: " + user.getEmail());
         roleLabel.setText("Role: " + user.getRole());
         ageLabel.setText("Age: " + user.getAge());
@@ -109,15 +116,17 @@ public class Homepage {
     @FXML
     public void openEditProfile() {
         try {
-            // Load the FXML file for editing user details
+            // Load the FXML file for the edit profile window
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/EditProfile.fxml"));
             Parent root = loader.load();
 
-            // Pass the user information to the controller of the editing window
+            // Get the controller for the new window
             EditProfileController editProfileController = loader.getController();
+
+            // Pass the currently logged-in user to the controller
             editProfileController.initData(personneServices.getUserById(Home.userID));
 
-            // Show the editing window
+            // Show the new window
             Stage stage = new Stage();
             stage.setTitle("Edit Profile");
             stage.setScene(new Scene(root));

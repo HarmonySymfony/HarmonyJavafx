@@ -34,13 +34,14 @@ public class EditProfileController {
 
     private PersonneServices personneServices = new PersonneServices();
 
+
     public void initData(Personne user) {
         this.user = user;
         if (user != null) {
             nomField.setText(user.getNom());
             prenomField.setText(user.getPrenom());
             emailField.setText(user.getEmail());
-            passwordField.setText(user.getPassword());
+            passwordField.clear();
             ageField.setText(String.valueOf(user.getAge()));
         }
     }
